@@ -1,0 +1,3025 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: ProccesarIngresosv2 descargados
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #ProccesarIngresosv2
+    PROPERTIES
+      Name                #ProccesarIngresosv2
+      Extends             #RunBase
+      Origin              #{C9B7AE97-7483-49C2-9589-CB371E43E918}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #validateExtraPayment
+        #/// <summary>
+        #///    Determines if position is allowed to receive extra payments.
+        #/// </summary>
+        #/// <returns>
+        #///    true if all the data is valid; otherwise, false.
+        #/// </returns>
+        #protected boolean validateExtraPayment()
+        #{
+        #    DetalleHorasExtrav2      tmpTable;
+        #    HcmPersonnelNumberId     number;
+        #    boolean ret = true;
+        #    ;
+        #
+        #        while select * from tmpTable
+        #        where tmpTable.Status == ProcessStatus::OnHold
+        #    {
+        #
+        #         if (HcmPositionDetail::findByPosition(HcmPosition::findByPosition(HcmWorker::find(tmpTable.Worker).primaryPositionId()).RecId).ExtraPayment == NoYes::No)
+        #        {
+        #
+        #
+        #            ret = checkFailed(strFmt("El empleado: %1 - %2 no puede recibir pagos extras, favor de corregir informacion o contactar con el Dpto. recursos humanos", tmpTable.name(), tmpTable.CodigoEmpleado));
+        #        }
+        #
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #allowFieldWorker
+        #public boolean allowFieldWorker(FormCheckBoxControl _checkBoxControl)
+        #{
+        #    ;
+        #    // set enabled or disbled based on checkbox
+        #
+        #    if (fieldAllWorkers.value() == NoYes::No)
+        #    {
+        #            fieldWorker.enabled(true);
+        #    }
+        #
+        #    else{
+        #            fieldWorker.enabled(false);
+        #    }
+        #
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #allowFielPayCycle
+        #public boolean allowFielPayCycle(FormCheckBoxControl _checkBoxControl)
+        #{
+        #    ;
+        #    // set enabled or disbled based on checkbox
+        #
+        #    if (fieldallCycle.value() == NoYes::No)
+        #    {
+        #            fieldPayCycle.enabled(true);
+        #    }
+        #
+        #    else{
+        #            fieldPayCycle.enabled(false);
+        #    }
+        #
+        #
+        #    return true;
+        #}
+      ENDSOURCE
+      SOURCE #classDeclaration
+        #class ProccesarIngresosv2 extends RunBase
+        #{
+        #
+        #    DialogField fieldPayCycle;
+        #    DialogField fieldallCycle;
+        #    DialogField fieldAllWorkers;
+        #    DialogField fieldWorker;
+        #
+        #   PayrollEarningStatement  _PayrollEarningStatementOrigen;
+        #   DetalleHorasExtrav2      _DetalleHorasExtraOrigen;
+        #   PayrollPayPeriod         _payrollPayPeriod;
+        #   PayrollPayCycle          _PayrollPayCycleOrigen;
+        #
+        #
+        #    // Cabecera
+        #    RecId                   RecIdWorker;
+        #    RecId                   RecIdPayrollPayPeriod;
+        #    str                     CodigoEmpleado;
+        #    TransDate               periodEndDate;
+        #    PayrollPayCycleId       payCycleTipo ;
+        #    str                     dateperiodEnd;
+        #    boolean                 valid;
+        #    boolean                 cFecha;
+        #    int                                     counter;
+        #
+        #    //Detalle de linea
+        #    PayrollEarningCodeRecId                 EarningCode;
+        #    real                                    cantidadHora;
+        #    real                                    Monto;
+        #    HcmPosition                             _HcmPositionOrigen;
+        #    PayrollWorkerTaxRegion                  _PayrollWorkerTaxRegionOrigen;
+        #
+        #
+        #    HcmWorkerRecId                          workerRecId;
+        #    HcmPersonnelNumberId                    personnelNumber;
+        #    PayrollPayPeriodRecId                   payPeriodRecId;
+        #    boolean                                 allWorkers;
+        #    boolean                                 allCycle;
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #dialog
+        #protected Object Dialog(){    Dialog dialog;        ;    dialog = super();          dialog.caption( 'Procesar Horas extras');    dialog.addText('Procesa registros hacia los earnings de los empleados');      fieldAllWorkers = dialog.addField(extendedTypeStr(NoYesId), 'Procesar todos los empleados?:' );    fieldWorker     = dialog.addfield(extendedTypeStr(HcmWorkerName), 'Empleado:');    fieldallCycle   = dialog.addField(extendedTypeStr(NoYesId), 'Procesar todos los ciclos?:' );    fieldPayCycle   = dialog.addfield(extendedTypeStr(PayrollPayPeriodRecId), 'Ciclo de pago:');             fieldAllWorkers.value(NoYes::Yes);    fieldallCycle.value(NoYes::Yes);        fieldAllWorkers.registerOverrideMethod(methodstr(FormCheckBoxControl, modified), methodstr(ProccesarIngresosv2, allowFieldWorker), this);
+        #    fieldallCycle.registerOverrideMethod(methodstr(FormCheckBoxControl, modified), methodstr(ProccesarIngresosv2, allowFielPayCycle), this);    fieldPayCycle.registerOverrideMethod(methodstr(FormStringControl, lookup), methodstr(ProccesarIngresosv2, LookupPayCycle), this);    fieldWorker.registerOverrideMethod(methodstr(FormStringControl, lookup), methodstr(ProccesarIngresosv2, LookupWorker), this);             // enable/disable fieldsTo based on fieldOpciones
+        #    fieldWorker.enabled(any2enum(fieldAllWorkers.value()));
+        #    fieldPayCycle.enabled(any2enum(fieldallCycle.value()));
+        #
+        #    fieldWorker.enabled(false);    fieldPayCycle.enabled(false);        return dialog;}
+      ENDSOURCE
+      SOURCE #GetEarningStatement
+        #private void GetEarningStatement()
+        #{
+        #    //buscamos el recid del trabajador para luego buscar el statement de dicho trabajador con dicho periodo
+        #    RecIdWorker = HcmWorker::findByPersonnelNumber(CodigoEmpleado).RecId;
+        #
+        #    _PayrollEarningStatementOrigen = PayrollEarningStatement::findByWorkerPayPeriod(RecIdWorker, payPeriodRecId);
+        #
+        #    if(_PayrollEarningStatementOrigen)
+        #    {
+        #        valid = true;
+        #    }
+        #    else{
+        #        valid = false;
+        #    }
+        #
+        #
+        #
+        #
+        #
+        #}
+        #
+      ENDSOURCE
+      SOURCE #getFromDialog
+        #public boolean getFromDialog(){       allWorkers       =   fieldAllWorkers.value();   allCycle         =   fieldallCycle.value();   workerRecId      =   HcmWorker::findByPersonnelNumber(fieldWorker.value()).recid;   payPeriodRecId   =   fieldPayCycle.value();       return super(); }
+      ENDSOURCE
+      SOURCE #GetPeriodDates
+        #private void GetPeriodDates()
+        #{
+        #
+        #       select firstOnly _payrollPayPeriod  where _payrollPayPeriod.RecId == payPeriodRecId;
+        #       periodEndDate = _payrollPayPeriod.PeriodEndDate;
+        #
+        #    if (_payrollPayPeriod)
+        #    {
+        #
+        #                if(_payrollPayPeriod.PeriodStatus == PayrollPeriodStatus::Open )
+        #            {
+        #                periodEndDate = _payrollPayPeriod.PeriodEndDate;
+        #                cFecha    = true;
+        #            }
+        #
+        #            else
+        #            {
+        #                info(strFmt("El periodo: %1 esta cerrado, no se puede procesar el registro para el empleado: %2", _payrollPayPeriod.DefaultPaymentDate, _DetalleHorasExtraOrigen.CodigoEmpleado));
+        #            }
+        #
+        #
+        #    }
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #LookupPayCycle
+        #private void LookupPayCycle(FormReferenceControl _formReferenceControl)
+        #{
+        #    QueryBuildRange qbr;
+        #    QueryBuildRange qbr2;
+        #
+        #    Query lookupQuery = new query();
+        #    QueryBuildDataSource  qbds;
+        #    //SysTableLookup  sysTableLookup;
+        #
+        #    SysReferenceTableLookup sysTableLookup = SysReferenceTableLookup::newParameters(tableNum(PayrollPayPeriod), _formReferenceControl);
+        #    // Display the coulmns fields in the lookup form.
+        #
+        #    sysTableLookup.addLookupfield(fieldNum(PayrollPayPeriod, PayCycle));
+        #
+        #    sysTableLookup.addLookupfield(fieldNum(PayrollPayPeriod, PeriodEndDate));
+        #
+        #    lookupQuery= new Query();
+        #
+        #    qbds = lookupQuery.addDataSource(tableNum(PayrollPayPeriod));
+        #
+        #    qbr = qbds.addRange(fieldNum(PayrollPayPeriod, PayCycle));
+        #    qbr2 = qbds.addRange(fieldNum(PayrollPayPeriod, PeriodStatus));
+        #
+        #    qbr.value(int642str(PayrollPayCycle::findByPayCycle('Quincenal').RecId));
+        #    qbr.status(RangeStatus::Locked);
+        #    qbr.status(RangeStatus::Hidden);
+        #
+        #    qbr2.value(strFmt('%1', enum2Value(PayrollPeriodStatus::Open)));
+        #    qbr2.status(RangeStatus::Locked);
+        #    qbr2.status(RangeStatus::Hidden);
+        #
+        #    qbds.addSortField(fieldNum(PayrollPayPeriod, PeriodEndDate), SortOrder::Ascending);
+        #    qbds.addSortField(fieldNum(PayrollPayPeriod, PeriodStatus), SortOrder::Descending);
+        #
+        #    sysTableLookup.parmQuery(lookupQuery);
+        #
+        #    //Assign the query and call lookup
+        #
+        #    sysTableLookup.performFormLookup();
+        #
+        #}
+      ENDSOURCE
+      SOURCE #LookupWorker
+        #private void LookupWorker(FormStringControl _formStringControl)
+        #{
+        #
+        #    Query query = new query();
+        #    QueryBuildDataSource  DS;
+        #    QueryBuildDataSource  DSJ;
+        #    SysTableLookup  sysTableLookup;
+        #
+        #    //Create the query and Range
+        #    DS  =   query.addDataSource(tableNum(DetalleHorasExtrav2));
+        #    DS.addGroupByField(fieldNum(DetalleHorasExtrav2, CodigoEmpleado));
+        #
+        #    //Retrieve only workers with
+        #    DS.addRange(fieldNum(DetalleHorasExtrav2, Status)).value(queryValue(ProcessStatus::OnHold));
+        #
+        #
+        #    //Create the Join
+        #    DSJ =   DS.addDataSource(tableNum(HcmWorker));
+        #    DSJ.relations(true);
+        #    DSJ.fields().dynamic(NoYes::Yes);
+        #    DSJ.joinMode(JoinMode::ExistsJoin);
+        #
+        #     //Create a table lookup
+        #    sysTableLookup = SysTableLookup::newParameters(tableNum(DetalleHorasExtrav2),_formStringControl);
+        #    sysTableLookup.addLookupfield(fieldNum(DetalleHorasExtrav2,CodigoEmpleado),true);
+        #    sysTableLookup.addLookupMethod(tableMethodStr(DetalleHorasExtrav2, name));
+        #
+        #    //Assign the query and call lookup
+        #    sysTableLookup.parmQuery(query);
+        #    sysTableLookup.performFormLookup();
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #Procesar
+        #private void Procesar()
+        #{
+        #
+        #    if (_payrollPayPeriod)
+        #    {
+        #           //busca el EarningStatement al empleado  correspondiente si es el mismo toma el EarningStatement anterior
+        #           if(CodigoEmpleado != _DetalleHorasExtraOrigen.CodigoEmpleado || cFecha == true)
+        #           {
+        #           CodigoEmpleado = _DetalleHorasExtraOrigen.CodigoEmpleado;
+        #           this.GetEarningStatement();
+        #           }
+        #
+        #            //verificar si esta generado el PayrollEarningStatement para dicho empleado en el periodo
+        #             if (valid == true)
+        #                 {
+        #                     //Guardar PayrollEarningStatementLine
+        #                     this.SaveEarningStatementLine();
+        #                 } else
+        #                   {
+        #                     infolog.add(Exception::Error,strFmt("No existe o no se a generado un EarningStatement para el empleado %2 con el periodo %1",periodEndDate,CodigoEmpleado,EarningCode));
+        #                   this.SaveError(strFmt("No existe o no se a generado un EarningStatement para el empleado %2 con el periodo %1",periodEndDate,CodigoEmpleado));
+        #                    }
+        #        }else
+        #             {
+        #                 infolog.add(Exception::Error,strFmt("No existe ningun periodo %1 para el empleado %2",periodEndDate,_DetalleHorasExtraOrigen.CodigoEmpleado));
+        #                    this.SaveError(strFmt("No existe ningun periodo %1 para el empleado %2",periodEndDate,_DetalleHorasExtraOrigen.CodigoEmpleado));
+        #            }
+        #   }
+        #
+      ENDSOURCE
+      SOURCE #procesarIntegracion
+        #public void procesarIntegracion()
+        #{
+        #    Query                       query;
+        #    QueryRun                    queryRun;
+        #    QueryBuildDataSource        queryBuildDataSource;
+        #    QueryBuildRange             queryBuildRange;
+        #
+        #    // init the query
+        #    query = new query();
+        #
+        #    // Add parameters to the query.
+        #    queryBuildDataSource    = query.addDataSource(tableNum(DetalleHorasExtrav2));
+        #    queryBuildDataSource.addRange(fieldNum(DetalleHorasExtrav2, Status)).value(enum2Value(ProcessStatus::OnHold));
+        #    queryBuildDataSource.addGroupByField(fieldNum(DetalleHorasExtrav2, CodigoEmpleado));
+        #    queryBuildDataSource.addGroupByField(fieldNum(DetalleHorasExtrav2, PayPeriod));
+        #    queryBuildDataSource.addSelectionField(fieldNum(DetalleHorasExtrav2, HorasExtraOrdinarias), SelectionField::Sum);
+        #    queryBuildDataSource.addSelectionField(fieldNum(DetalleHorasExtrav2, HorasExtras), SelectionField::Sum);
+        #    queryBuildDataSource.addSelectionField(fieldNum(DetalleHorasExtrav2, HorasNocturnas), SelectionField::Sum);
+        #
+        #    if (allWorkers == NoYes::No)
+        #    {
+        #
+        #        //Add Ranges workerRecId
+        #        queryBuildRange = queryBuildDataSource.findRange(fieldnum(DetalleHorasExtrav2, Worker));
+        #        if (!queryBuildRange)
+        #        {
+        #            queryBuildRange = queryBuildDataSource.addRange(fieldnum(DetalleHorasExtrav2, Worker));
+        #                   }
+        #        // If a workerRecId has not been set, then use the parameter value to set it.
+        #        if(!queryBuildRange.value())
+        #            queryBuildRange.value(SysQuery::value(workerRecId));
+        #
+        #    }
+        #
+        #    if (allCycle == NoYes::No)
+        #    {
+        #
+        #        //Add Ranges workerRecId
+        #        queryBuildRange = queryBuildDataSource.findRange(fieldnum(DetalleHorasExtrav2, PayPeriod));
+        #        if (!queryBuildRange)
+        #        {
+        #            queryBuildRange = queryBuildDataSource.addRange(fieldnum(DetalleHorasExtrav2, PayPeriod));
+        #                   }
+        #        // If a workerRecId has not been set, then use the parameter value to set it.
+        #        if(!queryBuildRange.value())
+        #            queryBuildRange.value(SysQuery::value(payPeriodRecId));
+        #
+        #    }
+        #
+        #
+        #      //Run the query with modified Ranges
+        #      queryRun = new QueryRun(query);
+        #
+        #
+        #        while (queryRun.next())
+        #        {
+        #
+        #            _DetalleHorasExtraOrigen = queryRun.get(tableNum(DetalleHorasExtrav2));
+        #            workerRecId = 0;
+        #            payPeriodRecId = 0;
+        #
+        #            this.processData();
+        #
+        #        }
+        #
+        #
+        #    }
+        #
+        #
+      ENDSOURCE
+      SOURCE #processData
+        #private void processData()
+        #{
+        #
+        #        cFecha      = false;
+        #
+        #        if (payPeriodRecId != _DetalleHorasExtraOrigen.PayPeriod)
+        #       {
+        #           payPeriodRecId = _DetalleHorasExtraOrigen.PayPeriod;
+        #           cFecha    = true;
+        #           this.GetPeriodDates();
+        #       }
+        #
+        #
+        #     if(_DetalleHorasExtraOrigen.HorasExtras)
+        #        {
+        #            EarningCode = PayrollEarningCode::findByEarningCode("Hora Extra").RecId;
+        #            cantidadHora = _DetalleHorasExtraOrigen.HorasExtras;
+        #            this.Procesar();
+        #        }
+        #
+        #        if(_DetalleHorasExtraOrigen.HorasExtraOrdinarias)
+        #        {
+        #            EarningCode = PayrollEarningCode::findByEarningCode("Hora Extra Extraordinaria").RecId;
+        #            cantidadHora = _DetalleHorasExtraOrigen.HorasExtraOrdinarias;
+        #            this.Procesar();
+        #        }
+        #
+        #
+        #        if(_DetalleHorasExtraOrigen.HorasNocturnas)
+        #        {
+        #           EarningCode = PayrollEarningCode::findByEarningCode("Hora Nocturna").RecId;
+        #           cantidadHora = _DetalleHorasExtraOrigen.HorasNocturnas;
+        #            this.Procesar();
+        #        }
+        #
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #run
+        #public void run()
+        #{
+        #    this.procesarIntegracion();
+        #}
+      ENDSOURCE
+      SOURCE #SaveEarningStatementLine
+        #private void SaveEarningStatementLine()
+        #{
+        #    DetalleHorasExtrav2 _DetalleHorasExtraActulizar;
+        #    HistorialRegistroHorasExtras _HistorialRegistroHorasExtras;
+        #    PayrollEarningStatementLine _PayrollEarningStatementLine;
+        #
+        #     _PayrollEarningStatementLine.EarningStatement = _PayrollEarningStatementOrigen.RecId;
+        #    _PayrollEarningStatementLine.initFromPayrollEarningStatement(_PayrollEarningStatementOrigen);
+        #    _PayrollEarningStatementLine.initValue();
+        #    _PayrollEarningStatementLine.GenerationSource  = PayrollGenerationSource::Imported;
+        #    _PayrollEarningStatementLine.EarningCode = EarningCode;
+        #    _PayrollEarningStatementLine.EarningDate = periodEndDate;
+        #
+        #    if (Monto > 0)
+        #    {
+        #   // _PayrollEarningStatementLine.Quantity = 1;
+        #    _PayrollEarningStatementLine.EarningRate = Monto;
+        #    _PayrollEarningStatementLine.AccountingCurrencyAmount= Monto;
+        #    }else
+        #     {
+        #    _PayrollEarningStatementLine.Quantity = cantidadHora;
+        #    _PayrollEarningStatementLine.EarningRate = _PayrollEarningStatementLine.computeRate();
+        #    _PayrollEarningStatementLine.AccountingCurrencyAmount= cantidadHora * _PayrollEarningStatementLine.EarningRate;
+        #     }
+        #
+        #
+        #    // valdar lineas de horas extras ante de cuardar
+        #    if (_PayrollEarningStatementLine.validateWrite()){
+        #    _PayrollEarningStatementLine.insert();
+        #            info(strFmt("Se agrego %1 al empleado %2 en el EarningStatement %3 ",cantidadHora,CodigoEmpleado, _PayrollEarningStatementOrigen.DocumentNumber));
+        #        //Actualizar estado de las horas cargadas
+        #        ttsBegin;
+        #          while  select forUpdate _DetalleHorasExtraActulizar where _DetalleHorasExtraActulizar.PayPeriod == _DetalleHorasExtraOrigen.PayPeriod
+        #            && _DetalleHorasExtraActulizar.CodigoEmpleado == _DetalleHorasExtraOrigen.CodigoEmpleado{
+        #        _DetalleHorasExtraActulizar.status = 1;
+        #        _DetalleHorasExtraActulizar.Error = "";
+        #        _DetalleHorasExtraActulizar.update();
+        #        }
+        #        ttsCommit;
+        #        //guardar historial
+        #        ttsBegin;
+        #          select forUpdate _HistorialRegistroHorasExtras;
+        #        _HistorialRegistroHorasExtras.Fecha = systemDateGet();
+        #        _HistorialRegistroHorasExtras.Usuario =  curUserId();
+        #        _HistorialRegistroHorasExtras.Descripcion= strFmt("Se agrego %1 horas al empleado %2 en el EarningStatement %3 correspondiente al periodo %4"
+        #        ,cantidadHora,CodigoEmpleado, _PayrollEarningStatementOrigen.DocumentNumber, periodEndDate);
+        #        _HistorialRegistroHorasExtras.insert();
+        #        ttsCommit;
+        #    }else
+        #     {
+        #      infolog.add(Exception::Error,strFmt("Error al cargar las lineas en el EarningStatement %1 ",_PayrollEarningStatementOrigen.DocumentNumber));
+        #        this.SaveError(strFmt("Error al cargar las lineas en el EarningStatement %1 ",_PayrollEarningStatementOrigen.DocumentNumber));
+        #     }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #SaveError
+        #private void SaveError(str _msgErr)
+        #{
+        #    DetalleHorasExtrav2 _DetalleHorasExtraGuardarError;
+        #
+        #         ttsBegin;
+        #          while  select forUpdate _DetalleHorasExtraGuardarError where _DetalleHorasExtraGuardarError.PayPeriod == _DetalleHorasExtraOrigen.PayPeriod
+        #            && _DetalleHorasExtraGuardarError.CodigoEmpleado == _DetalleHorasExtraOrigen.CodigoEmpleado{
+        #        _DetalleHorasExtraGuardarError.Error = strReplace(_msgErr,"'","\"");
+        #        _DetalleHorasExtraGuardarError.update();
+        #        }
+        #        ttsCommit;
+        #}
+      ENDSOURCE
+      SOURCE #validate
+        #public boolean validate(Object calledFrom = null)
+        #{
+        #    boolean ret;
+        #
+        #    ret = super(calledFrom);
+        #
+        #    ret = this.validateTmpTable() && ret;
+        #    ret = this.validatePeriod() && ret;
+        #    ret = this.validateExtraPayment() && ret;
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validatePeriod
+        #/// <summary>
+        #///    Determines if checkbox for specific period is open .
+        #/// </summary>
+        #/// <returns>
+        #///    true if the valid from and valid to dates are valid; otherwise, false.
+        #/// </returns>
+        #protected boolean validatePeriod()
+        #{
+        #    boolean ret = true;
+        #    ;
+        #
+        #    if (payPeriodRecId)
+        #    {
+        #      select firstOnly _payrollPayPeriod
+        #      where _payrollPayPeriod.PayCycle == 5637144576 //Quincenal
+        #      && _payrollPayPeriod.PeriodStatus == PayrollPeriodStatus::Open;
+        #
+        #      if (!_payrollPayPeriod)
+        #        {
+        #             ret = checkFailed("No se encuentra periodo abierto");
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #validateTmpTable
+        #/// <summary>
+        #///    Determines if the temporary table had incorrect values.
+        #/// </summary>
+        #/// <returns>
+        #///    true if all the data is valid; otherwise, false.
+        #/// </returns>
+        #protected boolean validateTmpTable()
+        #{
+        #    DetalleHorasExtrav2      tmpTable;
+        #    boolean ret = true;
+        #    ;
+        #
+        #    select firstOnly tmpTable
+        #    where tmpTable.Status == ProcessStatus::OnHold;
+        #    {
+        #        if (!tmpTable)
+        #        {
+        #             ret = checkFailed("No existen registros para procesar");
+        #        }
+        #
+        #
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #main
+        #public  static void main(Args args)
+        #{
+        # ProccesarIngresosv2 _ProccesarIngresos = new ProccesarIngresosv2();
+        #
+        #    if (_ProccesarIngresos.prompt())
+        #    {
+        #        _ProccesarIngresos.run();
+        #    }
+        #
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : HistorialDetalleHorasExtrav2 unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #HistorialDetalleHorasExtrav2
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #HistorialDetalleHorasExtrav2
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #SurrogateKey
+      Origin              #{5D088805-6954-4E3D-9F62-EC0C438FE6F4}
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #CodigoEmpleado
+        STRING
+        PROPERTIES
+          Name                #CodigoEmpleado
+          Label               #Codigo Empleado
+          AllowEdit           #No
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{66027520-4386-4266-BD98-C736833CD3CD}
+          ExtendedDataType    #HcmPersonnelNumberId
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #Descripcion
+        STRING
+        PROPERTIES
+          Name                #Descripcion
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{6EAFB507-BBC2-4FCA-AF17-0920EBF5F2A8}
+          ExtendedDataType    #String255
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #FechaBorrado
+        DATE
+        PROPERTIES
+          Name                #FechaBorrado
+          Label               #Fecha de Registro
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{10653B74-B1BB-4168-AF46-77A1309B535A}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #FechaRegistro
+        DATE
+        PROPERTIES
+          Name                #FechaRegistro
+          Label               #Fecha de Registro
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{87A4EF6A-225D-436B-9F52-E1A694657955}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #PayPeriod
+        INT64
+        PROPERTIES
+          Name                #PayPeriod
+          HelpText            #@GLS93486
+          Mandatory           #Yes
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{520B5ABE-E92F-40BD-A64F-91572BC88FB8}
+          ExtendedDataType    #PayrollPayPeriodRecId
+        ENDPROPERTIES
+        
+      FIELD #Usuario
+        STRING
+        PROPERTIES
+          Name                #Usuario
+          Table               #HistorialDetalleHorasExtrav2
+          Origin              #{B17BF414-6C65-4E1D-A25D-2BF01DD5A092}
+          ExtendedDataType    #Str60
+          StringSize          #60
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #PayPeriod
+        PROPERTIES
+          Name                #PayPeriod
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : omDetalleHorasExtras unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #omDetalleHorasExtras
+    Type: 1
+    PROPERTIES
+      Name                #omDetalleHorasExtras
+      Label               #Ingreso horas Extras
+      Object              #DetalleHorasExtrasv2
+      Origin              #{D5FD3542-2B97-4045-AF78-0B8A62C7F065}
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: FTM
+
+; Microsoft Dynamics AX MENUITEM : ProcesarHoraExtrasv2 unloaded
+; --------------------------------------------------------------------------------
+  VERSION 1
+  
+  MENUITEM #ProcesarHoraExtrasv2
+    Type: 1
+    PROPERTIES
+      Name                #ProcesarHoraExtrasv2
+      ObjectType          #Class
+      Object              #ProccesarIngresosV2
+      Origin              #{B1B4E0EF-1F49-4923-8AE6-7AAA85F8B76C}
+    ENDPROPERTIES
+    
+  ENDMENUITEM
+  
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 12
+
+FORM #DetalleHorasExtrasv2
+  PROPERTIES
+    Name                #DetalleHorasExtrasv2
+    Origin              #{6E8543D3-0957-445C-AAA7-6F4F7E3B311E}
+  ENDPROPERTIES
+  
+  METHODS
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #
+      #
+      #}
+    ENDSOURCE
+    SOURCE #changeStatus
+      #public void changeStatus()
+      #{
+      #    ttsBegin;
+      #
+      #    {
+      #        if (detalleHorasExtraV2.HorasExtras != 0 || detalleHorasExtraV2.HorasExtraOrdinarias != 0 || detalleHorasExtraV2.HorasNocturnas != 0)
+      #        {
+      #           detalleHorasExtraV2.Status = ProcessStatus::OnHold;
+      #           detalleHorasExtraV2.update();
+      #            info("Status Changed to OnHold");
+      #        }
+      #    }
+      #
+      #    ttsCommit;
+      #}
+    ENDSOURCE
+    SOURCE #firstField
+      #public void firstField(int _flags=1)
+      #{
+      #    super(_flags);
+      #    DetalleHorasExtrav2_Worker.setFocus();
+      #}
+    ENDSOURCE
+    SOURCE #task
+      #public int task(int _taskId)
+      #{
+      #    int ret;
+      #    //Captamos la tecla Enter y luego pasamos el comando de NewRecord
+      #    ret = super(_taskId);
+      #    if(_taskId == 288)
+      #    {
+      #        element.task(260);
+      #        DetalleHorasExtrav2_Worker.setFocus();
+      #        element.task(2827);
+      #    }
+      #
+      #    return ret;
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #DetalleHorasExtrav2
+          Table               #DetalleHorasExtrav2
+        ENDPROPERTIES
+        
+        FIELDLIST
+          REFERENCEFIELD PayPeriod
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    Common ret;
+                #
+                #    ret = super(_formReferenceControl);
+                #
+                #    if (ret)
+                #    {
+                #        ret = PayrollPayPeriod::resolveReferencePayPeriodByPayCycle(_formReferenceControl, payrollPayCyclelookup.text());
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return DetalleHorasExtrav2::lookupPayPeriodByPayCycle(_formReferenceControl, payrollPaycyclelookup.valueStr());
+                #    //PayrollPayPeriod::lookupPayPeriodByPayCycle(_formReferenceControl, payrollPaycyclelookup.valueStr());
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    boolean ret;
+          #
+          #    ret = super();
+          #
+          #     if (HcmPositionDetail::findByPosition(HcmPosition::findByPosition(HcmWorker::find(DetalleHorasExtrav2.Worker).primaryPositionId()).RecId).ExtraPayment == NoYes::No)
+          #    {
+          #        return checkFailed("El empleado no puede recibir pagos extras, favor de verificar o contactar con el Dpto. recursos humanos.");
+          #    }
+          #
+          #     //Buscamos si el existe un registro en la tabla con el mismo empleado, periodo y fecha trabajada
+          #    if (DetalleHorasExtrav2::find(DetalleHorasExtrav2.Worker, DetalleHorasExtrav2.PayPeriod, DetalleHorasExtrav2.FechaHETrabajadas))
+          #    {
+          #        return checkFailed("Ya existe un registro para el empleado con el mismo periodo y fecha HE Trabajadas");
+          #    }
+          #
+          #     if (HcmWorker::find(DetalleHorasExtrav2.Worker).workerStatus() != HcmWorkerStatus::Employed)
+          #    {
+          #        return checkFailed("El empleado no esta activo, favor de verificar la informacion");
+          #    }
+          #
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #
+          #    QueryBuildDataSource    qbds;
+          #
+          #    super();
+          #
+          #    //Si usuario es Misael Pimentel se filtra para que no pueda ver sindicatos.
+          #    if(curuserid() =='mpimente')
+          #    {
+          #    qbds = this.query().dataSourceTable(tableNum(DetalleHorasExtrav2));
+          #    qbds.addRange(fieldNum(DetalleHorasExtrav2, codigoempleado)).value(queryRange('00001', '89999'));
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    DetalleHorasExtrav2    dtev2;
+          #
+          #    super();
+          #
+          #
+          #    select firstOnly dtev2 order by recid desc;
+          #
+          #    if(dtev2.FechaRegistro == systemDateGet())
+          #    {
+          #        DetalleHorasExtrav2.PayPeriod = dtev2.PayPeriod;
+          #        DetalleHorasExtrav2.FechaHETrabajadas = dtev2.FechaHETrabajadas;
+          #
+          #    }
+          #
+          #
+          #    DetalleHorasExtrav2.PayCycleId = 'Quincenal';
+          #
+          #
+          #
+          #
+          #}
+        ENDSOURCE
+        SOURCE #statusIcon
+          #display Integer statusIcon(DetalleHorasExtrav2 _detalleHorasExtrav2)
+          #{
+          #    Integer resourceId = 0;
+          #
+          #    switch(_detalleHorasExtrav2.Status)
+          #    {
+          #        case 0:
+          #            resourceId = 12846; //onHold Icon
+          #            break;
+          #
+          #        case 1:
+          #            resourceId = 12711; // Processed Icon
+          #            break;
+          #    }
+          #
+          #    if(_detalleHorasExtrav2.HorasExtraOrdinarias == 0 && _detalleHorasExtrav2.HorasExtras == 0 && _detalleHorasExtrav2.HorasNocturnas == 0)
+          #        {
+          #            resourceId = 10071;  //Error Icon
+          #        }
+          #    return resourceId;
+          #}
+        ENDSOURCE
+        SOURCE #setHeaderText
+          #public void setHeaderText()
+          #{
+          #    HcmWorker       worker = HcmWorker::find(detalleHorasExtrav2.Worker);
+          #    str             headerText;
+          #
+          #    headerText = strFmt("%1 : %2",
+          #
+          #                            worker.PersonnelNumber,
+          #                            DirPerson::find(worker.Person).Name);
+          #
+          #    headertitle.text(headerText);
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #public int active()
+          #{
+          #    int             ret;
+          #    PayrollPayCycle payCycle;
+          #
+          #    ret = super();
+          #
+          #    payCycle = PayrollPayCycle::find(PayrollPayPeriod::find(detalleHorasExtrav2.PayPeriod).PayCycle);
+          #    payrollPayCycleLookup.text(payCycle.PayCycleId);
+          #    this.setHeaderText();
+          #    payrollPayCycleLookup.allowEdit(detalleHorasExtrav2.RecId == 0);
+          #
+          #    if (detalleHorasExtrav2.Status == 1)
+          #    {
+          #        detalleHorasExtrav2_ds.allowEdit(false);
+          #        detalleHorasExtrav2_ds.allowDelete(true);
+          #    }
+          #    else
+          #    {
+          #        detalleHorasExtrav2_ds.allowEdit(true);
+          #        detalleHorasExtrav2_ds.allowDelete(true);
+          #    }
+          #
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #primaryDepartmentName
+          #/// <summary>
+          #/// Gets the name of the primary department of the worker if one exists.
+          #/// </summary>
+          #/// <returns>
+          #/// The name of the primary department of the worker if one exists; otherwise, an empty string.
+          #/// </returns>
+          #display OMDepartmentName primaryDepartmentName(DetalleHorasExtrav2 _detalleHorasExtrav2)
+          #{
+          #    OMDepartmentRecId   primaryDepartmentRecId;
+          #    OMOperatingUnit     omDepartment;
+          #    OMDepartmentName    name = "";
+          #
+          #    primaryDepartmentRecId = HcmWorker::getPrimaryDepartmentRecId(_detalleHorasExtrav2.worker);
+          #
+          #    select RecId, Name from omDepartment
+          #        where omDepartment.RecId == primaryDepartmentRecId;
+          #
+          #    if (omDepartment != null)
+          #    {
+          #        name = omDepartment.Name;
+          #    }
+          #
+          #    return name;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2
+          Table               #tmpDetalleHorasExtrav2
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #init
+          #public void init()
+          #{
+          #    DetalleHorasExtrav2 detalleHorasExtrasV2;
+          #    super();
+          #
+          #    while select PayPeriod, CodigoEmpleado,sum(HorasExtras),sum(HorasExtraOrdinarias),sum(HorasNocturnas) from detalleHorasExtrasV2
+          #     group by  CodigoEmpleado, PayPeriod, status where detalleHorasExtrasV2.Status != 2
+          #    {
+          #        tmpDetalleHorasExtrav2.clear();
+          #        tmpDetalleHorasExtrav2.PayPeriod            = detalleHorasExtrasV2.PayPeriod;
+          #        tmpDetalleHorasExtrav2.Worker               = detalleHorasExtrasV2.Worker;
+          #        tmpDetalleHorasExtrav2.CodigoEmpleado       = detalleHorasExtrasV2.CodigoEmpleado;
+          #        tmpDetalleHorasExtrav2.HorasExtras          = detalleHorasExtrasV2.HorasExtras;
+          #        tmpDetalleHorasExtrav2.HorasExtraOrdinarias = detalleHorasExtrasV2.HorasExtraOrdinarias;
+          #        tmpDetalleHorasExtrav2.HorasNocturnas       = detalleHorasExtrasV2.HorasNocturnas;
+          #        tmpDetalleHorasExtrav2.Status               = detalleHorasExtrasV2.Status;
+          #        tmpDetalleHorasExtrav2.write();
+          #
+          #    }
+          #
+          #    tmpDetalleHorasExtrav2.setTmpData(tmpDetalleHorasExtrav2);
+          #    tmpDetalleHorasExtrav2_ds.executeQuery();
+          #
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  REFERENCEDATASOURCES
+  ENDREFERENCEDATASOURCES
+  
+  JOINS
+  ENDJOINS
+  
+  PARTREFERENCES
+    PARTREFERENCE #HcmWorkerDetails1
+      PROPERTIES
+        Name                #HcmWorkerDetails1
+        MenuItemName        #HcmWorkerDetailInfoPart
+        DataSource          #DetalleHorasExtrav2
+        DataSourceRelation  #DetalleHorasExtrav2.Empleados
+        IsLinked            #Yes
+        ElementPosition     #715827882
+      ENDPROPERTIES
+      
+    ENDPARTREFERENCE
+    
+    PARTREFERENCE #HcmWorkerDetailPositionPart
+      PROPERTIES
+        Name                #HcmWorkerDetailPositionPart
+        MenuItemName        #HcmWorkerDetailPositionPart
+        DataSource          #DetalleHorasExtrav2
+        DataSourceRelation  #DetalleHorasExtrav2.Empleados
+        IsLinked            #Yes
+        ElementPosition     #1431655764
+      ENDPROPERTIES
+      
+    ENDPARTREFERENCE
+    
+  ENDPARTREFERENCES
+  
+  DESIGN
+    PROPERTIES
+      Caption             #Registro de Horas
+      Style               #DetailsFormMaster
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #ActionPaneHeader
+          ElementPosition     #715827882
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #ActionPaneTab
+          ElementPosition     #1610612733
+          HierarchyParent     #ActionPaneHeader
+          Caption             #Procesar
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #HeaderHomeTab
+          ElementPosition     #1073741822
+          HierarchyParent     #ActionPaneHeader
+          Caption             #Opciones
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #ActionPaneTab
+          Caption             #Procesar
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #CopyOfNewGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #HeaderHomeTab
+          Caption             #@SYS2055
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ListGroup
+          AutoDeclaration     #Yes
+          ElementPosition     #1789569705
+          HierarchyParent     #HeaderHomeTab
+          Caption             #@SYS118440
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #MaintainGroup
+          ElementPosition     #1073741823
+          HierarchyParent     #HeaderHomeTab
+          Caption             #@SYS316703
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #NewGroup
+          Left                #Left edge
+          ElementPosition     #1431655764
+          HierarchyParent     #LineButtons
+          Caption             #@SYS2055
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #NewRecord
+          Left                #Left edge
+          ElementPosition     #715827882
+          HierarchyParent     #HeaderHomeTab
+          Caption             #@SYS2055
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #PrintGroup
+          AutoDeclaration     #Yes
+          ElementPosition     #1968526675
+          HierarchyParent     #HeaderHomeTab
+          Caption             #Print
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #DetailGroup
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #DetailGrp
+          DataSource          #DetalleHorasExtrav2
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #GroupedGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #GroupedGrp
+          DataSource          #tmpDetalleHorasExtrav2
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #CopyOfgrpFrame10
+          ElementPosition     #1431655764
+          HierarchyParent     #LineViewLines
+          FrameType           #Solid background color (long)
+          Caption             #Empleado / Horas de Trabajo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailGrp
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741823
+          HierarchyParent     #TabPage3
+          Caption             #Vista Detallada
+          FrameOptionButton   #Check
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #clicked
+            #public void clicked()
+            #{
+            #    super();
+            #    this.expand( !this.expand() );
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #GridHeaderInfo
+          ElementPosition     #1789569705
+          HierarchyParent     #TabPage3
+          Caption             #Registro Horas Extras
+          Style               #DetailTitleContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #GroupedGrp
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #TabPage3
+          Caption             #Vista Agrupada
+          FrameOptionButton   #Check
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #clicked
+            #public void clicked()
+            #{
+            #    super();
+            #    this.expand( !this.expand() );
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #grpFrame10
+          ElementPosition     #1431655764
+          HierarchyParent     #LineViewHeader
+          FrameType           #Solid background color (long)
+          Caption             #Fechas / Ciclo de Pago
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HeaderInfo
+          ElementPosition     #1073741822
+          HierarchyParent     #TabPageDetails
+          Caption             #Registro Horas Extras
+          Style               #DetailTitleContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_PayPeriod
+          ElementPosition     #858993456
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          ReferenceField      #PayPeriod
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_Worker
+          AutoDeclaration     #Yes
+          ElementPosition     #715827882
+          HierarchyParent     #CopyOfgrpFrame10
+          DataSource          #DetalleHorasExtrav2
+          ReferenceField      #Worker
+          ReplacementFieldGroup #PersonnelNumber
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_Worker1
+          ElementPosition     #429496728
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          ReferenceField      #Worker
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #PayrollEarningStatement_PayPeriod
+          ElementPosition     #1288490187
+          HierarchyParent     #grpFrame10
+          DataSource          #DetalleHorasExtrav2
+          ReferenceField      #PayPeriod
+          ReplacementFieldGroup #Period
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_PayPeriod
+          ElementPosition     #1670265058
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          ReferenceField      #PayPeriod
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #DetailsTab
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1610612733
+          HierarchyParent     #TabPageDetails
+          ShowTabs            #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #LineViewTab
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #LineView
+          Style               #FastTabs
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #LineButtons
+          Width               #Column width
+          ElementPosition     #1717986916
+          HierarchyParent     #LineViewTab
+          DataSource          #DetalleHorasExtrav2
+          ViewEditMode        #Edit
+          FastTabExpanded     #Always
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #LineView
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #DetailsTab
+          BackgroundColor     #Dyn Background blue
+          TopMargin           #0
+          BottomMargin        #0
+          LeftMargin          #0
+          RightMargin         #0
+          Style               #DetailsFormDetails
+          PanelStyle          #DetailsLine
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #LineViewHeader
+          Width               #Column width
+          ElementPosition     #858993458
+          HierarchyParent     #LineViewTab
+          Caption             #Datos Generales
+          DataSource          #DetalleHorasExtrav2
+          Columns             #Auto
+          HideIfEmpty         #No
+          FastTabExpanded     #Yes
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #LineViewLines
+          Width               #Column width
+          ElementPosition     #1288490187
+          HierarchyParent     #LineViewTab
+          Caption             #Detalle de registro
+          DataSource          #DetalleHorasExtrav2
+          ViewEditMode        #Edit
+          FastTabExpanded     #Always
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #TabPage3
+          ElementPosition     #1610612734
+          HierarchyParent     #Tab
+          Caption             #Detalle de Tablas
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #TabPageDetails
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741822
+          HierarchyParent     #Tab
+          BackgroundColor     #Dyn Background blue
+          Caption             #Registro:
+          DataSource          #DetalleHorasExtrav2
+          TopMargin           #0
+          BottomMargin        #0
+          LeftMargin          #0
+          RightMargin         #0
+          ViewEditMode        #Edit
+          Style               #DetailsFormDetails
+          PanelStyle          #Details
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMBOBOX
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_Status
+          ElementPosition     #2004318064
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #Status
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMBOBOX
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_Status
+          ElementPosition     #1431655764
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          DataField           #Status
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteButton
+          ElementPosition     #1717986916
+          HierarchyParent     #MaintainGroup
+          Text                #@SYS14425
+          NormalImage         #10121
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          MultiSelect         #Yes
+          Primary             #Yes
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #EditRecordButton
+          AutoDeclaration     #Yes
+          ElementPosition     #858993458
+          HierarchyParent     #MaintainGroup
+          Text                #@SYS317438
+          NormalImage         #10040
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Primary             #Yes
+          Command             #4471
+          ToggleButton        #Check
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #ExportToExcelButton
+          ElementPosition     #1610612733
+          HierarchyParent     #ListGroup
+          NormalImage         #10156
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Command             #4436
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewButton
+          ElementPosition     #1431655764
+          HierarchyParent     #NewGroup
+          Text                #Nuevo
+          ButtonDisplay       #Text & Image above
+          NormalImage         #12864
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewRecord1
+          ElementPosition     #1431655764
+          HierarchyParent     #NewRecord
+          Text                #Nuevo
+          ButtonDisplay       #Text & Image above
+          NormalImage         #10867
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #clicked
+            #void clicked()
+            #{
+            #
+            #    super();
+            #
+            #
+            #
+            #    element.task(260);
+            #    DetalleHorasExtrav2.FechaHETrabajadas = Global::dateNull();
+            #    DetalleHorasExtrav2.PayPeriod   = 0;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #RefreshButton
+          HelpText            #@SYS315818
+          ElementPosition     #1073741822
+          HierarchyParent     #ListGroup
+          NormalImage         #11437
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Command             #2875
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_FechaHETrabajadas
+          ElementPosition     #1717986912
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #FechaHETrabajadas
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_FechaRegistro
+          ElementPosition     #1861152488
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #FechaRegistro
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #HorasRegistro
+          ElementPosition     #1717986916
+          HierarchyParent     #grpFrame10
+          DateFormat          #DMY
+          Label               #Fecha HE Trabajadas
+          DataSource          #DetalleHorasExtrav2
+          DataField           #FechaHETrabajadas
+          Mandatory           #Yes
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL MENUITEMBUTTON
+        PROPERTIES
+          Name                #EditDetailsButton
+          AutoDeclaration     #Yes
+          Visible             #No
+          ElementPosition     #1288490187
+          HierarchyParent     #MaintainGroup
+          Text                #@SYS317438
+          NormalImage         #10040
+          ImageLocation       #EmbeddedResource
+          Big                 #Yes
+          Primary             #Yes
+          OpenMode            #Edit
+          CopyCallerQuery     #Yes
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL MENUITEMBUTTON
+        PROPERTIES
+          Name                #MenuFormProcesarHorasextras
+          ElementPosition     #1431655764
+          HierarchyParent     #ButtonGroup
+          Text                #Procesar
+          ButtonDisplay       #Text & Image above
+          NormalImage         #3486
+          ImageLocation       #EmbeddedResource
+          Border              #None
+          Big                 #Yes
+          BackStyle           #Transparent
+          MenuItemName        #ProcesarHoraExtrasv2
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL MENUITEMBUTTON
+        PROPERTIES
+          Name                #MenuItemButton
+          ElementPosition     #1431655764
+          HierarchyParent     #PrintGroup
+          Text                #Imprimir Reporte
+          ButtonDisplay       #Text & Image above
+          NormalImage         #10286
+          ImageLocation       #EmbeddedResource
+          Border              #Flat
+          Big                 #Yes
+          MenuItemType        #Output
+          MenuItemName        #omreportehorasExtras
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasExtraOrdinarias
+          ElementPosition     #1789569705
+          HierarchyParent     #CopyOfgrpFrame10
+          AllowNegative       #No
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasExtraOrdinarias
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret && detalleHorasExtrav2.Status == 2)
+            #    {
+            #
+            #      element.changeStatus();
+            #    }
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasExtraOrdinarias1
+          ElementPosition     #1574821336
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasExtraOrdinarias
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasExtras
+          ElementPosition     #1073741823
+          HierarchyParent     #CopyOfgrpFrame10
+          AllowNegative       #No
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasExtras
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret && detalleHorasExtrav2.Status == 2)
+            #    {
+            #
+            #      element.changeStatus();
+            #    }
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasExtras1
+          ElementPosition     #1431655760
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasExtras
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasNocturnas
+          ElementPosition     #1431655764
+          HierarchyParent     #CopyOfgrpFrame10
+          AllowNegative       #No
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasNocturnas
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    if (ret && detalleHorasExtrav2.Status == 2)
+            #    {
+            #
+            #      element.changeStatus();
+            #    }
+            #
+            #    return ret;
+            #
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_HorasNocturnas1
+          ElementPosition     #1145324608
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #HorasNocturnas
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_HorasExtraOrdinarias
+          ElementPosition     #715827882
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          DataField           #HorasExtraOrdinarias
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_HorasExtras
+          ElementPosition     #954437176
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          DataField           #HorasExtras
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_HorasNocturnas
+          ElementPosition     #1193046470
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          DataField           #HorasNocturnas
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STATICTEXT
+        PROPERTIES
+          Name                #CopyOfStaticText2
+          Width               #Column width
+          ElementPosition     #715827882
+          HierarchyParent     #TabPage3
+          Text                #Click para Expandir / Contraer el grupo.
+          DisplayHeight       #2
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STATICTEXT
+        PROPERTIES
+          Name                #StaticText
+          ElementPosition     #954437176
+          HierarchyParent     #LineButtons
+          Text                #[Limpia los campos del detalle de registro]
+          Italic              #Yes
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #CopyOfStringEdit3
+          ElementPosition     #1288490184
+          HierarchyParent     #DetailGroup
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #Department
+          ElementPosition     #715827880
+          HierarchyParent     #DetailGroup
+          Label               #Departamento
+          DataSource          #DetalleHorasExtrav2
+          DataMethod          #primaryDepartmentName
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_CodigoEmpleado
+          ElementPosition     #572662304
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #CodigoEmpleado
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #DetalleHorasExtrav2_PayCycleId
+          ElementPosition     #1002159032
+          HierarchyParent     #DetailGroup
+          DataSource          #DetalleHorasExtrav2
+          DataField           #PayCycleId
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HeaderTitle
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Skip                #Yes
+          AlignControl        #No
+          ElementPosition     #1431655764
+          HierarchyParent     #HeaderInfo
+          Border              #None
+          ColorScheme         #Windows palette
+          ForegroundColor     #Dyn Title green
+          FontSize            #11
+          ShowLabel           #No
+          Label               #Registro Horas extras
+          ViewEditMode        #View
+          Style               #TitleField
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HeaderTitle2
+          AutoDeclaration     #Yes
+          AllowEdit           #No
+          Width               #Column width
+          Skip                #Yes
+          AlignControl        #No
+          ElementPosition     #1431655764
+          HierarchyParent     #GridHeaderInfo
+          Border              #None
+          Text                #Tablas - Detalle de registros
+          ColorScheme         #Windows palette
+          ForegroundColor     #Dyn Title green
+          FontSize            #11
+          ShowLabel           #No
+          Label               #Tablas View
+          ViewEditMode        #View
+          Style               #TitleField
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #PayrollPayCycleLookup
+          AutoDeclaration     #Yes
+          HelpText            #@GLS93743
+          ElementPosition     #858993458
+          HierarchyParent     #grpFrame10
+          Label               #Pay Cicle
+          DataSource          #DetalleHorasExtrav2
+          DataField           #PayCycleId
+          Mandatory           #Yes
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #filter
+            #public void filter(str _filterStr)
+            #{
+            #    super(_filterStr);
+            #}
+          ENDSOURCE
+          SOURCE #jumpRef
+            #public void jumpRef()
+            #{
+            #    PayrollPayCycle::jumpRefPayCycle(this.text(), this);
+            #}
+          ENDSOURCE
+          SOURCE #lookup
+            #public void lookup()
+            #{
+            #    PayrollPayCycle::lookupPayCycle(this);
+            #}
+          ENDSOURCE
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #
+            #    detalleHorasExtrav2.PayPeriod = PayrollPayPeriod::findOpenPeriodByPayCycle(PayrollPayCycle::findByPayCycle(this.text()).RecId).RecId;
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #tmpDetalleHorasExtrav2_CodigoEmpleado
+          ElementPosition     #477218588
+          HierarchyParent     #GroupedGrid
+          DataSource          #tmpDetalleHorasExtrav2
+          DataField           #CodigoEmpleado
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL WINDOW
+        PROPERTIES
+          Name                #PaymentStatusIcon
+          Width               #16
+          Height              #16
+          VerticalSpacing     #0
+          HelpText            #Status
+          ElementPosition     #286331152
+          HierarchyParent     #DetailGroup
+          Imagemode           #Size to fit
+          Label               #S
+          DataSource          #DetalleHorasExtrav2
+          DataMethod          #statusIcon
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+  PERMISSIONS #Permissions
+    PROPERTIES
+    ENDPROPERTIES
+    
+    PERMISSIONSET #Read
+      PROPERTIES
+      ENDPROPERTIES
+      
+      FORM #Controls
+      ENDFORM
+      
+    TABLES #Tables
+    ENDTABLES
+    
+  SERVERMETHODS #Server Methods
+  ENDSERVERMETHODS
+  
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Update
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Create
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Delete
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+ENDPERMISSIONS
+
+ENDFORM
+
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : DetalleHorasExtrav2 unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #DetalleHorasExtrav2
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #DetalleHorasExtrav2
+      TitleField1         #CodigoEmpleado
+      TitleField2         #PayPeriod
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #SurrogateKey
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      Origin              #{4544024A-2DC5-4F78-A80F-5AD34865336C}
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #CodigoEmpleado
+        STRING
+        PROPERTIES
+          Name                #CodigoEmpleado
+          Label               #Codigo Empleado
+          AllowEdit           #No
+          Table               #DetalleHorasExtrav2
+          Origin              #{4DFCEE61-23DC-4254-9100-13E7F3E42693}
+          LegacyId            #11
+          ExtendedDataType    #HcmPersonnelNumberId
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #Error
+        STRING
+        PROPERTIES
+          Name                #Error
+          Table               #DetalleHorasExtrav2
+          Origin              #{F081BF8B-AD34-43C4-9284-254ADFCC1AEB}
+          StringSize          #(Memo)
+        ENDPROPERTIES
+        
+      FIELD #FechaHETrabajadas
+        DATE
+        PROPERTIES
+          Name                #FechaHETrabajadas
+          Label               #Fecha HE Trabajadas
+          Table               #DetalleHorasExtrav2
+          Origin              #{67151F56-8107-4A15-AAFB-4F5C85E7F838}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #FechaRegistro
+        DATE
+        PROPERTIES
+          Name                #FechaRegistro
+          Label               #Fecha de Registro
+          Table               #DetalleHorasExtrav2
+          Origin              #{A00E2ED9-E4DA-4D65-924F-94E772B77FF2}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #HorasExtraOrdinarias
+        REAL
+        PROPERTIES
+          Name                #HorasExtraOrdinarias
+          Label               #Horas ExtraOrdinarias:
+          Table               #DetalleHorasExtrav2
+          Origin              #{06C10001-933F-4B24-ADE4-447B3E90DDF8}
+        ENDPROPERTIES
+        
+      FIELD #HorasExtras
+        REAL
+        PROPERTIES
+          Name                #HorasExtras
+          Label               #Horas Extras:
+          Table               #DetalleHorasExtrav2
+          Origin              #{FA354DFD-FF31-4C6F-9E9B-8C9ED42A8656}
+        ENDPROPERTIES
+        
+      FIELD #HorasNocturnas
+        REAL
+        PROPERTIES
+          Name                #HorasNocturnas
+          Label               #Horas Nocturnas:
+          Table               #DetalleHorasExtrav2
+          Origin              #{E1A2A5AD-397F-4876-8D8A-72F9339990D6}
+        ENDPROPERTIES
+        
+      FIELD #PayCycleId
+        STRING
+        PROPERTIES
+          Name                #PayCycleId
+          Mandatory           #Yes
+          Table               #DetalleHorasExtrav2
+          Origin              #{490F0D6A-E01B-4226-89CD-B52B719D7435}
+          ExtendedDataType    #PayrollPayCycleId
+          StringSize          #15
+        ENDPROPERTIES
+        
+      FIELD #PayPeriod
+        INT64
+        PROPERTIES
+          Name                #PayPeriod
+          HelpText            #@GLS93486
+          Mandatory           #Yes
+          Table               #DetalleHorasExtrav2
+          Origin              #{37C6E38E-C6BB-4FB6-93CB-A5D0A297B07D}
+          ExtendedDataType    #PayrollPayPeriodRecId
+        ENDPROPERTIES
+        
+      FIELD #Status
+        ENUM
+        PROPERTIES
+          Name                #Status
+          Table               #DetalleHorasExtrav2
+          Origin              #{35228DC4-1EB1-4875-9424-0B1C282B4823}
+          EnumType            #ProcessStatus
+        ENDPROPERTIES
+        
+      FIELD #Worker
+        INT64
+        PROPERTIES
+          Name                #Worker
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #DetalleHorasExtrav2
+          Origin              #{69678753-6C8A-4FA4-8F30-CF54E78215C3}
+          ExtendedDataType    #HcmWorkerRecId
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #PayPeriod
+        PROPERTIES
+          Name                #PayPeriod
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CodigoEmpleado
+          #PayPeriod
+          #Status
+          #HorasExtraOrdinarias
+          #HorasExtras
+          #HorasNocturnas
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Worker
+        PROPERTIES
+          Name                #Worker
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CodigoEmpleado
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #Index1
+      PROPERTIES
+        Name                #Index1
+        Origin              #{A3A7928B-61C2-4FA8-845E-7CBE9BE93441}
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #CodigoEmpleado
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+      REFERENCE #Empleados
+        PROPERTIES
+          Name                #Empleados
+          Table               #HcmWorker
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Worker
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #PayCicleID
+        PROPERTIES
+          Name                #PayCicleID
+          Table               #PayrollPayCycle
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PayCycleId
+            RelatedField        #PayCycleId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #PayPeriod
+        PROPERTIES
+          Name                #PayPeriod
+          Table               #PayrollPayPeriod
+          RelatedTableCardinality   #ExactlyOne
+          Cardinality         #ZeroOne
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          RelatedTableRole    #PayrollPayPeriod
+          Role                #DetalleHorasExtraV2
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PayPeriod
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      SOURCE #aosValidateInsert
+        #public boolean aosValidateInsert()
+        #{
+        #    boolean ret;
+        #
+        #    ret = super();
+        #    /*    //No se esta utilizando la validacion por AOS, se valida directamente del formulario.
+        #
+        #    //Buscamos si el existe un registro en la tabla con el mismo empleado, periodo y fecha trabajada
+        #    if (DetalleHorasExtrav2::find(this.Worker, this.PayPeriod, this.FechaHETrabajadas))
+        #    {
+        #        return checkFailed("Ya existe un registro para el empleado con el mismo periodo y fecha HE Trabajadas");
+        #    }
+        #
+        #     if (HcmWorker::find(this.Worker).workerStatus() != HcmWorkerStatus::Employed)
+        #    {
+        #        return checkFailed("El empleado no esta activo, favor de verificar la informacion");
+        #    }*/
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #aosValidateUpdate
+        #public boolean aosValidateUpdate()
+        #{
+        #    boolean ret;
+        #
+        #    ret = super();
+        #
+        #     if (DetalleHorasExtrav2::find(this.Worker, this.PayPeriod, this.FechaHETrabajadas))
+        #    {
+        #        return checkFailed("Ya existe un registro para el empleado con el mismo periodo y fecha HE Trabajadas");
+        #    }
+        #
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #delete
+        #public void delete()
+        #{
+        #    super();
+        #
+        #
+        #    if (this.Status == 1)
+        #    {
+        #     this.guardarHistorial();
+        #    }
+        #}
+      ENDSOURCE
+      SOURCE #guardarHistorial
+        #private void guardarHistorial()
+        #{
+        #    HistorialDetalleHorasExtrav2 _HistorialRegistroHorasExtras;
+        #
+        #         ttsBegin;
+        #         select forUpdate _HistorialRegistroHorasExtras;
+        #        _HistorialRegistroHorasExtras.FechaBorrado = systemDateGet();
+        #        _HistorialRegistroHorasExtras.Usuario =  curUserId();
+        #        _HistorialRegistroHorasExtras.Descripcion= strFmt("Se elimino %1 HorasExtras 2% HorasNocturnas %3 HorasEO 4% Periodo %5 FechasHE al empleado %6"
+        #        ,this.HorasExtras,this.HorasNocturnas,this.HorasExtraOrdinarias,this.PayPeriod,this.FechaHETrabajadas,this.CodigoEmpleado);
+        #        _HistorialRegistroHorasExtras.FechaRegistro = this.FechaRegistro;
+        #        _HistorialRegistroHorasExtras.CodigoEmpleado    = this.CodigoEmpleado;
+        #         _HistorialRegistroHorasExtras.PayPeriod    =   this.PayPeriod;
+        #        _HistorialRegistroHorasExtras.insert();
+        #        ttsCommit;
+        #}
+      ENDSOURCE
+      SOURCE #insert
+        #public void insert()
+        #{
+        #    if(this.HorasExtras == 0 && this.HorasExtraOrdinarias == 0 && this.HorasNocturnas == 0)
+        #    {
+        #        this.Status = 2;
+        #    }
+        #   else{
+        #    this.status = 0 ;
+        #    }
+        #    this.FechaRegistro = systemDateGet();
+        #    this.CodigoEmpleado = this.PersonnelNumber();
+        #    super();
+        #
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #name
+        #/// <summary>
+        #/// Gets the name of the worker.
+        #/// </summary>
+        #/// <returns>
+        #/// The name of the worker.
+        #/// </returns>
+        #public display HcmWorkerName name()
+        #{
+        #    DirPerson       dirPerson;
+        #    HcmWorkerName   workerName;
+        #    boolean         isSet = false;
+        #
+        #    if (this.hasRelatedTable(identifierStr(DirPerson)))
+        #    {
+        #        dirPerson = this.relatedTable(identifierStr(DirPerson)) as DirPerson;
+        #
+        #        //Check to make sure the fields we are accessing are selected.
+        #        if (dirPerson && dirPerson.isFieldDataRetrieved(fieldStr(DirPerson, Name)))
+        #        {
+        #            workerName = dirPerson.Name;
+        #            isSet = true;
+        #        }
+        #    }
+        #
+        #    //If we aren't joined to DirPerson or it isn't selected, then do a query to get it.
+        #    if (!isSet)
+        #    {
+        #        workerName = DirPartyTable::getName(HcmWorker::findByPersonnelNumber(this.CodigoEmpleado).Person);
+        #    }
+        #
+        #    return workerName;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #PersonnelNumber
+        #/// <summary>
+        #/// Gets the personnel number of the worker.
+        #/// </summary>
+        #/// <returns>
+        #/// The personnel number of the worker.
+        #/// </returns>
+        #public display HcmPersonnelNumberId PersonnelNumber()
+        #{
+        #    HcmPersonnelNumberId    hcmPersonnelNumberId;
+        #
+        #    if (this.Worker)
+        #    {
+        #        hcmPersonnelNumberId = HcmWorker::find(this.Worker).PersonnelNumber;
+        #    }
+        #   /* else
+        #    {
+        #        hcmPersonnelNumberId = HcmWorkerActionHire::findByActionState(this.ActionState).PersonnelNumber;
+        #    }*/
+        #
+        #    return hcmPersonnelNumberId;
+        #}
+      ENDSOURCE
+      SOURCE #primaryDepartmentName
+        #public display OMDepartmentName primaryDepartmentName()
+        #{
+        #    OMDepartmentRecId   primaryDepartmentRecId;
+        #    OMOperatingUnit     omDepartment;
+        #    OMDepartmentName    name = "";
+        #
+        #   primaryDepartmentRecId = HcmWorker::getPrimaryDepartmentRecId(this.RecId);
+        #
+        #    select RecId, Name from omDepartment
+        #        where omDepartment.RecId == primaryDepartmentRecId;
+        #
+        #    if (omDepartment != null)
+        #    {
+        #        name = omDepartment.Name;
+        #    }
+        #
+        #    return name;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #public static boolean exist(
+        #                            HcmWorkerRecId  _hcmWorker,
+        #                            PayrollPayPeriodRecId _payPeriod,
+        #                            TransDate   _date)
+        #
+        #{
+        #        DetalleHorasExtrav2 dhe2;
+        #
+        #    select RecId from dhe2
+        #    where dhe2.Worker == _hcmWorker
+        #    && dhe2.PayPeriod == _payPeriod
+        #    && dhe2.FechaHETrabajadas == _date;
+        #
+        #    return (dhe2.RecId != 0);
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #public static DetalleHorasExtrav2 find(
+        #                            HcmWorkerRecId  _hcmWorker,
+        #                            PayrollPayPeriodRecId _payPeriod,
+        #                            TransDate   _date,
+        #                            boolean _forUpdate = false)
+        #
+        #{
+        #        DetalleHorasExtrav2 dhe2;
+        #
+        #        dhe2.selectForUpdate(_forUpdate);
+        #
+        #    select firstOnly dhe2
+        #    where dhe2.Worker == _hcmWorker
+        #    && dhe2.PayPeriod == _payPeriod
+        #    && dhe2.FechaHETrabajadas == _date;
+        #
+        #    return dhe2;
+        #}
+      ENDSOURCE
+      SOURCE #lookupPayPeriodByPayCycle
+        #/// <summary>
+        #/// Provides a custom lookup for the <c>PayrollPayPeriod</c> records that filters on the basis of <c>PayCycleId</c>.
+        #/// </summary>
+        #/// <param name="_formReferenceControl">
+        #/// The form control that is bound to the foreign key reference to the <c>PayrollPayPeriod</c> table.
+        #/// </param>
+        #/// <param name="_payCycleId">
+        #/// The <c>PayrollPayCycleId</c>
+        #/// </param>
+        #/// <returns>
+        #/// The payroll period filtered record.
+        #/// </returns>
+        #
+        #public static Common lookupPayPeriodByPayCycle(FormReferenceControl _formReferenceControl, PayrollPayCycleId _payCycleId)
+        #{
+        #    SysReferenceTableLookup sysTableLookup = SysReferenceTableLookup::newParameters(tableNum(PayrollPayPeriod), _formReferenceControl);
+        #    Query lookupQuery;
+        #    QueryBuildDataSource qbds;
+        #
+        #
+        #    QueryBuildRange qbr;
+        #    QueryBuildRange qbr2;
+        #
+        #    PayrollPayPeriod selectedRecord;
+        #
+        #    // Display the coulmns fields in the lookup form.
+        #
+        #    sysTableLookup.addLookupfield(fieldNum(PayrollPayPeriod, PayCycle));
+        #
+        #    sysTableLookup.addLookupfield(fieldNum(PayrollPayPeriod, PeriodEndDate));
+        #
+        #    // Create a custom Query
+        #
+        #    lookupQuery= new Query();
+        #
+        #    qbds = lookupQuery.addDataSource(tableNum(PayrollPayPeriod));
+        #
+        #    qbr = qbds.addRange(fieldNum(PayrollPayPeriod, PayCycle));
+        #    qbr2 = qbds.addRange(fieldNum(PayrollPayPeriod, PeriodStatus));
+        #
+        #    qbr.value(int642str(PayrollPayCycle::findByPayCycle(_payCycleId).RecId));
+        #    qbr.status(RangeStatus::Locked);
+        #    qbr.status(RangeStatus::Hidden);
+        #
+        #    qbr2.value(strFmt('%1', enum2Value(PayrollPeriodStatus::Open)));
+        #    qbr2.status(RangeStatus::Locked);
+        #    qbr2.status(RangeStatus::Hidden);
+        #
+        #    qbds.addSortField(fieldNum(PayrollPayPeriod, PeriodEndDate), SortOrder::Ascending);
+        #    qbds.addSortField(fieldNum(PayrollPayPeriod, PeriodStatus), SortOrder::Descending);
+        #
+        #    sysTableLookup.parmQuery(lookupQuery);
+        #
+        #    selectedRecord = sysTableLookup.performFormLookup();
+        #
+        #    return selectedRecord;
+        #}
+        #
+        #
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : tmpDetalleHorasExtrav2 unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #tmpDetalleHorasExtrav2
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #tmpDetalleHorasExtrav2
+      TableType           #TempDB
+      CreateRecIdIndex    #Yes
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #SurrogateKey
+      Origin              #{314B7247-88AF-45E5-B186-AA1356FE0A43}
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #CodigoEmpleado
+        STRING
+        PROPERTIES
+          Name                #CodigoEmpleado
+          Label               #Codigo Empleado
+          AllowEdit           #No
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{B04766AE-90F3-4604-8CFB-EA84176616EF}
+          ExtendedDataType    #HcmPersonnelNumberId
+          StringSize          #25
+        ENDPROPERTIES
+        
+      FIELD #Error
+        STRING
+        PROPERTIES
+          Name                #Error
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{D40F0699-6C41-4F20-BD73-71E12B2F0534}
+          StringSize          #(Memo)
+        ENDPROPERTIES
+        
+      FIELD #FechaHETrabajadas
+        DATE
+        PROPERTIES
+          Name                #FechaHETrabajadas
+          Label               #Fecha HE Trabajadas
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{55762459-778D-47EF-8F60-48AC9FFFD71B}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #FechaRegistro
+        DATE
+        PROPERTIES
+          Name                #FechaRegistro
+          Label               #Fecha de Registro
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{BF9B4AC4-C6AB-436B-802C-8C019EBC514E}
+          ExtendedDataType    #TransDate
+        ENDPROPERTIES
+        
+      FIELD #HorasExtraOrdinarias
+        REAL
+        PROPERTIES
+          Name                #HorasExtraOrdinarias
+          Label               #Horas ExtraOrdinarias:
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{478327FB-3EC9-402F-9959-E42CDEF182CF}
+        ENDPROPERTIES
+        
+      FIELD #HorasExtras
+        REAL
+        PROPERTIES
+          Name                #HorasExtras
+          Label               #Horas Extras:
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{5D0FA136-11D4-4F21-B00B-6B6787FDB10D}
+        ENDPROPERTIES
+        
+      FIELD #HorasNocturnas
+        REAL
+        PROPERTIES
+          Name                #HorasNocturnas
+          Label               #Horas Nocturnas:
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{F75F3435-D71A-45B0-BC67-9F7520926A7B}
+        ENDPROPERTIES
+        
+      FIELD #PayCycleId
+        STRING
+        PROPERTIES
+          Name                #PayCycleId
+          Mandatory           #Yes
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{86177E6F-CFDC-4362-AA37-FF675E99CC27}
+          ExtendedDataType    #PayrollPayCycleId
+          StringSize          #15
+        ENDPROPERTIES
+        
+      FIELD #PayPeriod
+        INT64
+        PROPERTIES
+          Name                #PayPeriod
+          HelpText            #@GLS93486
+          Mandatory           #Yes
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{98FAB3CA-DD83-4D9D-AD95-CB0F8BF3A739}
+          ExtendedDataType    #PayrollPayPeriodRecId
+        ENDPROPERTIES
+        
+      FIELD #Status
+        ENUM
+        PROPERTIES
+          Name                #Status
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{EC88514F-4F00-4870-996B-5FB9DCFD867B}
+          EnumType            #ProcessStatus
+        ENDPROPERTIES
+        
+      FIELD #Worker
+        INT64
+        PROPERTIES
+          Name                #Worker
+          Mandatory           #Yes
+          AllowEdit           #No
+          Table               #tmpDetalleHorasExtrav2
+          Origin              #{7718A08B-0F74-4061-8327-9D014C915C63}
+          ExtendedDataType    #HcmWorkerRecId
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #PayPeriod
+        PROPERTIES
+          Name                #PayPeriod
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CodigoEmpleado
+          #PayPeriod
+          #Status
+          #HorasExtraOrdinarias
+          #HorasExtras
+          #HorasNocturnas
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+      REFERENCE #Empleados
+        PROPERTIES
+          Name                #Empleados
+          Table               #HcmWorker
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #Worker
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #PayCicleID
+        PROPERTIES
+          Name                #PayCicleID
+          Table               #PayrollPayCycle
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PayCycleId
+            RelatedField        #PayCycleId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #PayPeriod
+        PROPERTIES
+          Name                #PayPeriod
+          Table               #PayrollPayPeriod
+          RelatedTableCardinality   #ExactlyOne
+          Cardinality         #ZeroOne
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          RelatedTableRole    #PayrollPayPeriod
+          Role                #DetalleHorasExtraV2
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #PayPeriod
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      SOURCE #primaryDepartmentName
+        #public display OMDepartmentName primaryDepartmentName()
+        #{
+        #    OMDepartmentRecId   primaryDepartmentRecId;
+        #    OMOperatingUnit     omDepartment;
+        #    OMDepartmentName    name = "";
+        #
+        #   primaryDepartmentRecId = HcmWorker::getPrimaryDepartmentRecId(this.RecId);
+        #
+        #    select RecId, Name from omDepartment
+        #        where omDepartment.RecId == primaryDepartmentRecId;
+        #
+        #    if (omDepartment != null)
+        #    {
+        #        name = omDepartment.Name;
+        #    }
+        #
+        #    return name;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : JGA_DetalleHoraExtras unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #JGA_DetalleHoraExtras
+  PRIVATE
+  PROPERTIES
+    Name                #JGA_DetalleHoraExtras
+    Origin              #{5763BAA3-A24B-44B6-BC95-2EE2DB87F395}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 45
+      UTILOBJECTID 1023972
+      NODETYPE 329
+      NAME #ProccesarIngresosv2
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 104043
+      NODETYPE 204
+      NAME #HistorialDetalleHorasExtrav2
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 1
+      UTILOBJECTID 0
+      NODETYPE 296
+      NAME #omDetalleHorasExtras
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 1
+      UTILOBJECTID 0
+      NODETYPE 296
+      NAME #ProcesarHoraExtrasv2
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #DetalleHorasExtrasv2
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 104041
+      NODETYPE 204
+      NAME #DetalleHorasExtrav2
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 104042
+      NODETYPE 204
+      NAME #tmpDetalleHorasExtrav2
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END

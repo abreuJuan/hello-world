@@ -1,0 +1,5151 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: DBT
+
+; Microsoft Dynamics AX Table : HcmPositionDetail unloaded
+; --------------------------------------------------------------------------------
+  TABLEVERSION 1
+  
+  TABLE #HcmPositionDetail
+    EnforceFKRelation 1
+    PROPERTIES
+      Name                #HcmPositionDetail
+      Label               #@SYS129403
+      FormRef             #HcmPosition
+      ListPageRef         #HcmPositionList
+      TitleField1         #Position
+      TitleField2         #Job
+      SecurityKey         #BasicTables
+      CacheLookup         #Found
+      CreateRecIdIndex    #Yes
+      SaveDataPerCompany  #No
+      TableGroup          #Group
+      PrimaryIndex        #SurrogateKey
+      ClusterIndex        #SurrogateKey
+      ReplacementKey      #PositionIdx
+      ModifiedDateTime    #Yes
+      ModifiedBy          #Yes
+      CreatedDateTime     #Yes
+      CreatedBy           #Yes
+      DeveloperDocumentation  #@SYS320877
+      EntityRelationshipType  #Relationship
+      ValidTimeStateFieldType   #UtcDateTime
+      Origin              #{2C11187A-0000-1000-BFA1-1C5B8A276C6A}
+      LegacyId            #6266
+    ENDPROPERTIES
+    
+    FIELDS
+      FIELD #ExtraPayment
+        ENUM
+        PROPERTIES
+          Name                #ExtraPayment
+          Table               #HcmPositionDetail
+          Origin              #{7CC364CF-EEC5-4BFA-9171-52C2BF04A79D}
+          ExtendedDataType    #NoYesId
+          EnumType            #NoYes
+        ENDPROPERTIES
+        
+      FIELD #AvailableForAssignment
+        DATETIME
+        PROPERTIES
+          Name                #AvailableForAssignment
+          Table               #HcmPositionDetail
+          Origin              #{3C11F25D-8D38-4879-8FBB-31D9622FCA4F}
+          ExtendedDataType    #HcmAvailableForAssignment
+        ENDPROPERTIES
+        
+      FIELD #CodigoPuesto
+        STRING
+        PROPERTIES
+          Name                #CodigoPuesto
+          Table               #HcmPositionDetail
+          Origin              #{86D500AB-5817-43DF-9B21-010BB1AF9591}
+          StringSize          #15
+        ENDPROPERTIES
+        
+      FIELD #CompLocation
+        INT64
+        PROPERTIES
+          Name                #CompLocation
+          Label               #@SYS302183
+          ConfigurationKey    #HRMAdministrationCompensation
+          Table               #HcmPositionDetail
+          Origin              #{158EA78B-99EB-470D-B94B-33267F5499E1}
+          LegacyId            #31
+          ExtendedDataType    #HcmCompLocationRecId
+        ENDPROPERTIES
+        
+      FIELD #Department
+        INT64
+        PROPERTIES
+          Name                #Department
+          Table               #HcmPositionDetail
+          Origin              #{AD69C6A3-D2FF-4F56-A7C0-710E8B465781}
+          LegacyId            #7
+          ExtendedDataType    #OMDepartmentRecId
+        ENDPROPERTIES
+        
+      FIELD #Description
+        STRING
+        PROPERTIES
+          Name                #Description
+          Table               #HcmPositionDetail
+          Origin              #{A8B74EA5-AB6C-4FBA-B6F7-A1D257E9FCE0}
+          LegacyId            #12
+          ExtendedDataType    #HrmDescription
+          StringSize          #60
+        ENDPROPERTIES
+        
+      FIELD #FullTimeEquivalency
+        REAL
+        PROPERTIES
+          Name                #FullTimeEquivalency
+          Table               #HcmPositionDetail
+          Origin              #{4CA0832B-1069-4BA4-B033-F0956DB80168}
+          LegacyId            #13
+          ExtendedDataType    #HcmFullTimeEquivalency
+        ENDPROPERTIES
+        
+      FIELD #IDTurno
+        STRING
+        PROPERTIES
+          Name                #IDTurno
+          Label               #Turno Puesto
+          Table               #HcmPositionDetail
+          Origin              #{8CD36C63-AED0-4D56-8EC9-342DC09AFC93}
+        ENDPROPERTIES
+        
+      FIELD #Job
+        INT64
+        PROPERTIES
+          Name                #Job
+          Mandatory           #Yes
+          Table               #HcmPositionDetail
+          Origin              #{065F0592-A6E5-4A10-893D-BF4F834985EB}
+          LegacyId            #6
+          ExtendedDataType    #HcmJobRecId
+        ENDPROPERTIES
+        
+      FIELD #NombreSubProceso
+        STRING
+        PROPERTIES
+          Name                #NombreSubProceso
+          Label               #Proceso
+          HelpText            #Nombre del Sub-Proceso
+          Table               #HcmPositionDetail
+          Origin              #{48CD36FB-CFB6-43FA-A175-1A8E86209D23}
+          ExtendedDataType    #String255
+          StringSize          #255
+        ENDPROPERTIES
+        
+      FIELD #Position
+        INT64
+        PROPERTIES
+          Name                #Position
+          AllowEdit           #No
+          Table               #HcmPositionDetail
+          Origin              #{D8649981-B0AF-490C-8739-B584B4E52844}
+          LegacyId            #1
+          ExtendedDataType    #HcmPositionRecId
+        ENDPROPERTIES
+        
+      FIELD #PositionType
+        INT64
+        PROPERTIES
+          Name                #PositionType
+          Table               #HcmPositionDetail
+          Origin              #{980C026A-80A3-4D9F-B7BF-4F88408C649D}
+          LegacyId            #19
+          ExtendedDataType    #HcmPositionTypeRecId
+        ENDPROPERTIES
+        
+      FIELD #Title
+        INT64
+        PROPERTIES
+          Name                #Title
+          Table               #HcmPositionDetail
+          Origin              #{1AF0E212-AA00-42FD-83B6-E5900D3B1403}
+          LegacyId            #14
+          ExtendedDataType    #HcmTitleRecId
+        ENDPROPERTIES
+        
+      FIELD #ValidFrom
+        DATETIME
+        PROPERTIES
+          Name                #ValidFrom
+          Table               #HcmPositionDetail
+          Origin              #{78E8FA92-FBE8-4B14-B7B6-D91716C9EDA5}
+          LegacyId            #3
+          ExtendedDataType    #ValidFromDateTime
+        ENDPROPERTIES
+        
+      FIELD #ValidTo
+        DATETIME
+        PROPERTIES
+          Name                #ValidTo
+          Table               #HcmPositionDetail
+          Origin              #{1E8FBE5D-F875-4379-8143-02FC36049FD1}
+          LegacyId            #2
+          ExtendedDataType    #ValidToDateTime
+        ENDPROPERTIES
+        
+    ENDFIELDS
+    GROUPS
+      GROUP #AutoSummary
+        PROPERTIES
+          Name                #AutoSummary
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Job
+          #Department
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoReport
+        PROPERTIES
+          Name                #AutoReport
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Position
+          #Description
+          #Job
+          #Department
+          #Title
+          #ValidFrom
+          #ValidTo
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #AutoIdentification
+        PROPERTIES
+          Name                #AutoIdentification
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Position
+          #ValidFrom
+          #ValidTo
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Compensation
+        PROPERTIES
+          Name                #Compensation
+          Label               #@SYS116555
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #CompLocation
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Department
+        PROPERTIES
+          Name                #Department
+          Label               #@SYS850
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Department
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Description
+        PROPERTIES
+          Name                #Description
+          Label               #@SYS80470
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Description
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #FullTimePercentage
+        PROPERTIES
+          Name                #FullTimePercentage
+          Label               #@SYS302181
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #FullTimeEquivalency
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Identification
+        PROPERTIES
+          Name                #Identification
+          Label               #@SYS36186
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Position
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Job
+        PROPERTIES
+          Name                #Job
+          Label               #@SYS1066
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Job
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Miscellaneous
+        PROPERTIES
+          Name                #Miscellaneous
+          Label               #@SYS73543
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #PositionType
+          #AvailableForAssignment
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #Title
+        PROPERTIES
+          Name                #Title
+          Label               #@SYS53388
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #Title
+        ENDGROUPFIELDS
+      ENDGROUP
+      GROUP #ValidTimeState
+        PROPERTIES
+          Name                #ValidTimeState
+          Label               #@SYS8280
+        ENDPROPERTIES
+        
+        GROUPFIELDS
+          #ValidFrom
+          #ValidTo
+        ENDGROUPFIELDS
+      ENDGROUP
+    ENDGROUPS
+    
+    INDICES
+      #HcmPositionTypeIdx
+      PROPERTIES
+        Name                #HcmPositionTypeIdx
+        Origin              #{2B120001-187A-1000-E710-701D18CC3EA6}
+        LegacyId            #1
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #PositionType
+      ENDINDEXFIELDS
+      
+      #PositionIdx
+      PROPERTIES
+        Name                #PositionIdx
+        AllowDuplicates     #No
+        AlternateKey        #Yes
+        ValidTimeStateKey   #Yes
+        ValidTimeStateMode  #NoGap
+        Origin              #{2B0B0002-187A-1000-0322-6DCD86696F6E}
+        LegacyId            #2
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Position
+        #ValidFrom
+        #ValidTo
+      ENDINDEXFIELDS
+      
+      #DepartmentIdx
+      PROPERTIES
+        Name                #DepartmentIdx
+        Origin              #{8C1DB5C9-EC2D-4036-B4E7-449C51F0B9ED}
+        LegacyId            #13
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Department
+      ENDINDEXFIELDS
+      
+      #JobIdx
+      PROPERTIES
+        Name                #JobIdx
+        Origin              #{0C0001A7-A1FB-48D1-BD1C-56081A2318BA}
+        LegacyId            #21
+      ENDPROPERTIES
+      
+      INDEXFIELDS
+        #Job
+      ENDINDEXFIELDS
+      
+    ENDINDICES
+    FULLTEXTINDICES
+    ENDFULLTEXTINDICES
+    REFERENCES
+      REFERENCE #Department
+        PROPERTIES
+          Name                #Department
+          Table               #OMOperatingUnit
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          RelatedTableRole    #Department
+          Role                #PositionDetails
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #Department
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #HcmCompLocation_FK
+        PROPERTIES
+          Name                #HcmCompLocation_FK
+          Table               #HcmCompLocation
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          UseDefaultRoleNames #Yes
+          RelatedTableRole    #CompLocation
+          Role                #PositionDetail
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #CompLocation
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #Job
+        PROPERTIES
+          Name                #Job
+          Table               #HcmJob
+          RelatedTableCardinality   #ExactlyOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Aggregation
+          RelatedTableRole    #Job
+          Role                #PositionDetails
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #Job
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #MDT
+        PROPERTIES
+          Name                #MDT
+          Table               #PuestoMDT
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #CodigoPuesto
+            RelatedField        #CodigoPuesto
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #Position
+        PROPERTIES
+          Name                #Position
+          Table               #HcmPosition
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #OneMore
+          RelationshipType    #Aggregation
+          RelatedTableRole    #Position
+          Role                #PositionDetails
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #Position
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #PositionType
+        PROPERTIES
+          Name                #PositionType
+          Table               #HcmPositionType
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          RelatedTableRole    #PositionType
+          Role                #PositionDetail
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #PositionType
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #Subproceso
+        PROPERTIES
+          Name                #Subproceso
+          Table               #SubProcesos
+          UseDefaultRoleNames #Yes
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE NORMAL
+          PROPERTIES
+            Field               #NombreSubProceso
+            RelatedField        #NombreSubProceso
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+      REFERENCE #Title
+        PROPERTIES
+          Name                #Title
+          Table               #HcmTitle
+          RelatedTableCardinality   #ZeroOne
+          Cardinality         #ZeroMore
+          RelationshipType    #Association
+          RelatedTableRole    #Title
+          Role                #PositionDetail
+        ENDPROPERTIES
+        
+        FIELDREFERENCES
+          REFERENCETYPE PKFK
+          PROPERTIES
+            Field               #Title
+            RelatedField        #RecId
+          ENDPROPERTIES
+          
+        ENDFIELDREFERENCES
+      ENDREFERENCE
+    ENDREFERENCES
+    
+    DELETEACTIONS
+    ENDDELETEACTIONS
+    
+    METHODS
+      SOURCE #delete
+        #public void delete()
+        #{
+        #
+        #    super();
+        #    HcmWorker::getDepartmentRecIdsCacheClear();
+        #
+        #}
+      ENDSOURCE
+      SOURCE #displayAvailableForAssignment
+        #/// <summary>
+        #///    Gets the date portion of the available for assignment value for the position.
+        #/// </summary>
+        #/// <returns>
+        #///    The date in which the position is available for a worker to be assigned to it.
+        #/// </returns>
+        #display HcmDate displayAvailableForAssignment()
+        #{
+        #    return  DateTimeUtil::date(DateTimeUtil::applyTimeZoneOffset(this.AvailableForAssignment, DateTimeUtil::getUserPreferredTimeZone()));
+        #}
+        #
+      ENDSOURCE
+      SOURCE #futureRecordExists
+        #/// <summary>
+        #///    Indicates whether a future-dated record that corresponds to the current record exists.
+        #/// </summary>
+        #/// <returns>
+        #///    true if a future record exists; otherwise, false.
+        #/// </returns>
+        #public boolean futureRecordExists()
+        #{
+        #    boolean             futureRecordExists = false;
+        #    utcdatetime         maxDateValue = DateTimeUtil::maxValue();
+        #    utcdatetime         futureFromDate;
+        #    HcmPositionDetail   hcmPositionDetail;
+        #
+        #
+        #    if (this.RecId && this.ValidTo < maxDateValue)
+        #    {
+        #        futureFromDate = (DateTimeUtil::addSeconds(this.ValidTo, 1));
+        #
+        #        select firstonly ValidTimeState(futureFromDate, maxDateValue) RecId from hcmPositionDetail
+        #            where hcmPositionDetail.Position == this.Position;
+        #
+        #        futureRecordExists = (hcmPositionDetail.RecId != 0);
+        #    }
+        #
+        #    return futureRecordExists;
+        #}
+        #
+      ENDSOURCE
+      SOURCE #insert
+        #public void insert()
+        #{
+        #    super();
+        #    HcmWorker::getDepartmentRecIdsCacheClear();
+        #
+        #}
+      ENDSOURCE
+      SOURCE #modifiedField
+        #public void modifiedField(FieldId _fieldId)
+        #{
+        #    HcmJobDetail hcmJobDetail;
+        #
+        #    super(_fieldId);
+        #
+        #    switch(_fieldId)
+        #    {
+        #        case fieldNum(HcmPositionDetail, Job) :
+        #            // Only want to default job attributes if it is the initial version record created for the position
+        #            if (HcmPositionDetail::numberOfVersionRecords(this.Position) == 0)
+        #            {
+        #                hcmJobDetail = HcmJobDetail::findByJob(this.Job);
+        #
+        #                if (hcmJobDetail.RecId != 0)
+        #                {
+        #                    this.Description = hcmJobDetail.Description;
+        #                    this.FullTimeEquivalency = hcmJobDetail.DefaultFullTimeEquivalency;
+        #                    this.Title = hcmJobDetail.Title;
+        #                }
+        #            }
+        #            break;
+        #    }
+        #
+        #}
+      ENDSOURCE
+      SOURCE #update
+        #public void update()
+        #{
+        #
+        #    super();
+        #    HcmWorker::getDepartmentRecIdsCacheClear();
+        #
+        #}
+      ENDSOURCE
+      SOURCE #validateWrite
+        #public boolean validateWrite()
+        #{
+        #    boolean         ret;
+        #    utcdatetime     asOfDate = DateTimeUtil::utcNow();
+        #    HcmPositionDetail   positionDetail;
+        #
+        #    ret = super();
+        #
+        #    // check if the position's job has changed
+        #    if (this.isFormDataSource())
+        #    {
+        #        if (this.Job != this.orig().Job)
+        #        {
+        #            // check if the position duration overlaps the current period state
+        #            if ((!this.ValidFrom || (this.ValidFrom <= asOfDate)) &&
+        #                (!this.ValidTo || (this.ValidTo >= asOfDate)))
+        #            {
+        #               ret = ret && HcmJob::doesJobAcceptPositions(this.Job, asOfDate);
+        #            }
+        #        }
+        #    }
+        #    else
+        #    {
+        #        positionDetail = HcmPositionDetail::findByPosition(this.Position, this.ValidFrom);
+        #        if (this.Job != positionDetail.Job)
+        #        {
+        #            // only check max positions condition if the record is either active or in future as of now
+        #            if (this.ValidTo >= asOfDate)
+        #            {
+        #               ret = ret && HcmJob::doesJobAcceptPositions(this.Job, asOfDate);
+        #            }
+        #        }
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #checkExist
+        #/// <summary>
+        #///    Validates that the specified record exists in the <c>HcmPositionDetail</c> table; if not, an error
+        #///    message is displayed.
+        #/// </summary>
+        #/// <param name="_recId">
+        #///    The record ID of the record to check for existence.
+        #/// </param>
+        #/// <returns>
+        #///    true if the specified record exists; otherwise, false.
+        #/// </returns>
+        #public static boolean checkExist(HcmPositionDetailRecId _recId)
+        #{
+        #    boolean ret = true;
+        #
+        #    if (!HcmPositionDetail::exist(_recId))
+        #    {
+        #        ret = checkFailed(strFmt(HcmPositionDetail::txtNotExist(), 'The specific record in ' + tableId2name(tableNum(HcmPositionDetail))));
+        #    }
+        #
+        #    return ret;
+        #}
+      ENDSOURCE
+      SOURCE #exist
+        #/// <summary>
+        #///    Indicates whether the specified record in the <c>HcmPositionDetail</c> table exists.
+        #/// </summary>
+        #/// <param name="_recId">
+        #///    The record ID of the record to check for existence.
+        #/// </param>
+        #/// <returns>
+        #///    true if the specified record exists; otherwise, false.
+        #/// </returns>
+        #public static boolean exist(HcmPositionDetailRecId _recId)
+        #{
+        #    utcdatetime validFrom, validTo;
+        #    validFrom = DateTimeUtil::minValue();
+        #    validTo   = DateTimeUtil::maxValue();
+        #
+        #    return _recId && (select firstonly ValidTimeState(validFrom, validTo) RecId from hcmPositionDetail
+        #                where hcmPositionDetail.RecId == _recId).RecId!= 0;
+        #}
+      ENDSOURCE
+      SOURCE #find
+        #/// <summary>
+        #///    Finds the specified record in the <c>HcmPositionDetail</c> table.
+        #/// </summary>
+        #/// <param name="_recId">
+        #///    The record ID of the record to find.
+        #/// </param>
+        #/// <param name="_forUpdate">
+        #///    A Boolean value that indicates whether to read the record for update; optional.
+        #/// </param>
+        #/// <param name="_concurrencyModel">
+        #///    The concurrency model option to use when reading the record; optional.
+        #/// </param>
+        #/// <returns>
+        #///    A record in the <c>HcmPositionDetail</c> table.
+        #/// </returns>
+        #public static HcmPositionDetail find(
+        #HcmPositionDetailRecId         _recId,
+        #boolean             _forUpdate = false,
+        #ConcurrencyModel    _concurrencyModel = ConcurrencyModel::Auto)
+        #{
+        #    HcmPositionDetail hcmPositionDetail;
+        #    utcdatetime validFrom, validTo;
+        #    validFrom = DateTimeUtil::minValue();
+        #    validTo   = DateTimeUtil::maxValue();
+        #
+        #
+        #    hcmPositionDetail.selectForUpdate(_forUpdate );
+        #    if (_forUpdate && _concurrencyModel != ConcurrencyModel::Auto)
+        #    {
+        #        hcmPositionDetail.concurrencyModel(_concurrencyModel);
+        #    }
+        #
+        #     select firstonly ValidTimeState(validFrom, validTo) hcmPositionDetail
+        #         where hcmPositionDetail.RecId == _recId;
+        #
+        #    return hcmPositionDetail;
+        #}
+      ENDSOURCE
+      SOURCE #findByPosition
+        #/// <summary>
+        #///    Finds the specified record in the <c>HcmPositionDetail</c> table.
+        #/// </summary>
+        #/// <param name="_position">
+        #///    The value of the <c>Position</c> field of the record to find.
+        #/// </param>
+        #/// <param name="_validFrom">
+        #///    The value of the <c>ValidFrom</c> field.
+        #/// </param>
+        #/// <param name="_validTo">
+        #///    The value of the <c>ValidTo</c> field.
+        #/// </param>
+        #/// <param name="_forUpdate">
+        #///    A Boolean value that indicates whether to read the record for update; optional.
+        #/// </param>
+        #/// <param name="_concurrencyModel">
+        #///    The concurrency model option to use when reading the record; optional.
+        #/// </param>
+        #/// <returns>
+        #///    One or more records in the <c>HcmPositionDetail</c> table; otherwise, an empty buffer.
+        #/// </returns>
+        #/// <remarks>
+        #///    Values for the
+        #///    <c>
+        #///       _validFrom
+        #///    </c>
+        #///     and
+        #///    <c>
+        #///       _validTo
+        #///    </c>
+        #///     fields limit the table selection in the following way.
+        #///    <list type="number">
+        #///       <item>
+        #///          <description>If no values are supplied for both the parameters, they use now. Therefore, the method
+        #///          searches for only active records and returns either an empty or a valid record.</description>
+        #///       </item>
+        #///       <item>
+        #///          <description>
+        #///             If only the first parameter value is supplied, the second parameter uses the first parameter.The
+        #///             method searches for active records as of the supplied <c>datetime</c> value and returns either an
+        #///             empty or a valid record.
+        #///          </description>
+        #///       </item>
+        #///       <item>
+        #///          <description>
+        #///             If both parameters are supplied with values, the method searches for records whose <c>validFrom</c>
+        #///             and <c>ValidTo</c> values fall in that interval. The method may return multiple records.
+        #///          </description>
+        #///       </item>
+        #///    </list>
+        #/// </remarks>
+        #public static HcmPositionDetail findByPosition(
+        #HcmPositionRecId    _position,
+        #utcdatetime         _validFrom = DateTimeUtil::utcNow(),
+        #utcdatetime         _validTo   = _validFrom,
+        #boolean             _forUpdate = false,
+        #ConcurrencyModel    _concurrencyModel = ConcurrencyModel::Auto)
+        #{
+        #    HcmPositionDetail hcmPositionDetail;
+        #
+        #    hcmPositionDetail.selectForUpdate(_forUpdate );
+        #    if (_forUpdate && _concurrencyModel != ConcurrencyModel::Auto)
+        #    {
+        #        hcmPositionDetail.concurrencyModel(_concurrencyModel);
+        #    }
+        #
+        #    if (_position)
+        #    {
+        #        if (prmisDefault(_validFrom) && prmisDefault(_validTo))
+        #        {
+        #            select firstonly hcmPositionDetail
+        #                where hcmPositionDetail.Position == _position;
+        #        }
+        #        else if (_validFrom == _validTo)
+        #        {
+        #            select firstonly ValidTimeState(_validFrom) hcmPositionDetail
+        #                where hcmPositionDetail.Position == _position;
+        #        }
+        #        else
+        #        {
+        #             select ValidTimeState(_validFrom, _validTo) hcmPositionDetail
+        #                where hcmPositionDetail.Position == _position;
+        #        }
+        #    }
+        #
+        #    return hcmPositionDetail;
+        #}
+      ENDSOURCE
+      SOURCE #findByTimeState
+        #/// <summary>
+        #///    Finds the specified record in the <c>HcmPositionDetail</c> table.
+        #/// </summary>
+        #/// <param name="_recId">
+        #///    The record ID of the record to find.
+        #/// </param>
+        #/// <param name="_validFrom">
+        #///    A value in the <c>ValidFrom</c> field.
+        #/// </param>
+        #/// <param name="_validTo">
+        #///    A value in the <c>ValidTo</c> field.
+        #/// </param>
+        #/// <param name="_forUpdate">
+        #///    A Boolean value that specifies whether to read the record for update; optional.
+        #/// </param>
+        #/// <param name="_concurrencyModel">
+        #///    The concurrency model option to use when reading the record; optional.
+        #/// </param>
+        #/// <returns>
+        #///    A record in the <c>HcmPositionDetail</c> table.
+        #/// </returns>
+        #/// <remarks>
+        #///    Values for the
+        #///    <c>
+        #///       _validFrom
+        #///    </c>
+        #///     and
+        #///    <c>
+        #///       _validTo
+        #///    </c>
+        #///     fields limit the table selection in the following way.
+        #///    <list type="number">
+        #///       <item>
+        #///          <description>If no values are supplied for both the parameters, they use now. Therefore, the method
+        #///          searches for only active records and returns either an empty or a valid record.</description>
+        #///       </item>
+        #///       <item>
+        #///          <description>
+        #///             If only the first parameter value is supplied, the second parameter uses the first parameter.The
+        #///             method searches for active records as of the supplied <c>datetime</c> value and returns either an
+        #///             empty or a valid record.
+        #///          </description>
+        #///       </item>
+        #///       <item>
+        #///          <description>
+        #///             When both parameters are supplied with values, the method searches for records with values in the
+        #///             <c>validFrom</c> and <c>ValidTo</c> fields that fall in the interval. The method returns either an
+        #///             empty or a valid record.
+        #///          </description>
+        #///       </item>
+        #///    </list>
+        #/// </remarks>
+        #public static HcmPositionDetail findByTimeState(
+        #HcmPositionDetailRecId      _recId,
+        #utcdatetime                 _validFrom = DateTimeUtil::utcNow(),
+        #utcdatetime                 _validTo   = _validFrom,
+        #boolean                     _forUpdate = false,
+        #ConcurrencyModel            _concurrencyModel = ConcurrencyModel::Auto)
+        #{
+        #    HcmPositionDetail hcmPositionDetail;
+        #
+        #    hcmPositionDetail.selectForUpdate(_forUpdate);
+        #    if (_forUpdate && _concurrencyModel != ConcurrencyModel::Auto)
+        #    {
+        #        hcmPositionDetail.concurrencyModel(_concurrencyModel);
+        #    }
+        #
+        #    if (_recId)
+        #    {
+        #        if (prmisDefault(_validFrom) && prmisDefault(_validTo))
+        #        {
+        #            select firstonly hcmPositionDetail
+        #                where hcmPositionDetail.RecId == _recId;
+        #        }
+        #        else if (_validFrom == _validTo)
+        #        {
+        #            select firstonly ValidTimeState(_validFrom) hcmPositionDetail
+        #                where hcmPositionDetail.RecId == _recId;
+        #        }
+        #        else
+        #        {
+        #             select ValidTimeState(_validFrom, _validTo) hcmPositionDetail
+        #                where hcmPositionDetail.RecId == _recId;
+        #        }
+        #    }
+        #
+        #    return hcmPositionDetail;
+        #}
+      ENDSOURCE
+      SOURCE #isActive
+        #/// <summary>
+        #///    Validates that the record that corresponds to the specified record ID is active as of today.
+        #/// </summary>
+        #/// <param name="_recId">
+        #///    The record ID of the record to validate.
+        #/// </param>
+        #/// <returns>
+        #///    true if the record is active as of today; otherwise, false.
+        #/// </returns>
+        #public static boolean isActive(HcmPositionDetailRecId _recId)
+        #{
+        #    HcmPositionDetail hcmPositionDetail;
+        #    utcdatetime now = DateTimeUtil::utcNow();
+        #
+        #    return _recId && (select ValidTimeState(now) RecId from hcmPositionDetail
+        #                where hcmPositionDetail.RecId == _recId).RecId!= 0;
+        #}
+      ENDSOURCE
+      SOURCE #numberOfVersionRecords
+        #/// <summary>
+        #/// Counts the number of version records that are associated with a specified position.
+        #/// </summary>
+        #/// <param name="_positionRecId">
+        #/// The <c>HcmPositionRecId</c> value to use to find version records.
+        #/// </param>
+        #/// <returns>
+        #/// The number of version records that are associated with a specified position.
+        #/// </returns>
+        #static Counter numberOfVersionRecords(HcmPositionRecId  _positionRecId)
+        #{
+        #    HcmPositionDetail   hcmPositionDetail;
+        #    utcdatetime         minimumDate = DateTimeUtil::minValue();
+        #    utcdatetime         maximumDate = DateTimeUtil::maxValue();
+        #
+        #    select ValidTimeState(minimumDate, maximumDate) count(RecId) from hcmPositionDetail
+        #        where hcmPositionDetail.Position == _positionRecId;
+        #
+        #    return int642int(hcmPositionDetail.RecId);
+        #}
+      ENDSOURCE
+      SOURCE #txtNotExist
+        #public static TxtNotExist txtNotExist()
+        #{
+        #    return strFmt("@SYS94719");
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDTABLE
+  
+
+***Element: JOB
+
+; Microsoft Dynamics AX Job: HcmPositionDetailsUpdate descargados
+; --------------------------------------------------------------------------------
+  JOBVERSION 1
+  
+  SOURCE #HcmPositionDetailsUpdate
+    #static void HcmPositionDetailsUpdate(Args _args)
+    #{
+    #    HcmPositionDetail       hcmPositionDetails;
+    #
+    #    utcdatetime validFrom, validTo;
+    #
+    #    validFrom = DateTimeUtil::minValue();
+    #    validTo   = DateTimeUtil::maxValue();
+    #
+    #
+    #    ttsBegin;
+    #
+    #        while select forUpdate ValidTimeState(validFrom, validTo)hcmPositionDetails
+    #        where hcmPositionDetails.ExtraPayment == NoYes::No
+    #    {
+    #        hcmPositionDetails.validTimeStateUpdateMode(ValidTimeStateUpdate::Correction);
+    #
+    #        hcmPositionDetails.ExtraPayment = NoYes::Yes;
+    #        hcmPositionDetails.update();
+    #    }
+    #    ttsCommit;
+    #
+    #}
+  ENDSOURCE
+  PROPERTIES
+    Origin              #{20D0A877-AAF9-4C39-A63D-FA306AFDE4E2}
+  ENDPROPERTIES
+  
+
+***Element: FRM
+
+; Microsoft Dynamics AX Forms unloaded
+; --------------------------------------------------------------------------------
+FRMVERSION 12
+
+FORM #HcmPositionDateManager
+  PROPERTIES
+    Name                #HcmPositionDateManager
+    Origin              #{6ACE835B-385B-4947-9CE1-46FD7FC25D59}
+  ENDPROPERTIES
+  
+  METHODS
+    SOURCE #classDeclaration
+      #public class FormRun extends ObjectRun
+      #{
+      #    QueryBuildRange                         rangeHierarchyType;
+      #    QueryBuildRange                         rangePosition;
+      #
+      #    HcmWorkerLookup                         hcmWorkerLookup;
+      #    HcmReasonCodeLookup                     reasonCodeLookup;
+      #
+      #    RefRecId                                selectedDataAreaRecId;
+      #    QueryBuildRange                         rangeBudgetDefaultLegalEntity;
+      #    QueryBuildRange                         rangeBudgetAccountLineLegalEntity;
+      #    HcmBudgetPurposeTypeRecId               selectedBudgetPurposeType;
+      #
+      #    SysFormSplitter_X detailVerticalSplitter;
+      #    SysFormSplitter_X assignmentVerticalSplitter;
+      #    SysFormSplitter_X durationVerticalSplitter;
+      #    SysFormSplitter_X hierarchyVerticalSplitter;
+      #
+      #    SysFormSplitter_X budgetAccountLinesVerticalSplitter;
+      #    SysFormSplitter_X payrollPositionDetailsVerticalSplitter;
+      #    SysFormSplitter_X payrollWorkerCompensationVerticalSplitter;
+      #    SysFormSplitter_X payrollEarningAssignmentVerticalSplitter;
+      #    SysFormSplitter_X hcmUnionAgreementVerticalSplitter;
+      #}
+    ENDSOURCE
+    SOURCE #close
+      #public void close()
+      #{
+      #    super();
+      #
+      #    if (element.args() && element.args().caller() && formHasMethod(element.args().caller(), identifierStr(refreshCaller)))
+      #    {
+      #        element.args().caller().refreshCaller(hcmPosition.RecId);
+      #    }
+      #}
+    ENDSOURCE
+    SOURCE #init
+      #public void init()
+      #{
+      #    Common          common;
+      #    HcmPosition     positionBuffer;
+      #    QueryBuildRange qbr;
+      #    FormRun         callerForm;
+      #    Object          callerObject;
+      #
+      #    super();
+      #
+      #    detailVerticalSplitter = new SysFormSplitter_X(detailVSplitter, detailGridContainer, element);
+      #    assignmentVerticalSplitter = new SysFormSplitter_X(assignmentVSplitter, assignmentGridContainer, element);
+      #    durationVerticalSplitter = new SysFormSplitter_X(durationVSplitter, durationGridContainer, element);
+      #    hierarchyVerticalSplitter = new SysFormSplitter_X(hierarchyVSplitter, hierarchyGridContainer, element);
+      #    payrollPositionDetailsVerticalSplitter = new SysFormSplitter_X(payrollPositionDetailVSplitter, payrollPositionDetailsGridContainer, element);
+      #    payrollWorkerCompensationVerticalSplitter = new SysFormSplitter_X(payrollPositionWorkerCompensationVSplitter, payrollPositionWorkerCompensationGridContainer, element);
+      #    hcmUnionAgreementVerticalSplitter = new SysFormSplitter_X(hcmPositionUnionAgreementVSplitter, hcmPositionUnionAgreementGridContainer, element);
+      #    budgetAccountLinesVerticalSplitter = new SysFormSplitter_X(budgetAccountLineVSplitter, budgetAccountLineGridContainer, element);
+      #
+      #    budgetAccountLineLegalEntity.text(curext());
+      #    callerForm = element.args().caller();
+      #
+      #    if (callerForm && formHasMethod(callerForm, identifierStr(getSelectedLegalEntity)))
+      #    {
+      #        callerObject = callerForm;
+      #        selectedDataAreaRecId = callerObject.getSelectedLegalEntity();
+      #    }
+      #    else
+      #    {
+      #        selectedDataAreaRecId = CompanyInfo::findDataArea(curext()).RecId;
+      #    }
+      #
+      #    hcmWorkerLookup = HcmWorkerLookup::newActiveWorkers();
+      #    reasonCodeLookup = new HcmReasonCodeLookup(true, HRMReasonCodeType::Employee);
+      #
+      #    if (element.args().dataset())
+      #    {
+      #        common = element.args().record();
+      #
+      #        if (common.TableId == tableNum(HcmPosition))
+      #        {
+      #            positionBuffer = common as HcmPosition;
+      #        }
+      #    }
+      #    else if (element.args().lookupTable() == tableNum(HcmPosition))
+      #    {
+      #        if (element.args().lookupField() == fieldNum(HcmPosition, RecId))
+      #        {
+      #            positionBuffer = HcmPosition::find(str2int64(element.args().lookupValue()));
+      #        }
+      #    }
+      #    else
+      #    {
+      #        throw error(strFmt("@SYS22678",element.name()));
+      #    }
+      #
+      #    qbr = hcmPosition_ds.query().dataSourceTable(tableNum(HcmPosition)).addRange(fieldNum(HcmPosition, RecId));
+      #    qbr.value(int642str(positionBuffer.RecId));
+      #    qbr.status(RangeStatus::Hidden);
+      #
+      #}
+    ENDSOURCE
+    SOURCE #initWorkerEmploymentDates
+      #public container initWorkerEmploymentDates(HcmWorkerRecId _hcmWorker)
+      #{
+      #    HcmEmployment               pendingEmployment;
+      #    HcmEmploymentValidFrom      employmentStartDate;
+      #    HcmEmploymentValidTo        employmentEndDate;
+      #    container                   workerAssignmentDate;
+      #
+      #    if (HcmEmployment::getActiveEmploymentsByWorker(_hcmWorker))
+      #    {
+      #        employmentStartDate = HcmWorker::getMinEmploymentStartDate(_hcmWorker);
+      #        employmentEndDate = HcmWorker::getMaxEmploymentEndDate(_hcmWorker);
+      #    }
+      #    else
+      #    {
+      #        pendingEmployment = HcmWorker::find(_hcmWorker).getFirstPendingEmployment();
+      #        if (pendingEmployment)
+      #        {
+      #            employmentStartDate = pendingEmployment.ValidFrom;
+      #            employmentEndDate = pendingEmployment.ValidTo;
+      #        }
+      #    }
+      #    workerAssignmentDate = [employmentStartDate, employmentEndDate];
+      #    return workerAssignmentDate;
+      #}
+    ENDSOURCE
+    SOURCE #operatingUnitLookup
+      #/// <summary>
+      #/// Provides a custom lookup of those <c>OMOperatingUnit</c> records that are
+      #/// of the specified <c>OMOperatingUnitType</c> type.
+      #/// </summary>
+      #/// <param name="_formReferenceControl">
+      #/// The <c>FormReferenceControl</c> for which the lookup being created by this method is servicing.
+      #/// </param>
+      #/// <param name="_type">
+      #/// A <c>OMOperatingUnitType</c> value that indicates what type discriminator to use by which the
+      #/// <c>OMOperatingUnit</c> table is filtered.
+      #/// </param>
+      #/// <param name="_name">
+      #/// A string specifying a user-entered name that is ambiguous and must be resolved by the lookup; optional.
+      #/// </param>
+      #/// <returns>
+      #/// A <c>DirPartyTable</c> record that was selected by the user.
+      #/// </returns>
+      #/// <remarks>
+      #/// This lookup helper method also assists in resolving duplicate names when surrogate key replacement
+      #/// cannot do so automatically.
+      #/// </remarks>
+      #public OMOperatingUnit operatingUnitLookup(
+      #        FormReferenceControl _formReferenceControl,
+      #        OMOperatingUnitType _type,
+      #        str 100 _name = '')
+      #{
+      #    OMOperatingUnit             selectedRecord;
+      #    SysReferenceTableLookup     sysTableLookup = SysReferenceTableLookup::newParameters(tableNum(OMOperatingUnit), _formReferenceControl, true);
+      #    Query                       lookupQuery;
+      #    QueryBuildDataSource        ouQbds;
+      #
+      #    sysTableLookup.addLookupfield(fieldNum(OMOperatingUnit, Name));
+      #    sysTableLookup.addLookupfield(fieldNum(OMOperatingUnit, NameAlias));
+      #    sysTableLookup.addLookupfield(fieldNum(OMOperatingUnit, omOperatingUnitType));
+      #
+      #    // Create a custom Query that filters to show only a specific OMOperatingUnitType
+      #    lookupQuery = new Query();
+      #    ouQbds = lookupQuery.addDataSource(tableNum(OMOperatingUnit));
+      #    ouQbds.fields().addField(fieldNum(OMOperatingUnit, Name));
+      #    ouQbds.fields().addField(fieldNum(OMOperatingUnit, NameAlias));
+      #    ouQbds.fields().addField(fieldNum(OMOperatingUnit, omOperatingUnitType));
+      #    ouQbds.addRange(fieldNum(OMOperatingUnit, omOperatingUnitType)).value(enum2str(_type));
+      #
+      #    // If a name is specified then it is being called in a duplicate resolution scenario, so filter
+      #    // on the name as well
+      #    if (_name)
+      #    {
+      #        // Filter to the specified name to help resolve duplicates
+      #        ouQbds.addRange(fieldNum(OMOperatingUnit, Name)).value(_name);
+      #    }
+      #
+      #    sysTableLookup.parmQuery(lookupQuery);
+      #    selectedRecord = sysTableLookup.performFormLookup();
+      #
+      #    return selectedRecord;
+      #}
+    ENDSOURCE
+    SOURCE #requeryBudgetAccountLineDataForLEChange
+      #public void requeryBudgetAccountLineDataForLEChange()
+      #{
+      #    HcmPositionBudgetAccountLine  defaultBudgetAccountLineReset;
+      #    //selectedDataAreaRecId = CompanyInfo::findDataArea(_dataArea).RecId;
+      #
+      #    // Set the context for chart of accounts before executeQuery to avoid clearing of the main account value
+      #    element.setLDDAC_COAContext();
+      #    defaultBudgetAccountLineReset = HcmPositionBudgetAccountLine::findByPositionLegalEntity(hcmPosition.RecId, selectedDataAreaRecId);
+      #    if (!defaultBudgetAccountLineReset)
+      #    {
+      #        defaultBudgetAccountLineReset.Position = hcmPosition.RecId;
+      #        defaultBudgetAccountLineReset.LegalEntity = selectedDataAreaRecId;
+      #    }
+      #
+      #    //reset the datasource so it knows to do an insert vs. update based on new LE choice
+      #    hcmPositionBudgetAccountLine.data(defaultBudgetAccountLineReset);
+      #    hcmPositionBudgetAccountLine_ds.executeQuery();
+      #}
+    ENDSOURCE
+    SOURCE #requeryBudgetDefaultDataForLEChange
+      #public void requeryBudgetDefaultDataForLEChange()
+      #{
+      #    HcmPositionBudgetDefaultValue defaultBudgetDefaultReset;
+      #    //selectedDataAreaRecId = CompanyInfo::findDataArea(_dataArea).RecId;
+      #
+      #    defaultBudgetDefaultReset = HcmPositionBudgetDefaultValue::findByPositionLegalEntity(hcmPosition.RecId, selectedDataAreaRecId);
+      #    if (!defaultBudgetDefaultReset)
+      #    {
+      #        defaultBudgetDefaultReset.Position = hcmPosition.RecId;
+      #        defaultBudgetDefaultReset.LegalEntity = selectedDataAreaRecId;
+      #    }
+      #    // reset the datasource so it knows to do an insert vs. update based on new LE choice
+      #    hcmPositionBudgetDefaultValue.data(defaultBudgetDefaultReset);
+      #    hcmPositionBudgetDefaultValue_ds.executeQuery();
+      #}
+    ENDSOURCE
+    SOURCE #setLDDAC_COAContext
+      #public void setLDDAC_COAContext()
+      #{
+      #    if (!selectedDataAreaRecId)
+      #    {
+      #        selectedDataAreaRecId = CompanyInfo::findDataArea(curext()).RecId;
+      #    }
+      #}
+    ENDSOURCE
+  ENDMETHODS
+  OBJECTBANK
+    PROPERTIES
+    ENDPROPERTIES
+    
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPosition
+          Table               #HcmPosition
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    if (hcmPosition.RecId != 0)
+          #    {
+          #        headerField.text(hcmPosition.PositionId);
+          #
+          #        if (hcmPosition.description())
+          #        {
+          #            headerField.text(headerField.text() + ' : ' + hcmPosition.description());
+          #        }
+          #    }
+          #    else
+          #    {
+          #        headerField.text('');
+          #    }
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionDetail
+          Table               #HcmPositionDetail
+          Index               #PositionIdx
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+          REFERENCEFIELD Department
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    // Do not call super since we're providing our own disambiguation logic.
+                #    return OMOperatingUnit::operatingUnitResolve(_formReferenceControl, OMOperatingUnitType::OMDepartment);
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return OMOperatingUnit::operatingUnitLookup(_formReferenceControl, OMOperatingUnitType::OMDepartment);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionDetail)).addSortField(fieldNum(HcmPositionDetail,ValidFrom),SortOrder::Descending);
+          #}
+        ENDSOURCE
+        SOURCE #create
+          #public void create(boolean _append = false)
+          #{
+          #    super(_append);
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionDetail           sourcePositionDetail;
+          #    utcdatetime                 minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                 maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionDetail
+          #       order by ValidFrom desc
+          #       where sourcePositionDetail.Position == hcmPosition.RecId;
+          #
+          #    if (sourcePositionDetail.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionDetail, hcmPositionDetail);
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionHierarchy
+          Table               #HcmPositionHierarchy
+          Index               #PositionIdx
+          JoinSource          #HcmPositionHierarchyType
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionHierarchy        sourcePositionHierarchy;
+          #    utcdatetime                 minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                 maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionHierarchy
+          #       order by ValidFrom desc
+          #       where sourcePositionHierarchy.Position == hcmPosition.RecId;
+          #
+          #    if (sourcePositionHierarchy.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionHierarchy, hcmPositionHierarchy);
+          #    }
+          #
+          #    hcmPositionHierarchy.PositionHierarchyType = hcmPositionHierarchyType.RecId;
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    rangeHierarchyType.value(queryValue(hcmPositionHierarchyType.RecId));
+          #    //rangeHierarchyType.status(RangeStatus::Hidden);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceName(this.name()).clearLinks();
+          #    this.query().dataSourceName(this.name()).clearDynalinks();
+          #    this.query().dataSourceName(this.name()).addDynalink(fieldNum(HcmPositionHierarchy,Position), hcmPosition, fieldNum(HcmPosition, RecId));
+          #    rangeHierarchyType = this.query().dataSourceName(this.name()).addRange(fieldNum(HcmPositionHierarchy, PositionHierarchyType));
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionHierarchy)).addSortField(fieldNum(HcmPositionHierarchy,ValidFrom),SortOrder::Descending);
+          #}
+          #
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment
+          Table               #HcmPositionWorkerAssignment
+          Index               #PositionIdx
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+          REFERENCEFIELD AssignmentReasonCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    Common ret;
+                #
+                #    ret = super(_formReferenceControl);
+                #
+                #    if (ret != null && !reasonCodeLookup.validateReasonCode(ret.RecId))
+                #    {
+                #        ret = null;
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    Common ret;
+                #
+                #    ret = reasonCodeLookup.lookupReasonCode(_formReferenceControl);
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          REFERENCEFIELD Worker
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    HcmWorker ret;
+                #
+                #    ret = super(_formReferenceControl);
+                #
+                #    if (ret != null && !hcmWorkerLookup.validateWorker(ret.RecId))
+                #    {
+                #        ret = null;
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    Common ret;
+                #
+                #    ret = hcmWorkerLookup.lookupWorker(_formReferenceControl);
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    HcmPositionWorkerAssignmentStartDate    defaultStartDate;
+                #    HcmPositionWorkerAssignmentEndDate      defaultEndDate;
+                #    HcmEmploymentValidFrom                  workerStartDate;
+                #    HcmEmploymentValidTo                    workerEndDate;
+                #    HcmPositionDuration                     positionDuration = HcmPositionDuration::findByPosition(hcmPosition.RecId);
+                #    container                               workerAssignmentDate;
+                #
+                #    super();
+                #
+                #    hcmPositionWorkerAssignment_ds.rereadReferenceDataSources();
+                #    hcmWorker_ds.rereadReferenceDataSources();
+                #
+                #    if (hcmPositionWorkerAssignment.Worker)
+                #    {
+                #        if (hcmPositionWorkerAssignment.Worker != hcmPositionWorkerAssignment.orig().Worker)
+                #        {
+                #            // determine the minimum allowable worker assignment start date
+                #            workerAssignmentDate = element.initWorkerEmploymentDates(hcmPositionWorkerAssignment.Worker);
+                #            defaultStartDate = hcmPositionDetail.AvailableForAssignment > HcmDateTimeUtil::startOfCurrentDay() ? hcmPositionDetail.AvailableForAssignment : HcmDateTimeUtil::startOfCurrentDay();
+                #            workerStartDate = conPeek(workerAssignmentDate, 1);
+                #
+                #            if (workerStartDate > defaultStartDate)
+                #            {
+                #                // start date for the assignment cannot be earlier than the worker's earliest affiliation start date
+                #                defaultStartDate = workerStartDate;
+                #            }
+                #            hcmPositionWorkerAssignment.ValidFrom = defaultStartDate;
+                #
+                #            // determine the maximum allowable worker assignment end date
+                #            defaultEndDate = positionDuration.ValidTo;
+                #
+                #            workerEndDate = conPeek(workerAssignmentDate, 2);
+                #            if (workerEndDate && workerEndDate < defaultEndDate)
+                #            {
+                #               // end date for the assignment cannot be later than the worker's maximum affiliation end date
+                #               defaultEndDate = workerEndDate;
+                #            }
+                #            hcmPositionWorkerAssignment.ValidTo = defaultEndDate;
+                #
+                #            element.redraw();
+                #        }
+                #    }
+                #    else
+                #    {
+                #        hcmPositionWorkerAssignment.ValidFrom = hcmPositionDetail.AvailableForAssignment > HcmDateTimeUtil::startOfCurrentDay() ? hcmPositionDetail.AvailableForAssignment : HcmDateTimeUtil::startOfCurrentDay();
+                #        hcmPositionWorkerAssignment.ValidTo = positionDuration.ValidTo;
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #validateWrite
+          # public boolean validateWrite()
+          #{
+          #    boolean ret = true;
+          #
+          #    ret = super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #leaveRecord
+          #public boolean leaveRecord(boolean _forceUpdate = false)
+          #{
+          #    boolean ret;
+          #
+          #    ret = super(_forceUpdate);
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #public void write()
+          #{
+          #    HcmPositionWorkerAssignmentRecId    newPositionWorkerAssignmentRecId;
+          #    HcmPositionWorkerAssignment         newPositionWorkerAssignment;
+          #    utcdatetime                         minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                         maxDateTime = DateTimeUtil::maxValue();
+          #    ValidFromDateTime                   newValidFrom;
+          #    ValidToDateTime                     newValidTo;
+          #    HcmReasonCodeRecId                  newReasonCodeRecId;
+          #
+          #//    super();
+          #
+          #    if (hcmPositionWorkerAssignment.RecId == 0)
+          #    {
+          #        // Use the position transition class to perform the create
+          #        newPositionWorkerAssignmentRecId = HcmPositionTransition::newCreateHcmPositionWorkerAssignment(hcmPositionWorkerAssignment.Position,
+          #                                        hcmPositionWorkerAssignment.Worker,
+          #                                        hcmPositionWorkerAssignment.ValidFrom,
+          #                                        hcmPositionWorkerAssignment.ValidTo,
+          #                                        hcmPositionWorkerAssignment.AssignmentReasonCode,
+          #                                        true );
+          #
+          #        if (newPositionWorkerAssignmentRecId != 0)
+          #        {
+          #            // A new position worker assignment record has been created.
+          #
+          #            // Find the new position worker assignment record.
+          #            newPositionWorkerAssignment = HcmPositionWorkerAssignment::findByTimeState(newPositionWorkerAssignmentRecId, minDateTime, maxDateTime);
+          #
+          #            // Update the position worker assignment data source cursor to the new position worker assignment record.
+          #            hcmPositionWorkerAssignment.data(newPositionWorkerAssignment);
+          #            hcmPositionWorkerAssignment_ds.research(true);
+          #        }
+          #    }
+          #    else
+          #    {
+          #        // Store the new values
+          #        newValidFrom = hcmPositionWorkerAssignment.ValidFrom;
+          #        newValidTo = hcmPositionWorkerAssignment.ValidTo;
+          #        newReasonCodeRecId = hcmPositionWorkerAssignment.AssignmentReasonCode;
+          #
+          #        // Change editable fields back to the record's original values
+          #        hcmPositionWorkerAssignment.ValidFrom = hcmPositionWorkerAssignment.orig().ValidFrom;
+          #        hcmPositionWorkerAssignment.ValidTo = hcmPositionWorkerAssignment.orig().ValidTo;
+          #        hcmPositionWorkerAssignment.AssignmentReasonCode = hcmPositionWorkerAssignment.orig().AssignmentReasonCode;
+          #
+          #        // Use the position transition class to perform the update
+          #        HcmPositionTransition::newUpdateHcmPositionWorkerAssignment(hcmPositionWorkerAssignment,
+          #                                        newValidFrom, newValidTo, newReasonCodeRecId);
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionWorkerAssignment sourcePositionWorkerAssignment;
+          #    utcdatetime                 minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                 maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionWorkerAssignment
+          #       order by ValidFrom desc
+          #       where sourcePositionWorkerAssignment.Position == hcmPosition.RecId;
+          #
+          #    if (sourcePositionWorkerAssignment.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionWorkerAssignment, hcmPositionWorkerAssignment);
+          #    }
+          #
+          #    super();
+          #
+          #    if (hcmPositionDetail.AvailableForAssignment > HcmDateTimeUtil::startOfCurrentDay())
+          #    {
+          #        hcmPositionWorkerAssignment.ValidFrom = hcmPositionDetail.AvailableForAssignment;
+          #    }
+          #    else
+          #    {
+          #        hcmPositionWorkerAssignment.ValidFrom = HcmDateTimeUtil::startOfCurrentDay();
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionWorkerAssignment)).addSortField(fieldNum(HcmPositionWorkerAssignment,ValidFrom),SortOrder::Descending);
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionHierarchyType
+          Table               #HcmPositionHierarchyType
+          AllowEdit           #No
+          AllowCreate         #No
+          AllowDelete         #No
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    hcmPositionHierarchy_ds.executeQuery();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionDuration
+          Table               #HcmPositionDuration
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #validateWrite
+          #public boolean validateWrite()
+          #{
+          #    boolean ret = true;
+          #
+          #//    ret = super();
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionDuration         sourcePositionDuration;
+          #    utcdatetime                 minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                 maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionDuration
+          #       order by ValidFrom desc
+          #       where sourcePositionDuration.Position == hcmPosition.RecId;
+          #
+          #    if (sourcePositionDuration.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionDuration, hcmPositionDuration);
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionDuration)).addSortField(fieldNum(HcmPositionDuration,ValidFrom),SortOrder::Descending);
+          #}
+        ENDSOURCE
+        SOURCE #delete
+          #public void delete()
+          #{
+          #    //super();
+          #
+          #    if (hcmPositionDuration.RecId)
+          #    {
+          #        // Use the transition class to handle the delete
+          #        HcmPositionTransition::newDeleteHcmPositionDuration(hcmPositionDuration);
+          #        hcmPosition_ds.research();
+          #    }
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #public void write()
+          #{
+          #    HcmPositionDurationRecId    newPositionDurationRecId;
+          #    HcmPositionDuration         newPositionDuration;
+          #    utcdatetime                 minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                 maxDateTime = DateTimeUtil::maxValue();
+          #    ValidFromDateTime           newValidFrom;
+          #    ValidToDateTime             newValidTo;
+          #
+          #//    super();
+          #
+          #    if (hcmPositionDuration.RecId == 0)
+          #    {
+          #        // Use the position transition class to perform the create
+          #        newPositionDurationRecId = HcmPositionTransition::newCreateHcmPositionDuration(hcmPositionDuration.Position,
+          #                                        hcmPositionDuration.ValidFrom,
+          #                                        hcmPositionDuration.ValidTo);
+          #
+          #        if (newPositionDurationRecId != 0)
+          #        {
+          #            // A new position duration record has been created.
+          #
+          #            // Find the new duration worker assignment record.
+          #            newPositionDuration = HcmPositionDuration::findByTimeState(newPositionDurationRecId, minDateTime, maxDateTime);
+          #
+          #            // Update the position duration data source cursor to the new position duration record.
+          #            hcmPositionDuration.data(newPositionDuration);
+          #            hcmPositionDuration_ds.research(true);
+          #        }
+          #    }
+          #    else
+          #    {
+          #        // Store the new values
+          #        newValidFrom = hcmPositionDuration.ValidFrom;
+          #        newValidTo = hcmPositionDuration.ValidTo;
+          #
+          #        // Change editable fields back to the record's original values
+          #        hcmPositionDuration.ValidFrom = hcmPositionDuration.orig().ValidFrom;
+          #        hcmPositionDuration.ValidTo = hcmPositionDuration.orig().ValidTo;
+          #
+          #        // Use the position transition class to perform the update
+          #        HcmPositionTransition::newUpdateHcmPositionDuration(hcmPositionDuration, newValidFrom, newValidTo);
+          #    }
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionBudgetDefaultValue
+          Table               #HcmPositionBudgetDefaultValue
+          Index               #PositionBudgetDefaultIdx
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    rangeBudgetDefaultLegalEntity.value(queryValue(selectedDataAreaRecId));
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionBudgetDefaultValue   sourcePositionBudgetDefault;
+          #    utcdatetime                     minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                     maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionBudgetDefault
+          #       order by ValidFrom desc
+          #       where sourcePositionBudgetDefault.Position == hcmPosition.RecId &&
+          #       sourcePositionBudgetDefault.LegalEntity == selectedDataAreaRecId;
+          #
+          #    if (sourcePositionBudgetDefault.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionBudgetDefault, hcmPositionBudgetDefaultValue);
+          #    }
+          #
+          #    super();
+          #}
+          #
+          #
+          #
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionBudgetDefaultValue)).addSortField(fieldNum(HcmPositionBudgetDefaultValue,ValidFrom),SortOrder::Descending);
+          #    rangeBudgetDefaultLegalEntity = this.query().dataSourceName(this.name()).addRange(fieldNum(HcmPositionBudgetDefaultValue, LegalEntity));
+          #
+          #    rangeBudgetDefaultLegalEntity.value(queryValue(CompanyInfo::findDataArea(curext()).RecId));
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionBudgetAccountLine
+          Table               #HcmPositionBudgetAccountLine
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #create
+          #public void create(boolean _append = false)
+          #{
+          #    selectedBudgetPurposeType = hcmPositionBudgetAccountLine.BudgetPurposeType;
+          #    super(_append);
+          #}
+        ENDSOURCE
+        SOURCE #initValue
+          #public void initValue()
+          #{
+          #    HcmPositionBudgetAccountLine    sourcePositionBudgetAccountLine;
+          #    utcdatetime                     minDateTime = DateTimeUtil::minValue();
+          #    utcdatetime                     maxDateTime = DateTimeUtil::maxValue();
+          #
+          #    select firstonly ValidTimeState(minDateTime, maxDateTime) sourcePositionBudgetAccountLine
+          #       order by ValidFrom desc
+          #       where sourcePositionBudgetAccountLine.Position == hcmPosition.RecId &&
+          #       sourcePositionBudgetAccountLine.LegalEntity == selectedDataAreaRecId &&
+          #       sourcePositionBudgetAccountLine.BudgetPurposeType == selectedBudgetPurposeType;
+          #
+          #    if (sourcePositionBudgetAccountLine.RecId != 0)
+          #    {
+          #        buf2Buf(sourcePositionBudgetAccountLine, hcmPositionBudgetAccountLine);
+          #    }
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    rangeBudgetAccountLineLegalEntity.value(queryValue(selectedDataAreaRecId));
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #init
+          #public void init()
+          #{
+          #    super();
+          #
+          #    this.query().dataSourceTable(tableNum(HcmPositionBudgetAccountLine)).addSortField(fieldNum(HcmPositionBudgetAccountLine, BudgetPurposeType),SortOrder::Ascending);
+          #    this.query().dataSourceTable(tableNum(HcmPositionBudgetAccountLine)).addSortField(fieldNum(HcmPositionBudgetAccountLine,ValidFrom),SortOrder::Descending);
+          #
+          #    rangeBudgetAccountLineLegalEntity = this.query().dataSourceName(this.name()).addRange(fieldNum(HcmPositionBudgetAccountLine, LegalEntity));
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #PayrollPositionDetails
+          Table               #PayrollPositionDetails
+          AllowCheck          #No
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+          REFERENCEFIELD DefaultEarningCode
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return PayrollEarningCode::resolveReferenceEarningCodeByRateBasis(_formReferenceControl);
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return PayrollEarningCode::lookupEarningCodeByRateBasis(_formReferenceControl);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          REFERENCEFIELD DefaultGLIBenefit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return HcmBenefit::resolvePayrollCategoryBenefits(_formReferenceControl, PayrollCategory::GeneralLiabilityInsurance);
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return HcmBenefit::lookupPayrollCategoryBenefits(_formReferenceControl, PayrollCategory::GeneralLiabilityInsurance);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          REFERENCEFIELD PaidByLegalEntity
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    payrollPositionDetails.setScheduleEnabled();
+                #}
+              ENDSOURCE
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        if (payrollPositionDetails.RecId != 0
+                #            && payrollPositionDetails.ValidFrom == payrollPositionDetails.orig().ValidFrom
+                #            && payrollPositionDetails.ValidTo == payrollPositionDetails.orig().ValidTo)
+                #        {
+                #            ret = payrollPositionDetails.canUpdateOrDeletePositionDetail(payrollPositionDetails.ValidFrom, payrollPositionDetails.ValidTo);
+                #        }
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          REFERENCEFIELD PayCycle
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean ret;
+                #
+                #    ret = super();
+                #
+                #    if (ret)
+                #    {
+                #        if (payrollPositionDetails.RecId != 0
+                #            && payrollPositionDetails.ValidFrom == payrollPositionDetails.orig().ValidFrom
+                #            && payrollPositionDetails.ValidTo == payrollPositionDetails.orig().ValidTo)
+                #        {
+                #            ret = payrollPositionDetails.canUpdateOrDeletePositionDetail(payrollPositionDetails.ValidFrom, payrollPositionDetails.ValidTo);
+                #        }
+                #    }
+                #
+                #    return ret;
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          DATAFIELD Schedule
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #validate
+                #public boolean validate()
+                #{
+                #    boolean isValidValue = true;
+                #
+                #    if (payrollPositionDetails.PaidByLegalEntity && payrollPositionDetails.Schedule)
+                #    {
+                #        //value set by the lookup
+                #        changecompany(CompanyInfo::getDataArea(payrollPositionDetails.PaidByLegalEntity))
+                #        {
+                #            isValidValue = WorkCalendarTable::checkExist(payrollPositionDetails.Schedule);
+                #        }
+                #    }
+                #
+                #    return isValidValue;
+                #}
+              ENDSOURCE
+              SOURCE #jumpRef
+                #public void jumpRef()
+                #{
+                #    CompanyId   companyId;
+                #
+                #    if (payrollPositionDetails.PaidByLegalEntity && payrollPositionDetails.ScheduleDataAreaId && payrollPositionDetails.Schedule)
+                #    {
+                #        companyId = payrollPositionDetails.ScheduleDataAreaId;
+                #
+                #        changecompany(companyId)
+                #        {
+                #            super();
+                #        }
+                #    }
+                #}
+              ENDSOURCE
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    CompanyInfo companyInfoLocal;
+                #
+                #    if (payrollPositionDetails.PaidByLegalEntity)
+                #    {
+                #        companyInfoLocal = CompanyInfo::find(false, payrollPositionDetails.PaidByLegalEntity);
+                #        changecompany(companyInfoLocal.DataArea)
+                #        {
+                #            super(_formControl, _filterStr);
+                #        }
+                #    }
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    Query   query;
+          #    utcdatetime     validFrom = DateTimeUtil::minValue();
+          #    utcdatetime     validTo = DateTimeUtil::maxValue();
+          #
+          #    query = payrollPositionDetails_DS.query();
+          #    query.resetValidTimeStateQueryType();
+          #    query.validTimeStateDateTimeRange(validFrom, validTo);
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #write
+          #public void write()
+          #{
+          #    super();
+          #
+          #    PayrollWorkerTaxRegion::refreshTaxRegionsForPosition(payrollPositionDetails.Position);
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #public int active()
+          #{
+          #    int currentRecord;
+          #
+          #    currentRecord = super();
+          #
+          #    if (currentRecord)
+          #    {
+          #        payrollPositionDetails.setScheduleEnabled();
+          #    }
+          #
+          #    return currentRecord;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensation
+          Table               #PayrollPositionWorkerCompensation
+          AllowCheck          #No
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+          REFERENCEFIELD Benefit
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #resolveReference
+                #public Common resolveReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return HcmBenefit::resolvePayrollCategoryBenefits(_formReferenceControl, PayrollCategory::WorkerCompensation, payrollPositionWorkerCompensation);
+                #}
+              ENDSOURCE
+              SOURCE #lookupReference
+                #public Common lookupReference(FormReferenceControl _formReferenceControl)
+                #{
+                #    return HcmBenefit::lookupPayrollCategoryBenefits(_formReferenceControl, PayrollCategory::WorkerCompensation, payrollPositionWorkerCompensation);
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDREFERENCEFIELD
+          
+          DATAFIELD StateId
+            PROPERTIES
+            ENDPROPERTIES
+            
+            METHODS
+              SOURCE #lookup
+                #public void lookup(FormControl _formControl, str _filterStr)
+                #{
+                #    LogisticsAddressState::lookupStateId(_formControl, payrollPositionWorkerCompensation.CountryRegionId);
+                #}
+              ENDSOURCE
+              SOURCE #modified
+                #public void modified()
+                #{
+                #    super();
+                #
+                #    payrollPositionWorkerCompensation_ds.object(fieldNum(PayrollPositionWorkerCompensation, Benefit)).allowEdit(payrollPositionWorkerCompensation.StateId != "");
+                #}
+              ENDSOURCE
+            ENDMETHODS
+          ENDDATAFIELD
+          
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+        SOURCE #executeQuery
+          #public void executeQuery()
+          #{
+          #    Query   query;
+          #    utcdatetime     validFrom = DateTimeUtil::minValue();
+          #    utcdatetime     validTo = DateTimeUtil::maxValue();
+          #
+          #    query = payrollPositionWorkerCompensation_DS.query();
+          #    query.resetValidTimeStateQueryType();
+          #    query.validTimeStateDateTimeRange(validFrom, validTo);
+          #
+          #    super();
+          #}
+        ENDSOURCE
+        SOURCE #active
+          #public int active()
+          #{
+          #    int ret;
+          #
+          #    ret = super();
+          #
+          #    if (ret)
+          #    {
+          #        this.object(fieldNum(PayrollPositionWorkerCompensation, Benefit)).allowEdit(payrollPositionWorkerCompensation.StateId != "");
+          #    }
+          #
+          #    return ret;
+          #}
+        ENDSOURCE
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmPositionUnionAgreement
+          Table               #HcmPositionUnionAgreement
+          AllowCheck          #No
+          JoinSource          #HcmPosition
+          InsertAtEnd         #No
+          InsertIfEmpty       #No
+          ValidTimeStateAutoQuery   #DateRange
+          ValidTimeStateUpdate #Correction
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDOBJECTBANK
+  
+  REFERENCEDATASOURCES
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmWorker
+          Table               #HcmWorker
+          JoinSource          #HcmPositionWorkerAssignment
+          JoinRelation        #Worker
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+      ENDMETHODS
+    ENDDATASOURCE
+    DATASOURCE
+      OBJECTPOOL
+        PROPERTIES
+          Name                #HcmUnionAgreement
+          Table               #HcmUnionAgreement
+          JoinSource          #HcmPositionUnionAgreement
+          JoinRelation        #HcmUnionAgreement
+        ENDPROPERTIES
+        
+        FIELDLIST
+        ENDFIELDLIST
+      ENDOBJECTPOOL
+      METHODS
+      ENDMETHODS
+    ENDDATASOURCE
+  ENDREFERENCEDATASOURCES
+  
+  JOINS
+    HcmPositionDetail HcmPosition
+    HcmPositionHierarchy HcmPositionHierarchyType
+    HcmPositionWorkerAssignment HcmPosition
+    HcmPositionDuration HcmPosition
+    HcmPositionBudgetDefaultValue HcmPosition
+    HcmPositionBudgetAccountLine HcmPosition
+    PayrollPositionDetails HcmPosition
+    PayrollPositionWorkerCompensation HcmPosition
+    HcmPositionUnionAgreement HcmPosition
+    HcmWorker HcmPositionWorkerAssignment
+    HcmUnionAgreement HcmPositionUnionAgreement
+  ENDJOINS
+  
+  PARTREFERENCES
+  ENDPARTREFERENCES
+  
+  DESIGN
+    PROPERTIES
+      Caption             #@SYS304845
+      SetCompany          #No
+    ENDPROPERTIES
+    
+    CONTAINER
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #BudgetAccountLineActionPane
+          ElementPosition     #1073741822
+          HierarchyParent     #BudgeAccountLineTabPage
+          Style               #Strip
+          DataSource          #HcmPositionBudgetAccountLine
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #DetailActionPane
+          ElementPosition     #1073741823
+          HierarchyParent     #DetailTabPage
+          Style               #Strip
+          DataSource          #HcmPositionDetail
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #DurationActionPane
+          ElementPosition     #1073741823
+          HierarchyParent     #DurationTabPage
+          Style               #Strip
+          DataSource          #HcmPositionDuration
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementActionPane
+          ElementPosition     #1073741822
+          HierarchyParent     #HcmPositionUnionAgreementTabPage
+          Style               #Strip
+          DataSource          #HcmPositionUnionAgreement
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #HierarchyActionPane
+          ElementPosition     #1073741823
+          HierarchyParent     #PositionHierarchyBody
+          Style               #Strip
+          DataSource          #HcmPositionHierarchy
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #PayrollPositionDetailsDetailActionPane
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsTabPage
+          Style               #Strip
+          DataSource          #PayrollPositionDetails
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationActionPane
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionWorkerCompensationTabPage
+          Style               #Strip
+          DataSource          #PayrollPositionWorkerCompensation
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANE
+        PROPERTIES
+          Name                #WorkerAssignmentActionPane
+          ElementPosition     #1073741823
+          HierarchyParent     #WorkerAssignmentTabPage
+          Style               #Strip
+          DataSource          #HcmPositionWorkerAssignment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #ActionPaneTab
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #DetailActionPane
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #BudgetAccountLineActionPaneTab
+          ElementPosition     #1431655764
+          HierarchyParent     #BudgetAccountLineActionPane
+          DataSource          #HcmPositionBudgetAccountLine
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #DurationActionPaneTab
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #DurationActionPane
+          DataSource          #HcmPositionDuration
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementActionPaneTab
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementActionPane
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #HieararchyActionPaneTab
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #HierarchyActionPane
+          DataSource          #HcmPositionHierarchy
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #PayrollPositionDetailsActionPaneTab
+          Width               #Column width
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionDetailsDetailActionPane
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationActionPaneTab
+          Width               #Column width
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationActionPane
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL ACTIONPANETAB
+        PROPERTIES
+          Name                #WorkerAssignmentActionPaneTab
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #WorkerAssignmentActionPane
+          DataSource          #HcmPositionWorkerAssignment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #BudgetAccountLineButtonGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #BudgetAccountLineActionPaneTab
+          DataSource          #HcmPositionBudgetAccountLine
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #ButtonGroup
+          ElementPosition     #1073741823
+          HierarchyParent     #ActionPaneTab
+          DataSource          #HcmPositionDetail
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #DurationButtonGroup
+          ElementPosition     #1073741823
+          HierarchyParent     #DurationActionPaneTab
+          DataSource          #HcmPositionDuration
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementButtonGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementActionPaneTab
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #HiearchyButtonGroup
+          ElementPosition     #1073741823
+          HierarchyParent     #HieararchyActionPaneTab
+          DataSource          #HcmPositionHierarchy
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsButtonGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionDetailsActionPaneTab
+          DataSource          #PayrollPositionDetails
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationButtonGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationActionPaneTab
+          DataSource          #PayrollPositionWorkerCompensation
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL BUTTONGROUP
+        PROPERTIES
+          Name                #WorkerAssignmentButtonGroup
+          ElementPosition     #1073741823
+          HierarchyParent     #WorkerAssignmentActionPaneTab
+          DataSource          #HcmPositionWorkerAssignment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #BudgetAccountLineGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #BudgetAccountLineGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionBudgetAccountLine
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #DurationGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741823
+          HierarchyParent     #DurationGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionDuration
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionUnionAgreement
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #HierarchyTypesGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741823
+          HierarchyParent     #HierarchyGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionHierarchyType
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #PayrollPositionDetailsGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionDetailsGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #PayrollPositionDetails
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #PayrollPositionWorkerCompensation
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #PositionDetailGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741823
+          HierarchyParent     #DetailGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionDetail
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #PositionHierarchyGrid
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1610612734
+          HierarchyParent     #PositionHierarchyGridContainer
+          MultiSelect         #No
+          ShowRowLabels       #No
+          DataSource          #HcmPositionHierarchy
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GRID
+        PROPERTIES
+          Name                #PositionWorkerGrid
+          AllowEdit           #No
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #AssignmentGridContainer
+          MultiSelect         #No
+          VisibleRows         #15
+          ShowRowLabels       #No
+          DataSource          #HcmPositionWorkerAssignment
+          AlternateRowShading #No
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #AssignmentDataGroup
+          Width               #Column width
+          ElementPosition     #1431655764
+          HierarchyParent     #WorkerAssignmentDetail
+          FrameType           #Edged 3D Line
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #AssignmentDetailContainer
+          ElementPosition     #2080374782
+          HierarchyParent     #WorkerAssignmentBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #AssignmentGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #1342177278
+          HierarchyParent     #WorkerAssignmentBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #AssignmentVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #2013265918
+          HierarchyParent     #WorkerAssignmentBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Body
+          ElementPosition     #1431655764
+          FrameType           #None
+          Style               #MarginlessContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineBody
+          ElementPosition     #1610612733
+          HierarchyParent     #BudgeAccountLineTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineDetailContainer
+          ElementPosition     #1717986916
+          HierarchyParent     #BudgetAccountLineBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #858993458
+          HierarchyParent     #BudgetAccountLineBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineLegalEntityGroup
+          ElementPosition     #805306366
+          HierarchyParent     #BudgetAccountLineDetailContainer
+          BottomMargin        #5
+          ViewEditMode        #Edit
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineValidTimeStateGroup
+          ElementPosition     #1207959549
+          HierarchyParent     #BudgetAccountLineDetailContainer
+          DataSource          #HcmPositionBudgetAccountLine
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #BudgetAccountLineVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #1288490187
+          HierarchyParent     #BudgetAccountLineBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailBody
+          ElementPosition     #1610612734
+          HierarchyParent     #DetailTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1717986916
+          HierarchyParent     #DetailBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          BottomMargin        #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #858993458
+          HierarchyParent     #DetailBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailGroup
+          ElementPosition     #1610612733
+          HierarchyParent     #DetailContainer
+          FrameType           #Edged 3D Line
+          Style               #MarginlessContainer
+          TopMargin           #10
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailHeader
+          ElementPosition     #1073741822
+          HierarchyParent     #DetailContainer
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailLeftGroup
+          ElementPosition     #1073741822
+          HierarchyParent     #DetailTopGroup
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailRightGroup
+          ElementPosition     #1610612734
+          HierarchyParent     #DetailTopGroup
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailTopGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #DetailGroup
+          FrameType           #None
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DetailVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #1288490187
+          HierarchyParent     #DetailBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationBody
+          ElementPosition     #1610612734
+          HierarchyParent     #DurationTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationDetail
+          Top                 #10
+          ElementPosition     #1431655764
+          HierarchyParent     #DurationDetailContainer
+          Style               #MarginlessContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationDetailContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #2080374782
+          HierarchyParent     #DurationBody
+          FrameType           #Edged 3D Line
+          Style               #MarginlessContainer
+          TopMargin           #5
+          BottomMargin        #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #1342177278
+          HierarchyParent     #DurationBody
+          Style               #BorderlessGridContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationValidTimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #DurationDetail
+          BackgroundColor     #Window background
+          DataSource          #HcmPositionDuration
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #DurationVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #2013265918
+          HierarchyParent     #DurationBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Earnings
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionDetailsBottomGroup
+          DataSource          #PayrollPositionDetails
+          DataGroup           #Earnings
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #Group
+          ElementPosition     #1789569705
+          HierarchyParent     #PayrollPositionDetailsBottomGroup
+          DataSource          #HcmPositionDetail
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreement_ValidtimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementHeader
+          DataSource          #HcmPositionUnionAgreement
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementBody
+          ElementPosition     #1610612733
+          HierarchyParent     #HcmPositionUnionAgreementTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1717986916
+          HierarchyParent     #HcmPositionUnionAgreementBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          BottomMargin        #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #858993458
+          HierarchyParent     #HcmPositionUnionAgreementBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementGroup
+          ElementPosition     #1610612733
+          HierarchyParent     #HcmPositionUnionAgreementContainer
+          FrameType           #Edged 3D Line
+          Style               #MarginlessContainer
+          TopMargin           #10
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementHeader
+          ElementPosition     #1073741822
+          HierarchyParent     #HcmPositionUnionAgreementContainer
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementTopGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementGroup
+          FrameType           #None
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementValidtimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementGrid
+          BackgroundColor     #Window background
+          DataSource          #HcmPositionUnionAgreement
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #1288490187
+          HierarchyParent     #HcmPositionUnionAgreementBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HeaderGroup
+          ElementPosition     #715827882
+          FrameType           #None
+          Style               #DetailTitleContainer
+          TopMargin           #8
+          BottomMargin        #0
+          LeftMargin          #8
+          RightMargin         #8
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HierarchyBody
+          ElementPosition     #1431655764
+          HierarchyParent     #HierarchyTabPage
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HierarchyDetailContainer
+          ElementPosition     #2080374782
+          HierarchyParent     #HierarchyBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HierarchyGridContainer
+          AutoDeclaration     #Yes
+          Width               #150
+          ElementPosition     #1342177278
+          HierarchyParent     #HierarchyBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #HierarchyVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #2013265918
+          HierarchyParent     #HierarchyBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #OperatingUnitsGroup
+          ElementPosition     #2080374782
+          HierarchyParent     #DetailLeftGroup
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailRightGroup
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionDetailsTopGroup
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsBottomGroup
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionDetailsGroup
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1717986916
+          HierarchyParent     #PayrollPositionDetailsDetailBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          BottomMargin        #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsDetailBody
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionDetailsTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #858993458
+          HierarchyParent     #PayrollPositionDetailsDetailBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsGroup
+          ElementPosition     #1610612734
+          HierarchyParent     #PayrollPositionDetailsContainer
+          FrameType           #Edged 3D Line
+          Style               #MarginlessContainer
+          TopMargin           #10
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsHeader
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsContainer
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsLeftGroup
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsTopGroup
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsTopGroup
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsGroup
+          FrameType           #None
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailsValidTimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionDetailsHeader
+          FrameType           #None
+          BackgroundColor     #Window background
+          DataSource          #PayrollPositionDetails
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionDetailVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #1288490187
+          HierarchyParent     #PayrollPositionDetailsDetailBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationBody
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionWorkerCompensationTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1717986916
+          HierarchyParent     #PayrollPositionWorkerCompensationBody
+          Style               #MarginlessContainer
+          TopMargin           #5
+          BottomMargin        #5
+          RightMargin         #5
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationGridContainer
+          AutoDeclaration     #Yes
+          Width               #300
+          ElementPosition     #858993458
+          HierarchyParent     #PayrollPositionWorkerCompensationBody
+          Style               #BorderlessGridContainer
+          RightMargin         #0
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationGroup
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionWorkerCompensationContainer
+          FrameType           #Edged 3D Line
+          Style               #MarginlessContainer
+          TopMargin           #10
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationHeader
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionWorkerCompensationContainer
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationTopGroup
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationGroup
+          FrameType           #None
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationValidTimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationGrid
+          BackgroundColor     #Window background
+          DataSource          #PayrollPositionWorkerCompensation
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationVSplitter
+          AutoDeclaration     #Yes
+          ElementPosition     #1288490187
+          HierarchyParent     #PayrollPositionWorkerCompensationBody
+          Style               #SplitterVerticalContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PayrollWorkerCompensationDetailValidTimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #PayrollPositionWorkerCompensationHeader
+          DataSource          #PayrollPositionWorkerCompensation
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PositionHierarchyBody
+          ElementPosition     #1431655764
+          HierarchyParent     #HierarchyDetailContainer
+          FrameType           #None
+          Style               #MarginlessContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #PositionHierarchyGridContainer
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1879048190
+          HierarchyParent     #PositionHierarchyBody
+          Style               #BorderlessGridContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #ValidTimeState
+          ElementPosition     #1431655764
+          HierarchyParent     #DetailHeader
+          FrameType           #None
+          BackgroundColor     #Window background
+          DataSource          #HcmPositionDetail
+          DataGroup           #ValidTimeState
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #WorkerAssignmentBody
+          ElementPosition     #1610612734
+          HierarchyParent     #WorkerAssignmentTabPage
+          FrameType           #None
+          Style               #MarginlessContainer
+          TopMargin           #5
+          RightMargin         #5
+          Columns             #3
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #WorkerAssignmentDetail
+          ElementPosition     #1431655764
+          HierarchyParent     #AssignmentDetailContainer
+          FrameType           #None
+          Style               #MarginlessContainer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL GROUP
+        PROPERTIES
+          Name                #WorkerAssignmentValidTimeState
+          ElementPosition     #1207959549
+          HierarchyParent     #AssignmentDataGroup
+          FrameType           #None
+          DataSource          #HcmPositionWorkerAssignment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #Earnings_DefaultEarningCode
+          ElementPosition     #1431655764
+          HierarchyParent     #Earnings
+          DataSource          #PayrollPositionDetails
+          ReferenceField      #DefaultEarningCode
+          Label               #@GLS91866
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionBudgetAccountLine_BudgetPurposeType
+          ElementPosition     #858993458
+          HierarchyParent     #BudgetAccountLineGrid
+          DataSource          #HcmPositionBudgetAccountLine
+          ReferenceField      #BudgetPurposeType
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionDetail_CompLocation
+          ElementPosition     #1006632958
+          HierarchyParent     #DetailRightGroup
+          DataSource          #HcmPositionDetail
+          ReferenceField      #CompLocation
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionDetail_Department
+          ElementPosition     #1073741822
+          HierarchyParent     #OperatingUnitsGroup
+          DataSource          #HcmPositionDetail
+          ReferenceField      #Department
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionDetail_Job
+          ElementPosition     #1073741822
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          ReferenceField      #Job
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionDetail_PositionType
+          ElementPosition     #503316478
+          HierarchyParent     #DetailRightGroup
+          DataSource          #HcmPositionDetail
+          ReferenceField      #PositionType
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionDetail_Title
+          ElementPosition     #1811939326
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          ReferenceField      #Title
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionHierarchy_ParentPosition
+          ElementPosition     #1879048190
+          HierarchyParent     #PositionHierarchyGrid
+          DataSource          #HcmPositionHierarchy
+          ReferenceField      #ParentPosition
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionUnionAgreement_AgreementName
+          ElementPosition     #715827882
+          HierarchyParent     #HcmPositionUnionAgreementTopGroup
+          DataSource          #HcmPositionUnionAgreement
+          ReferenceField      #UnionAgreement
+          ReplacementFieldGroup #Identification
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment_AssignmentReasonCode
+          AutoDeclaration     #Yes
+          ElementPosition     #1610612733
+          HierarchyParent     #AssignmentDataGroup
+          DataSource          #HcmPositionWorkerAssignment
+          ReferenceField      #AssignmentReasonCode
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment_Worker
+          ElementPosition     #805306366
+          HierarchyParent     #AssignmentDataGroup
+          DataSource          #HcmPositionWorkerAssignment
+          ReferenceField      #Worker
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment_Worker1
+          ElementPosition     #1879048190
+          HierarchyParent     #PositionWorkerGrid
+          DataSource          #HcmPositionWorkerAssignment
+          ReferenceField      #Worker
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmUnionAgreement_LaborUnion
+          ElementPosition     #1073741823
+          HierarchyParent     #HcmPositionUnionAgreementTopGroup
+          DataSource          #HcmUnionAgreement
+          ReferenceField      #LaborUnion
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #HcmUnionAgreement_LegalEntity
+          ElementPosition     #1789569705
+          HierarchyParent     #HcmPositionUnionAgreementTopGroup
+          DataSource          #HcmUnionAgreement
+          ReferenceField      #LegalEntity
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #PayrollPositionDetails_DefaultGeneralLiabilityInsuranceBenefit
+          ElementPosition     #1372003440
+          HierarchyParent     #PayrollPositionDetailRightGroup
+          DataSource          #PayrollPositionDetails
+          ReferenceField      #DefaultGLIBenefit
+          ReplacementFieldGroup #Reference
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #PayrollPositionDetails_PaidByLegalEntity
+          ElementPosition     #894784852
+          HierarchyParent     #PayrollPositionDetailsLeftGroup
+          DataSource          #PayrollPositionDetails
+          ReferenceField      #PaidByLegalEntity
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #PayrollPositionDetails_PayCycle
+          ElementPosition     #715827882
+          HierarchyParent     #PayrollPositionDetailsLeftGroup
+          DataSource          #PayrollPositionDetails
+          ReferenceField      #PayCycle
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REFERENCEGROUP
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensation_Benefit
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionWorkerCompensationTopGroup
+          DataSource          #PayrollPositionWorkerCompensation
+          ReferenceField      #Benefit
+          ReplacementFieldGroup #Reference
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TAB
+        PROPERTIES
+          Name                #Tab
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1431655764
+          HierarchyParent     #Body
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #BudgeAccountLineTabPage
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #2102744402
+          HierarchyParent     #Tab
+          Caption             #@GLS190238
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #pageActivated
+            #public void pageActivated()
+            #{
+            #    super();
+            #
+            #    budgetAccountLineLegalEntity.text(CompanyInfo::getDataArea(selectedDataAreaRecId));
+            #    element.setLDDAC_COAContext();
+            #    element.requeryBudgetAccountLineDataForLEChange();
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #DetailTabPage
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1073741823
+          HierarchyParent     #Tab
+          Caption             #@SYS129403
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #DurationTabPage
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1879048190
+          HierarchyParent     #Tab
+          Caption             #@SYS320901
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementTabPage
+          AutoDeclaration     #Yes
+          NeededPermission    #Manual
+          Width               #Column width
+          Height              #Column height
+          ConfigurationKey    #HRMAdministration
+          ElementPosition     #2120640099
+          HierarchyParent     #Tab
+          Caption             #@SYS308052
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #HierarchyTabPage
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #2013265918
+          HierarchyParent     #Tab
+          Caption             #@SYS302754
+          Columns             #2
+          ArrangeGuide        
+            ARRAY INDEX Columns 
+              #0
+              #0
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #PayrollPositionDetailsTabPage
+          AutoDeclaration     #Yes
+          NeededPermission    #Manual
+          Width               #Column width
+          Height              #Column height
+          ConfigurationKey    #Payroll
+          ElementPosition     #2040109463
+          HierarchyParent     #Tab
+          Caption             #@SYS334178
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensationTabPage
+          AutoDeclaration     #Yes
+          NeededPermission    #Manual
+          Width               #Column width
+          Height              #Column height
+          ConfigurationKey    #PayrollUSA
+          ElementPosition     #2066953008
+          HierarchyParent     #Tab
+          Caption             #@GLS92571
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL TABPAGE
+        PROPERTIES
+          Name                #WorkerAssignmentTabPage
+          Width               #Column width
+          Height              #Column height
+          ElementPosition     #1476395006
+          HierarchyParent     #Tab
+          Caption             #@SYS302755
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL CHECKBOX
+        PROPERTIES
+          Name                #HcmPositionDetail_ExtraPayments
+          ElementPosition     #1431655764
+          HierarchyParent     #Group
+          Label               #Permitir pagos extras
+          DataSource          #HcmPositionDetail
+          DataField           #ExtraPayment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL CHECKBOX
+        PROPERTIES
+          Name                #PayrollPositionDetails_IsCompanyOfficer
+          ElementPosition     #1789569705
+          HierarchyParent     #PayrollPositionDetailRightGroup
+          DataSource          #PayrollPositionDetails
+          DataField           #IsCompanyOfficer
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteBudgetAccountLine
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #BudgetAccountLineButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteCommandButton
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #ButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteDurationCommandButton
+          AutoDeclaration     #Yes
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #DurationButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteHcmUnionAgreementButton
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #HcmPositionUnionAgreementButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteHierarchyCommandButton
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #HiearchyButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeletePayrollPositionDetailsButton
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionDetailsButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeletePayrollPositionWorkerCompensationButton
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionWorkerCompensationButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #DeleteWorkerAssignmentCommandButton
+          AutoDeclaration     #Yes
+          NeededPermission    #Delete
+          ElementPosition     #1610612733
+          HierarchyParent     #WorkerAssignmentButtonGroup
+          Text                #@SYS26394
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11438
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #2832
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewBudgetAccountLine
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #BudgetAccountLineButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          SaveRecord          #No
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewCommandButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #ButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewDurationCommandButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #DurationButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewHcmUnionAgreementButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #HcmPositionUnionAgreementButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewHierarchyCommandButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #HiearchyButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewPayrollPositionDetailsButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewPayrollPositionWorkerCompensationButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionWorkerCompensationButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL COMMANDBUTTON
+        PROPERTIES
+          Name                #NewWorkerAssignmentCommandButton
+          NeededPermission    #Create
+          ElementPosition     #1073741822
+          HierarchyParent     #WorkerAssignmentButtonGroup
+          Text                #@SYS2318
+          ButtonDisplay       #Text & Image left
+          NormalImage         #11421
+          ImageLocation       #EmbeddedResource
+          Command             #260
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #PayrollPositionDetails_ValidFrom
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionDetailsGrid
+          DataSource          #PayrollPositionDetails
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #PayrollPositionDetails_ValidTo
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionDetailsGrid
+          DataSource          #PayrollPositionDetails
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #ValidTimeState1_ValidFrom
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionWorkerCompensationValidTimeState
+          DataSource          #PayrollPositionWorkerCompensation
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL DATEEDIT
+        PROPERTIES
+          Name                #ValidTimeState1_ValidTo
+          ElementPosition     #1610612733
+          HierarchyParent     #PayrollPositionWorkerCompensationValidTimeState
+          DataSource          #PayrollPositionWorkerCompensation
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_FullTimeEquivalency
+          ElementPosition     #754974717
+          HierarchyParent     #DetailRightGroup
+          DataSource          #HcmPositionDetail
+          DataField           #FullTimeEquivalency
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #PayrollPositionDetails_PayPeriodNormalHours
+          ElementPosition     #1073741823
+          HierarchyParent     #PayrollPositionDetailsLeftGroup
+          DataSource          #PayrollPositionDetails
+          DataField           #PayrollNormalHours
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL REALEDIT
+        PROPERTIES
+          Name                #PayrollPositionDetails_PayPeriodOvertimeHours
+          ElementPosition     #954437176
+          HierarchyParent     #PayrollPositionDetailRightGroup
+          DataSource          #PayrollPositionDetails
+          DataField           #PayrollOvertimeHours
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #BudgetAccountLineLegalEntity
+          AutoDeclaration     #Yes
+          ElementPosition     #1431655764
+          HierarchyParent     #BudgetAccountLineLegalEntityGroup
+          ExtendedDataType    
+            ARRAY 
+              #LegalEntityDataAreaId
+              #
+            ENDARRAY
+        ENDPROPERTIES
+        
+        METHODS
+          SOURCE #modified
+            #public boolean modified()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #    selectedDataAreaRecId = CompanyInfo::current(budgetAccountLineLegalEntity.text());
+            #
+            #    if (ret)
+            #    {
+            #        element.requeryBudgetAccountLineDataForLEChange();
+            #    }
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+          SOURCE #validate
+            #public boolean validate()
+            #{
+            #    boolean ret;
+            #
+            #    ret = super();
+            #    if (!CompanyInfo::findDataArea(budgetAccountLineLegalEntity.text()).RecId)
+            #    {
+            #        ret =  checkFailed(strFmt("@SYS342222", budgetAccountLineLegalEntity.text()));
+            #    }
+            #
+            #    return ret;
+            #}
+          ENDSOURCE
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_CodigoPuesto
+          ElementPosition     #1565873490
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          DataField           #CodigoPuesto
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_Description
+          ElementPosition     #715827880
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          DataField           #Description
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_IDTurno
+          ElementPosition     #1319807656
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          DataField           #IDTurno
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_NombreSubProceso
+          ElementPosition     #1196774739
+          HierarchyParent     #DetailLeftGroup
+          DataSource          #HcmPositionDetail
+          DataField           #NombreSubProceso
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmPositionHierarchyType_Name
+          Width               #Column width
+          ElementPosition     #1073741823
+          HierarchyParent     #HierarchyTypesGrid
+          DataSource          #HcmPositionHierarchyType
+          DataField           #Name
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HcmUnionAgreement_Description
+          ElementPosition     #1431655764
+          HierarchyParent     #HcmPositionUnionAgreementTopGroup
+          DataSource          #HcmUnionAgreement
+          DataField           #Description
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #HeaderField
+          AutoDeclaration     #Yes
+          Width               #Column width
+          Skip                #Yes
+          ElementPosition     #1073741823
+          HierarchyParent     #HeaderGroup
+          Style               #TitleField
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL STRINGEDIT
+        PROPERTIES
+          Name                #PayrollPositionWorkerCompensation_StateId
+          ElementPosition     #1073741822
+          HierarchyParent     #PayrollPositionWorkerCompensationTopGroup
+          DataSource          #PayrollPositionWorkerCompensation
+          DataField           #StateId
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #BudgetAccountLineGrid_ValidFrom
+          ElementPosition     #1288490187
+          HierarchyParent     #BudgetAccountLineGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionBudgetAccountLine
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #BudgetAccountLineGrid_ValidTo
+          ElementPosition     #1717986916
+          HierarchyParent     #BudgetAccountLineGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionBudgetAccountLine
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_AvailableForAssignment
+          ElementPosition     #1577058302
+          HierarchyParent     #DetailRightGroup
+          DisplayOption       #Date
+          DataSource          #HcmPositionDetail
+          DataField           #AvailableForAssignment
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_ValidFrom
+          ElementPosition     #1073741823
+          HierarchyParent     #PositionDetailGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionDetail
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionDetail_ValidTo
+          ElementPosition     #1610612734
+          HierarchyParent     #PositionDetailGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionDetail
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionDuration_ValidFrom
+          ElementPosition     #1073741823
+          HierarchyParent     #DurationGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionDuration
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionDuration_ValidTo
+          ElementPosition     #1610612734
+          HierarchyParent     #DurationGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionDuration
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionHierarchy_ValidFrom
+          ElementPosition     #1073741823
+          HierarchyParent     #PositionHierarchyGrid
+          DataSource          #HcmPositionHierarchy
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionHierarchy_ValidTo
+          ElementPosition     #1610612734
+          HierarchyParent     #PositionHierarchyGrid
+          DataSource          #HcmPositionHierarchy
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionUnionAgreement_ValidtimeState_ValidFrom1
+          ElementPosition     #1073741822
+          HierarchyParent     #HcmPositionUnionAgreement_ValidtimeState
+          DataSource          #HcmPositionUnionAgreement
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionUnionAgreement_ValidtimeState_ValidTo1
+          ElementPosition     #1610612733
+          HierarchyParent     #HcmPositionUnionAgreement_ValidtimeState
+          DataSource          #HcmPositionUnionAgreement
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementValidtimeState_ValidFrom1
+          ElementPosition     #1073741822
+          HierarchyParent     #HcmPositionUnionAgreementValidtimeState
+          DataSource          #HcmPositionUnionAgreement
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionUnionAgreementValidtimeState_ValidTo1
+          ElementPosition     #1610612733
+          HierarchyParent     #HcmPositionUnionAgreementValidtimeState
+          DataSource          #HcmPositionUnionAgreement
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment_ValidFrom
+          ElementPosition     #1073741823
+          HierarchyParent     #PositionWorkerGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionWorkerAssignment
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #HcmPositionWorkerAssignment_ValidTo
+          ElementPosition     #1610612734
+          HierarchyParent     #PositionWorkerGrid
+          DisplayOption       #Date
+          DataSource          #HcmPositionWorkerAssignment
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #ValidTimeStateGroup_ValidFrom
+          ElementPosition     #1073741822
+          HierarchyParent     #BudgetAccountLineValidTimeStateGroup
+          DataSource          #HcmPositionBudgetAccountLine
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #ValidTimeStateGroup_ValidTo
+          ElementPosition     #1610612733
+          HierarchyParent     #BudgetAccountLineValidTimeStateGroup
+          DataSource          #HcmPositionBudgetAccountLine
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #WorkerAssignmentValidTimeState_ValidFrom
+          AutoDeclaration     #Yes
+          ElementPosition     #1073741822
+          HierarchyParent     #WorkerAssignmentValidTimeState
+          DataSource          #HcmPositionWorkerAssignment
+          DataField           #ValidFrom
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+      CONTROL UTCDATETIMEEDIT
+        PROPERTIES
+          Name                #WorkerAssignmentValidTimeState_ValidTo
+          AutoDeclaration     #Yes
+          ElementPosition     #1610612733
+          HierarchyParent     #WorkerAssignmentValidTimeState
+          DataSource          #HcmPositionWorkerAssignment
+          DataField           #ValidTo
+        ENDPROPERTIES
+        
+        METHODS
+        ENDMETHODS
+      ENDCONTROL 
+      
+    ENDCONTAINER
+    
+  ENDDESIGN
+  
+  PERMISSIONS #Permissions
+    PROPERTIES
+    ENDPROPERTIES
+    
+    PERMISSIONSET #Read
+      PROPERTIES
+      ENDPROPERTIES
+      
+      FORM #Controls
+      ENDFORM
+      
+    TABLES #Tables
+    ENDTABLES
+    
+  SERVERMETHODS #Server Methods
+  ENDSERVERMETHODS
+  
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Update
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Create
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+PERMISSIONSET #Delete
+  PROPERTIES
+  ENDPROPERTIES
+  
+  FORM #Controls
+  ENDFORM
+  
+TABLES #Tables
+ENDTABLES
+
+SERVERMETHODS #Server Methods
+ENDSERVERMETHODS
+
+ASSOCIATEDFORMS #Associated Forms
+ENDASSOCIATEDFORMS
+
+ENDPERMISSIONSET
+
+ENDPERMISSIONS
+
+ENDFORM
+
+
+***Element: PRN
+
+; Microsoft Dynamics AX Project : JGA_PagosExtras unloaded
+; --------------------------------------------------------------------------------
+  PROJECTVERSION 2
+  
+  PROJECT #JGA_PagosExtras
+  PRIVATE
+  PROPERTIES
+    Name                #JGA_PagosExtras
+    Origin              #{368994AE-A7E4-41E7-8613-22FCC62F3B50}
+  ENDPROPERTIES
+  
+    PROJECTCLASS ProjectNode
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 44
+      UTILOBJECTID 6266
+      NODETYPE 204
+      NAME #HcmPositionDetail
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 5
+      UTILOBJECTID 0
+      NODETYPE 215
+      NAME #HcmPositionDetailsUpdate
+    ENDNODE
+    BEGINNODE
+      FILETYPE 0
+      UTILTYPE 11
+      UTILOBJECTID 0
+      NODETYPE 201
+      NAME #HcmPositionDateManager
+    ENDNODE
+  ENDPROJECT
+  
+
+***Element: END
