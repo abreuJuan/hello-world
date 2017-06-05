@@ -1,0 +1,1212 @@
+﻿Exportfile for AOT version 1.0 or later
+Formatversion: 1
+
+***Element: CLS
+
+; Microsoft Dynamics AX Class: JGA_Utilities descargados
+; --------------------------------------------------------------------------------
+  CLSVERSION 1
+  
+  CLASS #JGA_Utilities
+    PROPERTIES
+      Name                #JGA_Utilities
+      Origin              #{5CA45D45-4569-4EA0-94AA-580AD2305654}
+    ENDPROPERTIES
+    
+    METHODS
+      SOURCE #classDeclaration
+        #//This is a customized framework.
+        #//Made By Juan Gabriel Abreu Dumet
+        #class JGA_Utilities
+        #{
+        #}
+      ENDSOURCE
+      SOURCE #WorkflowDate
+        #private CreationDate WorkflowDate(PurchReqId _refId)
+        #{
+        #
+        #    CreationDate       transDate;
+        #
+        #    WorkflowTrackingStatusTable workflowTrackingStatus;
+        #    WorkflowTrackingTable workflowTrackingTable;
+        #    WorkflowTrackingCommentTable workflowTrackingCommentTable;
+        #    UserInfo userInfo;
+        #
+        #    select firstFast RecId, User from workflowTrackingTable
+        #    order by RecId desc
+        #        join workflowTrackingCommentTable
+        #        where workflowTrackingCommentTable.WorkflowTrackingTable == workflowTrackingTable.RecId
+        #        join UserInfo
+        #        where UserInfo.id == WorkflowTrackingTable.User
+        #        exists join workflowTrackingStatus
+        #        where workflowTrackingTable.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId
+        #        && workflowTrackingStatus.ContextRecId == PurchReqTable::findPurchReqId(_refId).RecId //PurchRecID
+        #        && workflowTrackingTable.Name like "Revision de Presupuesto"
+        #        && workflowTrackingTable.TrackingType == WorkflowTrackingType::Completion
+        #        && workflowTrackingTable.TrackingContext == WorkflowTrackingContext::Task;
+        #
+        #
+        #
+        #        if (workflowTrackingTable)
+        #        {
+        #          transDate = Global::utcDateTime2SystemDateTime(workflowTrackingCommentTable.createdDateTime);
+        #        }
+        #
+        #
+        #        return transDate;
+        #}
+      ENDSOURCE
+      SOURCE #checkPower
+        #private static container checkPower(int64  _test, int64 _power, GenderMaleFemale _gender, boolean _isMexican)
+        #{
+        #    int64   numOfPower, auxnumOfPower;
+        #    int64   temp;
+        #    real    test;
+        #    str     strText, returntxt, cPstr;
+        #    int     intStrText;
+        #    int64   cPint;
+        #    real    temptest;   // to support ES-MX billions
+        #    real    tempauxtest;
+        #    real    auxtest = 0;
+        #    real    numOfTenths ;
+        #
+        #    str 20  ones[19], twenties[9], tenths[9],  muchhundreds, hundreds, thousands, muchmillions, millions, billions, muchhunmillions, trillions, muchtrillions;
+        #
+        #    #Define.text_1_male('Un')
+        #    #Define.text_1_female('Una')
+        #    #Define.text_2('Dos')
+        #    #Define.text_3('Tres')
+        #    #Define.text_4('Cuatro')
+        #    #Define.text_5('Cinco')
+        #    #Define.text_6('Seis')
+        #    #Define.text_7('Siete')
+        #    #Define.text_8('Ocho')
+        #    #Define.text_9('Nueve')
+        #    #Define.text_10('Diez')
+        #    #Define.text_11('Once')
+        #    #Define.text_12('Doce')
+        #    #Define.text_13('Trece')
+        #    #Define.text_14('Catorce')
+        #    #Define.text_15('Quince')
+        #    #Define.text_16('Dieciseis')
+        #    #Define.text_17('Diecisiete')
+        #    #Define.text_18('Dieciocho')
+        #    #Define.text_19('Diecinueve')
+        #
+        #    #Define.text_20('Veinte')
+        #
+        #    #Define.text_21_female('Veintiuna')
+        #    #Define.text_21_male('Veintiun')
+        #    #Define.text_22('Veintidos')
+        #    #Define.text_23('Veintitres')
+        #    #Define.text_24('Veinticuatro')
+        #    #Define.text_25('Veinticinco')
+        #    #Define.text_26('Veintiseis')
+        #    #Define.text_27('Veintisiete')
+        #    #Define.text_28('Veintiocho')
+        #    #Define.text_29('Veintinueve')
+        #
+        #    #Define.text_30('Treinta')
+        #    #Define.text_40('Cuarenta')
+        #    #Define.text_50('Cincuenta')
+        #    #Define.text_60('Sesenta')
+        #    #Define.text_70('Setenta')
+        #    #Define.text_80('Ochenta')
+        #    #Define.text_90('Noventa')
+        #
+        #    #Define.text_100('Cien')
+        #    #Define.text_100_female('cientas')
+        #    #Define.text_100_male('cientos')
+        #    #Define.text_100_much('Cientos')
+        #    #Define.text_100_begin('Ciento')
+        #
+        #    #Define.text_500_female('Quinientas')
+        #    #Define.text_500_male('Quinientos')
+        #
+        #    #Define.text_7_begin('Sete')
+        #    #Define.text_9_begin('Nove')
+        #
+        #    #Define.text_1000('Mil')
+        #
+        #    #Define.text_1000000('Millon')
+        #    #Define.text_1000000_much('Millones')
+        #    #Define.text_1000000000('Mil millones')
+        #    #Define.text_1000000000000('Trillón')
+        #    #Define.text_1000000000000_much('Trillónes')
+        #
+        #    #Define.text_and('y')
+        #
+        #    ones[1] = #text_1_male;
+        #    ones[2] = #text_2;
+        #    ones[3] = #text_3;
+        #    ones[4] = #text_4;
+        #    ones[5] = #text_5;
+        #    ones[6] = #text_6;
+        #    ones[7] = #text_7;
+        #    ones[8] = #text_8;
+        #    ones[9] = #text_9;
+        #    ones[10] = #text_10;
+        #    ones[11] = #text_11;
+        #    ones[12] = #text_12;
+        #    ones[13] = #text_13;
+        #    ones[14] = #text_14;
+        #    ones[15] = #text_15;
+        #    ones[16] = #text_16;
+        #    ones[17] = #text_17;
+        #    ones[18] = #text_18;
+        #    ones[19] = #text_19;
+        #
+        #    twenties[1] = _gender == GenderMaleFemale::Female ? #text_21_female: #text_21_male;
+        #    twenties[2] = #text_22;
+        #    twenties[3] = #text_23;
+        #    twenties[4] = #text_24;
+        #    twenties[5] = #text_25;
+        #    twenties[6] = #text_26;
+        #    twenties[7] = #text_27;
+        #    twenties[8] = #text_28;
+        #    twenties[9] = #text_29;
+        #
+        #    tenths[1] = ''; // Not used
+        #    tenths[2] = #text_20;
+        #    tenths[3] = #text_30;
+        #    tenths[4] = #text_40;
+        #    tenths[5] = #text_50;
+        #    tenths[6] = #text_60;
+        #    tenths[7] = #text_70;
+        #    tenths[8] = #text_80;
+        #    tenths[9] = #text_90;
+        #
+        #    hundreds    = #text_100;
+        #
+        #    muchhundreds = _gender == GenderMaleFemale::Female ? #text_100_female: #text_100_male;
+        #
+        #    muchhunmillions = #text_100_much;
+        #
+        #    thousands   = #text_1000;
+        #    millions    = #text_1000000;
+        #    muchmillions = #text_1000000_much;
+        #
+        #    billions    = #text_1000000000;
+        #    trillions   = #text_1000000000000;
+        #    muchtrillions = #text_1000000000000_much;
+        #
+        #
+        #    if (_test >= _power)
+        #    {
+        #        numOfPower = _test div _power;
+        #        if (numOfPower >= 100)
+        #        {
+        #            temp = numOfPower div 100;
+        #            if (temp == 1 )
+        #            {
+        #                if  (((_power == 1000) && (numOfPower > 100)) || ((_power == 1000000) && (numOfPower > 100)))
+        #                {
+        #                    returntxt = returntxt + ' ' +  #text_100_begin;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' +  hundreds;
+        #                }
+        #            }
+        #            else
+        #            {
+        #                switch(temp)
+        #                {
+        #                    case 5:
+        #                        if (_power == 1000)
+        #                        {
+        #                            returntxt = returntxt + ' ' + (_gender == GenderMaleFemale::Female ? #text_500_female : #text_500_male);
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' + #text_500_male;
+        #                        }
+        #                        break;
+        #
+        #                    case 7:
+        #                        if ( _power == 1000)
+        #                        {
+        #                            returntxt = returntxt + ' ' +  #text_7_begin + muchhundreds;
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' +  #text_7_begin + muchhunmillions;
+        #                        }
+        #                        break;
+        #
+        #                    case 9:
+        #                        if ( _power == 1000)
+        #                        {
+        #                            returntxt = returntxt + ' ' +  #text_9_begin + muchhundreds;
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' +  #text_9_begin + muchhunmillions;
+        #                        }
+        #                        break;
+        #
+        #                    default:
+        #                        if ( _power == 1000 )
+        #                        {
+        #                            returntxt = returntxt + ' ' + ones[temp] + muchhundreds;
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' + ones[temp] + muchhunmillions;
+        #                        }
+        #
+        #                }
+        #            }
+        #            numOfPower = numOfPower mod 100;
+        #        }
+        #
+        #        if (numOfPower >= 20)
+        #        {
+        #            temp = numOfPower div 10;
+        #            if (numOfPower > 20 && numOfPower < 30)
+        #            {
+        #                if ( ( numOfPower == 21 ) & ( _power == 1000000 ) )
+        #                {
+        #                    returntxt = returntxt + ' ' + #text_21_male;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + twenties[numOfPower-20];
+        #                }
+        #            }
+        #
+        #
+        #            else
+        #            {
+        #                if (numOfPower > 1000)
+        #                {
+        #                    returntxt = returntxt + ' ' + tenths[temp] + ' ' + #text_and ;  // TEST with Y
+        #                }
+        #                else {
+        #                returntxt = returntxt + ' ' + tenths[temp]; // + ' ' + #text_and ;  // TEST with Y
+        #                }
+        #            }
+        #
+        #            auxnumOfPower = numOfPower;
+        #            numOfPower = numOfPower mod 10;
+        #        }
+        #
+        #        if ((numOfPower >= 1 ) && !(auxnumOfPower > 20 && auxnumOfPower < 30))
+        #        {
+        #            if (!(( (numOfPower == 5) || (numOfPower == 1) || (numOfPower == 7) || (numOfPower == 9) ) && (_power == 100)))
+        #            {
+        #                if  ((( _power == 1000 ) && ( test > 10000 )) || (( _power == 1000000 ) && ( test > 10000000 )))
+        #                {
+        #                    strText = subStr(strLTrim(num2str(test,15,0,1,0)),2,2);
+        #                    intStrText = str2int(strText);
+        #
+        #                    if   (((_power == 1000) & ( intStrText >= 1 ) & (intStrText  < 20) & (intStrText  != 10) &
+        #                            (intStrText  != 11)) || ((_power == 1000000) & (intStrText >= 1 ) & (intStrText < 20)))
+        #                    {
+        #                        if (( numOfPower < 20 ) & ( auxnumOfPower < 30 ))
+        #                        {
+        #                            returntxt = returntxt + ' ' + ones[numOfPower];
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' + #text_and + ' ' + ones[numOfPower];
+        #                        }
+        #                    }
+        #                    else
+        #                    {
+        #                        if (( numOfPower < 20 ) & ( auxnumOfPower < 30 ))
+        #                        {
+        #                            returntxt = returntxt + ' ' + ones[numOfPower];
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' + #text_and + ' ' + ones[numOfPower];
+        #                        }
+        #                    }
+        #                }
+        #                else
+        #                {
+        #                    if (!((numOfPower == 1) && (_power == 1000)))
+        #                    {
+        #                        returntxt = returntxt + ' ' + ones[numOfPower];
+        #                    }
+        #                    else if ((numOfPower == 1) && (_power == 1000) && _isMexican)
+        #                    {
+        #                        returntxt = returntxt + ' ' + ones[numOfPower];
+        #                    }
+        #                }
+        #            }
+        #            numOfPower = numOfPower mod 10;
+        #
+        #        }
+        #
+        #        auxnumOfPower = 0;
+        #        switch(_power)
+        #        {
+        #            case 1000000000000:
+        #                if (( _test >= 1000000000000) && ( _test < 2000000000000))
+        #                {
+        #                    returntxt = returntxt + ' ' + trillions;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + muchtrillions;
+        #                }
+        #                _test = _test mod 1000000000000;
+        #                break;
+        #
+        #            case 1000000000:
+        #                if (_isMexican)
+        #                {
+        #                    // Save test variables
+        #                    temptest = test;
+        #                    tempauxtest = auxtest;
+        #
+        #                    // Reset returntxt as it is corrected below
+        #                    returntxt = '';
+        #
+        #                    // Get billions + millions portion
+        #                    test = str2num(int642str(_test div 1000000));
+        #
+        #                    [cPint, cPstr] = JGA_Utilities::checkPower(any2int64(test), 1000, _gender, _isMexican);
+        #                    test = str2num(int642str(cPint));
+        #                    if(cPstr)
+        #                    {
+        #                        returntxt = returntxt + ' ' + cPstr;
+        #                    }
+        #
+        #                    [cPint, cPstr] = JGA_Utilities::checkPower(any2int64(test), 100, _gender, _isMexican);
+        #                    test = str2num(int642str(cPint));
+        #                    if(cPstr)
+        #                    {
+        #                        returntxt = returntxt + ' ' + cPstr;
+        #                    }
+        #
+        #                    if (test >= 20)
+        #                    {
+        #                        numOfTenths = real2int(test) div 10;
+        #                        if (test > 20 && test < 30)
+        #                        {
+        #                            returntxt = returntxt + ' ' + twenties[test - 20];
+        #                        }
+        #                        else
+        #                        {
+        #                            returntxt = returntxt + ' ' + tenths[numofTenths];
+        #                        }
+        #                        numOfTenths = real2int(numOfTenths) mod 10;
+        #                        auxtest = test;
+        #                        test = real2int(test) mod 10;
+        #                    }
+        #
+        #                    if ((test >= 1) && !(auxtest > 20 && auxtest < 30))
+        #                    {
+        #                        numOfTenths = test;
+        #                        if (numOfTenths == 1)
+        #                        {
+        #                            if (auxtest == 0)
+        #                            {
+        #                                returntxt = returntxt + ' ' + (_gender == GenderMaleFemale::Female ? #text_1_female : #text_1_male);
+        #                            }
+        #                            else
+        #                            {
+        #                                returntxt = returntxt + ' ' + #text_and + ' ' + (_gender == GenderMaleFemale::Female ? #text_1_female : #text_1_male);
+        #                            }
+        #                        }
+        #                        else
+        #                        {
+        #                            if (( auxtest > 20 ))
+        #                            {
+        #                                returntxt = returntxt + ' ' + #text_and + ' ' + ones[numOfTenths];
+        #                            }
+        #                            else
+        #                            {
+        #                                returntxt = returntxt + ' ' + ones[numOfTenths];
+        #                            }
+        #                        }
+        #                    }
+        #
+        #                    // Reset test variables
+        #                    test = temptest;
+        #                    auxtest = tempauxtest;
+        #
+        #                    if (_test >= 1000000 && _test < 2000000)
+        #                    {
+        #                        returntxt = returntxt + ' ' + millions;
+        #                    }
+        #                    else
+        #                    {
+        #                        returntxt = returntxt + ' ' + muchmillions;
+        #                    }
+        #                    _test = _test mod 1000000;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + billions;
+        #                    _test = _test mod 1000000000;
+        #                }
+        #                break;
+        #
+        #            case 1000000:
+        #                if (( _test >= 1000000) && ( _test < 2000000))
+        #                {
+        #                    returntxt = returntxt + ' ' + millions;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + muchmillions;
+        #                }
+        #                _test = _test mod 1000000;
+        #                break;
+        #
+        #            case 1000:
+        #                returntxt = returntxt + ' ' + thousands;
+        #                _test = _test mod 1000;
+        #                break;
+        #
+        #            case 100:
+        #                if ((_test >= 100) && (_test < 200))
+        #                {
+        #                    if (_test == 100)
+        #                    {
+        #                        returntxt = returntxt + ' ' + hundreds;
+        #                    }
+        #                    else
+        #                    {
+        #                        returntxt = returntxt + ' ' + #text_100_begin;
+        #                    }
+        #                }
+        #                else
+        #                {
+        #                    if (_test >= 500 && _test < 600)
+        #                    {
+        #                        returntxt = returntxt + ' ' + (_gender == GenderMaleFemale::Female ? #text_500_female : #text_500_male);
+        #                    }
+        #                    else if (_test >= 700 && _test < 800)
+        #                    {
+        #                        returntxt = returntxt + ' ' + #text_7_begin + muchhundreds;
+        #                    }
+        #                        else if (_test >= 900 && _test < 1000)
+        #                        {
+        #                                returntxt = returntxt + ' ' + #text_9_begin + muchhundreds;
+        #                        }
+        #                            else
+        #                            {
+        #                                returntxt = returntxt  + muchhundreds;
+        #                            }
+        #                }
+        #
+        #                _test = _test mod 100;
+        #                break;
+        #        }
+        #    }
+        #    return [_test, strLTrim(returntxt)];
+        #}
+      ENDSOURCE
+      SOURCE #DepartmentName
+        #/// <summary>
+        #/// Gets the name of the primary department of the worker if one exists.
+        #/// </summary>
+        #/// <returns>
+        #/// The name of the primary department of the worker if one exists; otherwise, an empty string.
+        #/// </returns>
+        #public static OMDepartmentName DepartmentName(OMDepartmentRecId _recId)
+        #{
+        #    OMDepartmentRecId   primaryDepartmentRecId;
+        #    OMOperatingUnit     omDepartment;
+        #    OMDepartmentName    name = "";
+        #
+        #    primaryDepartmentRecId = _recId;
+        #
+        #    select RecId, Name from omDepartment
+        #        where omDepartment.RecId == primaryDepartmentRecId;
+        #
+        #    if (omDepartment != null)
+        #    {
+        #        name = omDepartment.Name;
+        #    }
+        #
+        #    return name;
+        #}
+      ENDSOURCE
+      SOURCE #findWorkerLastPosition
+        #/// <summary>
+        #/// Gets the worker last position recId.  Juan Gabriel Abreu 10/12/2016
+        #/// </summary>
+        #/// <returns>
+        #/// The <c>HcmPositionRecId</c> value that is associated with the worker.
+        #/// </returns>
+        #public static HcmPositionRecId findWorkerLastPosition(HcmWorkerRecId _recId)
+        #{
+        #    HcmPositionWorkerAssignment hcmPositionWorkerAssignment;
+        #
+        #    utcdatetime validFrom, validTo;
+        #    validFrom = DateTimeUtil::minValue();
+        #    validTo   = DateTimeUtil::maxValue();
+        #
+        #        select firstonly ValidTimeState(validFrom, validTo) Worker from hcmPositionWorkerAssignment
+        #        order by RecId desc
+        #        where hcmPositionWorkerAssignment.Worker == _recId;
+        #
+        #    return hcmPositionWorkerAssignment.Position;
+        #}
+      ENDSOURCE
+      SOURCE #getPrimaryDepartmentRecId
+        #/// <summary>
+        #/// Gets the <c>OMDepartmentRecId</c> value that represents the primary department for an
+        #/// <c>HcmWorker</c> record.
+        #/// </summary>
+        #/// <param name="_workerRecId">
+        #/// The record ID of the <c>HcmWorker</c> record for which the department is obtained.
+        #/// </param>
+        #/// <param name="_asOfDate">
+        #/// The point in time that will be used for the selection criteria.
+        #/// </param>
+        #/// <returns>
+        #/// A <c>OMDepartmentRecId</c> value that indicates whether the department that is associated with the
+        #/// worker by way of its primary position.
+        #/// </returns>
+        #public static OMDepartmentRecId getPrimaryDepartmentRecId(HcmWorkerRecId _workerRecId, utcdatetime _asOfDate = DateTimeUtil::utcNow())
+        #{
+        #    HcmPositionRecId            positionRecId;
+        #    HcmPositionDetail           positionDetail;
+        #
+        #    // Determine the primary position of the worker.
+        #    positionRecId = RepAccionesPersonalView::getPrimaryPosition(_workerRecId, _asOfDate);
+        #
+        #    if (positionRecId)
+        #    {
+        #        // Retrieve the corresponding position.
+        #        positionDetail = HcmPositionDetail::findByPosition(positionRecId, _asOfDate);
+        #    }
+        #
+        #    return positionDetail.Department;
+        #}
+      ENDSOURCE
+      SOURCE #getPrimaryPosition
+        #/// <summary>
+        #/// Retrieves the <c>HcmPositionRecId</c> value from the <c>HcmPositionWorkerAssignment</c> table using
+        #/// the provided <c>HcmWorkerRecId</c> value.
+        #/// </summary>
+        #/// <param name="_workerRecId">
+        #/// The <c>HcmWorkerRecId</c> value of the <c>HcmWorker</c> object which is used to get the associated
+        #/// <c>HcmPositionRecid</c>.
+        #/// </param>
+        #/// <param name="_asOfDate">
+        #/// The point in time to use for the selection criteria.
+        #/// </param>
+        #/// <returns>
+        #/// A <c>HcmPositionRecId</c> value indicating the <c>HcmPosition</c> value that is assigned to the
+        #/// <c>HcmWorker</c> at the requested point in time.
+        #/// </returns>
+        #public static HcmPositionRecId getPrimaryPosition(HcmWorkerRecId _workerRecId, utcdatetime _asOfDate = DateTimeUtil::utcNow())
+        #{
+        #    HcmPositionRecId                    positionRecId = 0;
+        #    HcmPositionWorkerAssignment         hcmPositionWorkerAssignment;
+        #    HcmPositionWorkerAssignmentRecId    hcmPositionWorkerAssignmentRecId;
+        #
+        #    hcmPositionWorkerAssignmentRecId = RepAccionesPersonalView::getPrimaryPositionAssignment(_workerRecId, _asOfDate);
+        #
+        #    hcmPositionWorkerAssignment = HcmPositionWorkerAssignment::find(hcmPositionWorkerAssignmentRecId);
+        #    if (hcmPositionWorkerAssignment)
+        #    {
+        #        positionRecId = hcmPositionWorkerAssignment.Position;
+        #    }
+        #
+        #    return positionRecId;
+        #}
+      ENDSOURCE
+      SOURCE #getPrimaryPositionAssignment
+        #/// <summary>
+        #/// Retrieves the <c>HcmPositionWorkerAssignmentRecId</c> from the <c>HcmPositionWorkerAssignment</c>
+        #/// table for the provided <c>HcmWorkerRecId</c> value.
+        #/// </summary>
+        #/// <param name="_workerRecId">
+        #/// A <c>HcmWorkerRecId</c> value that represents the <c>HcmWorker</c> value in which to retrieve the
+        #/// associated <c>HcmPositionRecid</c> value.
+        #/// </param>
+        #/// <param name="_asOfDate">
+        #/// The point in time that will be used for the selection criteria.
+        #/// </param>
+        #/// <returns>
+        #/// A <c>HcmPositionWorkerAssignmentRecId</c> value that indicates the <c>HcmPosition</c> value that is
+        #/// assigned to the <c>HcmWorker</c> value at the requested point in time.
+        #/// </returns>
+        #public static HcmPositionWorkerAssignmentRecId getPrimaryPositionAssignment(HcmWorkerRecId _workerRecId, utcdatetime _asOfDate = DateTimeUtil::utcNow())
+        #{
+        #    HcmPositionRecId                    positionRecId = 0;
+        #    HcmPositionWorkerAssignmentRecId    positionWorkerAssignmentRecId = 0;
+        #    HcmPositionWorkerAssignment         hcmPositionWorkerAssignment;
+        #    HcmPositionDuration                 hcmPositionDuration;
+        #    boolean                             isValidPosition = true;
+        #    HcmWorkerPrimaryPosition            hcmWorkerPrimaryPosition;
+        #
+        #    // check whether the worker has a primary position assignment
+        #    select firstonly ValidTimeState(_asOfDate) PositionAssignment from hcmWorkerPrimaryPosition
+        #            where hcmWorkerPrimaryPosition.Worker == _workerRecId
+        #        exists join hcmPositionWorkerAssignment
+        #            where hcmPositionWorkerAssignment.Worker == hcmWorkerPrimaryPosition.Worker
+        #                    && hcmPositionWorkerAssignment.RecId == hcmWorkerPrimaryPosition.PositionAssignment
+        #        exists join hcmPositionDuration
+        #            where hcmPositionWorkerAssignment.Position == hcmPositionWorkerAssignment.Position;
+        #
+        #    positionWorkerAssignmentRecId = hcmWorkerPrimaryPosition.PositionAssignment;
+        #
+        #    if (positionWorkerAssignmentRecId == 0)
+        #    {
+        #        // no valid primary position existed for the worker, so retrieve the position
+        #        // assignment for the worker in which the worker has the longest active seniority
+        #        select ValidTimeState(_asOfDate) Position, RecId from hcmPositionWorkerAssignment
+        #            order by ValidFrom asc
+        #                where hcmPositionWorkerAssignment.Worker == _workerRecId
+        #            exists join hcmPositionDuration
+        #                where hcmPositionDuration.Position == hcmPositionWorkerAssignment.Position;
+        #
+        #        positionWorkerAssignmentRecId = hcmPositionWorkerAssignment.RecId;
+        #    }
+        #
+        #    return positionWorkerAssignmentRecId;
+        #}
+      ENDSOURCE
+      SOURCE #MostRecentComment
+        #public static PurchReqMostRecentComment MostRecentComment(PurchReqId _refId)
+        #{
+        #    PurchReqMostRecentComment       comment;
+        #    Name                            name;
+        #    PurchReqTable                   purchReqTable;
+        #
+        #
+        #    WorkflowTrackingStatusTable workflowTrackingStatus;
+        #    WorkflowTrackingTable workflowTrackingTable;
+        #    WorkflowTrackingCommentTable workflowTrackingCommentTable;
+        #    UserInfo userInfo;
+        #
+        #    purchReqTable = PurchReqTable::findPurchReqId(_refId);
+        #
+        #
+        #    if (purchReqTable.RequisitionStatus == PurchReqRequisitionStatus::InReview)
+        #    {
+        #        select firstFast RecId, User from workflowTrackingTable
+        #        order by RecId desc
+        #        join  workflowTrackingCommentTable
+        #        where workflowTrackingCommentTable.WorkflowTrackingTable == workflowTrackingTable.RecId
+        #        join UserInfo
+        #        where UserInfo.id == WorkflowTrackingTable.User
+        #        exists join workflowTrackingStatus
+        #        where workflowTrackingTable.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId
+        #        && workflowTrackingStatus.ContextRecId == purchReqTable.RecId //PurchRecID
+        #        && workflowTrackingTable.TrackingType == WorkflowTrackingType::RequestChange
+        #        && workflowTrackingTable.TrackingContext == WorkflowTrackingContext::WorkItem;
+        #
+        #
+        #    }
+        #
+        #
+        #
+        #
+        #        comment = workflowTrackingCommentTable.Comment;
+        #
+        #        return comment;
+        #}
+      ENDSOURCE
+      SOURCE #numeralsToTxt_ES
+        #static TempStr numeralsToTxt_ES(real             _num,
+        #                                GenderMaleFemale _gender          = GenderMaleFemale::Male,
+        #                                boolean          _enclose         = True,
+        #                                CurrencyCodeISO  _currencyCodeISO = 'DOP',
+        #                                boolean          _isMexican       = False,
+        #                                boolean          _isCheck         = False)
+        #{
+        #    int     numOfPennies = (decRound(frac(_num), 2) * 100) mod 100;
+        #    real    test         = _num - frac(_num);
+        #    real    auxtest = 0;
+        #
+        #    real    numOfTenths ;
+        #    str 20  ones[19], twenties[9], tenths[9], muchhundreds, hundreds, thousands, muchmillions, millions, billions, muchhunmillions, trillions, muchtrillions;
+        #
+        #    str 200 returntxt;
+        #
+        #    str     cpStr;
+        #    int64   cpInt;
+        #
+        #    #Define.text_1_male('Un')
+        #    #Define.text_1_female('Una')
+        #    #Define.text_2('Dos')
+        #    #Define.text_3('Tres')
+        #    #Define.text_4('Cuatro')
+        #    #Define.text_5('Cinco')
+        #    #Define.text_6('Seis')
+        #    #Define.text_7('Siete')
+        #    #Define.text_8('Ocho')
+        #    #Define.text_9('Nueve')
+        #    #Define.text_10('Diez')
+        #    #Define.text_11('Once')
+        #    #Define.text_12('Doce')
+        #    #Define.text_13('Trece')
+        #    #Define.text_14('Catorce')
+        #    #Define.text_15('Quince')
+        #    #Define.text_16('Dieciseis')
+        #    #Define.text_17('Diecisiete')
+        #    #Define.text_18('Dieciocho')
+        #    #Define.text_19('Diecinueve')
+        #
+        #    #Define.text_20('Veinte')
+        #
+        #    #Define.text_21_female('Veintiuna')
+        #    #Define.text_21_male('Veintiun')
+        #    #Define.text_22('Veintidos')
+        #    #Define.text_23('Veintitres')
+        #    #Define.text_24('Veinticuatro')
+        #    #Define.text_25('Veinticinco')
+        #    #Define.text_26('Veintiseis')
+        #    #Define.text_27('Veintisiete')
+        #    #Define.text_28('Veintiocho')
+        #    #Define.text_29('Veintinueve')
+        #
+        #    #Define.text_30('Treinta')
+        #    #Define.text_40('Cuarenta')
+        #    #Define.text_50('Cincuenta')
+        #    #Define.text_60('Sesenta')
+        #    #Define.text_70('Setenta')
+        #    #Define.text_80('Ochenta')
+        #    #Define.text_90('Noventa')
+        #
+        #    #Define.text_100('Cien')
+        #    #Define.text_100_female('cientas')
+        #    #Define.text_100_male('cientos')
+        #    #Define.text_100_much('Cientos')
+        #    #Define.text_100_begin('Ciento')
+        #
+        #    #Define.text_500_female('Quinientos')
+        #    #Define.text_500_male('Quinientos')
+        #
+        #    #Define.text_7_begin('Sete')
+        #    #Define.text_9_begin('Nove')
+        #
+        #    #Define.text_1000('Mil')
+        #
+        #    #Define.text_1000000('Millon')
+        #    #Define.text_1000000_much('Millones')
+        #    #Define.text_1000000000('Mil millones')
+        #    #Define.text_1000000000000('Trillón')
+        #    #Define.text_1000000000000_much('Trillónes')
+        #
+        #    #Define.text_and('y')
+        #    #Define.text_with('con')
+        #
+        #    #Define.text_cents_GBP(' peniques')
+        #    #Define.text_cents_USD(' centavos')
+        #    #Define.text_cents_EUR(' centimos')
+        #
+        #    #Define.currencyCodeISO_UK('GBP')
+        #    #Define.currencyCodeISO_USA('USD')
+        #
+        #    #Define.text_print_entire_cents('00/100')
+        #    #Define.text_print_cents('/100')
+        #    #Define.text_pesos('pesos')
+        #
+        #    str centsName()
+        #    {
+        #        str 9 centText;
+        #        switch (_currencyCodeISO)
+        #        {
+        #            case #currencyCodeISO_UK:
+        #                centText = #text_cents_GBP;
+        #                break;
+        #            case #currencyCodeISO_USA:
+        #                centText = #text_cents_USD;
+        #                break;
+        #            default:
+        #                centText = #text_cents_EUR;
+        #        }
+        #        return centText;
+        #    }
+        #
+        #    ones[1] = #text_1_male;
+        #    ones[2] = #text_2;
+        #    ones[3] = #text_3;
+        #    ones[4] = #text_4;
+        #    ones[5] = #text_5;
+        #    ones[6] = #text_6;
+        #    ones[7] = #text_7;
+        #    ones[8] = #text_8;
+        #    ones[9] = #text_9;
+        #    ones[10] = #text_10;
+        #    ones[11] = #text_11;
+        #    ones[12] = #text_12;
+        #    ones[13] = #text_13;
+        #    ones[14] = #text_14;
+        #    ones[15] = #text_15;
+        #    ones[16] = #text_16;
+        #    ones[17] = #text_17;
+        #    ones[18] = #text_18;
+        #    ones[19] = #text_19;
+        #
+        #    twenties[1] = _gender == GenderMaleFemale::Female ? #text_21_female: #text_21_male;
+        #    twenties[2] = #text_22;
+        #    twenties[3] = #text_23;
+        #    twenties[4] = #text_24;
+        #    twenties[5] = #text_25;
+        #    twenties[6] = #text_26;
+        #    twenties[7] = #text_27;
+        #    twenties[8] = #text_28;
+        #    twenties[9] = #text_29;
+        #
+        #    tenths[1] = ''; // Not used
+        #    tenths[2] = #text_20;
+        #    tenths[3] = #text_30;
+        #    tenths[4] = #text_40;
+        #    tenths[5] = #text_50;
+        #    tenths[6] = #text_60;
+        #    tenths[7] = #text_70;
+        #    tenths[8] = #text_80;
+        #    tenths[9] = #text_90;
+        #
+        #    hundreds    = #text_100;
+        #
+        #    muchhundreds = _gender == GenderMaleFemale::Female ? #text_100_female: #text_100_male;
+        #
+        #    muchhunmillions = #text_100_much;
+        #
+        #    thousands   = #text_1000;
+        #    millions    = #text_1000000;
+        #    muchmillions = #text_1000000_much;
+        #
+        #    billions    = #text_1000000000;
+        #    trillions   = #text_1000000000000;
+        #    muchtrillions = #text_1000000000000_much;
+        #
+        #    [cpInt, cpStr] = JGA_Utilities::checkPower(any2int64(test), 1000000000000, _gender, _isMexican);
+        #    test = str2num(int642str(cpInt));
+        #    if (cpStr)
+        #    {
+        #        returntxt = returntxt + ' ' + cpStr;
+        #    }
+        #
+        #    [cpInt, cpStr] = JGA_Utilities::checkPower(any2int64(test), 1000000000, _gender, _isMexican);
+        #    test = str2num(int642str(cpInt));
+        #    if (cpStr)
+        #    {
+        #        returntxt = returntxt + ' ' + cpStr;
+        #    }
+        #
+        #    [cpInt, cpStr] = JGA_Utilities::checkPower(any2int64(test), 1000000, _gender, _isMexican);
+        #    test = str2num(int642str(cpInt));
+        #    if (cpStr)
+        #    {
+        #        returntxt = returntxt + ' ' + cpStr;
+        #    }
+        #
+        #    [cpInt, cpStr] = JGA_Utilities::checkPower(any2int64(test), 1000, _gender, _isMexican);
+        #    test = str2num(int642str(cpInt));
+        #    if (cpStr)
+        #    {
+        #        returntxt = returntxt + ' ' + cpStr;
+        #    }
+        #
+        #    [cpInt, cpStr] = JGA_Utilities::checkPower(any2int64(test), 100, _gender, _isMexican);
+        #    test = str2num(int642str(cpInt));
+        #    if (cpStr)
+        #    {
+        #        returntxt = returntxt + ' ' + cpStr;
+        #    }
+        #
+        #    if (test >= 20)
+        #    {
+        #        numOfTenths = real2int(test) div 10;
+        #        if (test > 20 && test < 30)
+        #        {
+        #            returntxt = returntxt + ' ' + twenties[test-20];
+        #        }
+        #        else
+        #        {
+        #            returntxt = returntxt + ' ' + tenths[numofTenths];
+        #        }
+        #        numOfTenths = real2int(numOfTenths) mod 10;
+        #        auxtest = test;
+        #        test = real2int(test) mod 10;
+        #    }
+        #
+        #    if ((test >= 1) && !(auxtest > 20 && auxtest < 30))
+        #    {
+        #        numOfTenths = test;
+        #        if (numOfTenths == 1)
+        #        {
+        #            if (auxtest == 0)
+        #            {
+        #                returntxt = returntxt + ' ' + (_gender == GenderMaleFemale::Female ? #text_1_female : #text_1_male);
+        #            }
+        #            else
+        #            {
+        #                returntxt = returntxt + ' ' + #text_and + ' ' + (_gender == GenderMaleFemale::Female ? #text_1_female : #text_1_male);
+        #            }
+        #        }
+        #        else
+        #        {
+        #            if (( auxtest > 20 ))
+        #            {
+        #               returntxt = returntxt + ' ' + #text_and + ' ' + ones[numOfTenths];
+        #            }
+        #            else
+        #            {
+        #               returntxt = returntxt + ' ' + ones[numOfTenths];
+        #            }
+        #        }
+        #    }
+        #
+        #
+        #    auxtest = 0;
+        #
+        #    if (_isMexican)
+        #    {
+        #        if (_isCheck) //For checks, need to insert pesos into the string.
+        #        {
+        #            if (numOfPennies < 0.5)
+        #            {
+        #                returntxt = returntxt + ' ' + #text_pesos + ' ' + #text_print_entire_cents;
+        #            }
+        #            else
+        #            {
+        #                if (numOfPennies >= 0.5 && numOfPennies < 9.5)
+        #                {
+        #                    returntxt = returntxt + ' ' + #text_pesos + ' 0' + num2str(numOfPennies,1,0,1,0) + #text_print_cents;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + #text_pesos + ' ' + num2str(numOfPennies,2,0,1,0) + #text_print_cents;
+        #                }
+        #            }
+        #
+        #            returntxt = strUpr(subStr(returntxt, 1, 2)) + strLwr(subStr(returntxt, 3, strLen(returntxt) - 2));
+        #
+        #            if(_enclose)
+        #            {
+        #                returntxt = '***' + returntxt + '***' ;
+        #            }
+        #        }
+        #        else
+        #        {
+        #            if (numOfPennies < 0.5)
+        #            {
+        #                returntxt = returntxt + ' ' + #text_print_entire_cents;
+        #            }
+        #            else
+        #            {
+        #                if (numOfPennies >= 0.5 && numOfPennies < 9.5)
+        #                {
+        #                    returntxt = returntxt + ' 0' + num2str(numOfPennies,1,0,1,0) + #text_print_cents;
+        #                }
+        #                else
+        #                {
+        #                    returntxt = returntxt + ' ' + num2str(numOfPennies,2,0,1,0) + #text_print_cents;
+        #                }
+        #            }
+        #
+        #            returntxt = strUpr(subStr(returntxt, 1, 2)) + strLwr(subStr(returntxt, 3, strLen(returntxt) - 2));
+        #
+        #            if(_enclose)
+        #            {
+        #                returntxt = '***' + returntxt + '***' ;
+        #            }
+        #        }
+        #    }
+        #    else
+        #    {
+        #        if (numOfPennies)
+        #        {
+        #            returntxt = strUpr(returntxt) + ' ' + #text_with + strUpr(numeralsToTxt_ES(numOfPennies, GenderMaleFemale::Male, false))+ centsName();
+        #        }
+        #        if(_enclose)
+        #        {
+        #            returntxt = '***' + strUpr(returntxt) + '***';
+        #        }
+        #    }
+        #
+        #    if (subStr(returntxt, 1, 4) == '*** ')
+        #    {
+        #        returntxt = strDel(returntxt, 4, 1);
+        #    }
+        #    if (subStr(returntxt, strLen(returntxt)-3, 4) == ' ***')
+        #    {
+        #        returntxt = strDel(returntxt, strLen(returntxt) -3,1);
+        #    }
+        #
+        #    return returntxt;
+        #}
+      ENDSOURCE
+      SOURCE #PurchReqLineUpdate
+        #static void PurchReqLineUpdate(Args _args)
+        #{
+        #
+        #    HcmWorker           hcmworker;
+        #    HRMCompFixedEmpl    hRMCompFixedEmpl;
+        #
+        #    ttsBegin;
+        #
+        #    while select * from hcmworker
+        #    where hcmworker.PersonnelNumber >= '90000'
+        #    {
+        #         while select forupdate  hRMCompFixedEmpl
+        #         order by RecId desc
+        #         where hRMCompFixedEmpl.Worker == hcmworker.RecId
+        #         && hRMCompFixedEmpl.Status == HRMCompFixedEmplStatus::Expired
+        #          {
+        #
+        #            hRMCompFixedEmpl.ValidTo = str2Date("30.4.2017", 123);
+        #             hRMCompFixedEmpl.update();
+        #        }
+        #    }
+        #
+        #    ttsCommit;
+        #
+        #
+        #}
+      ENDSOURCE
+      SOURCE #WorkflowDateForTask
+        #public static CreationDate WorkflowDateForTask(PurchReqId _refId)
+        #{
+        #    Name               name;
+        #    CreationDate       transDate;
+        #
+        #    WorkflowTrackingStatusTable workflowTrackingStatus;
+        #    WorkflowTrackingTable workflowTrackingTable;
+        #    WorkflowTrackingCommentTable workflowTrackingCommentTable;
+        #    UserInfo userInfo;
+        #
+        #
+        #    name = "APROBACION GTE COMPRA";
+        #
+        #    select firstFast RecId, User from workflowTrackingTable
+        #    order by RecId desc
+        #        join workflowTrackingCommentTable
+        #        where workflowTrackingCommentTable.WorkflowTrackingTable == workflowTrackingTable.RecId
+        #        join UserInfo
+        #        where UserInfo.id == WorkflowTrackingTable.User
+        #        exists join workflowTrackingStatus
+        #        where workflowTrackingTable.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId
+        #        && workflowTrackingStatus.ContextRecId == PurchReqTable::findPurchReqId(_refId).RecId //PurchRecID
+        #        && workflowTrackingTable.Name == name
+        #        && workflowTrackingTable.TrackingType == WorkflowTrackingType::Creation
+        #        && workflowTrackingTable.TrackingContext == WorkflowTrackingContext::Approval;
+        #
+        #
+        #
+        #        if (workflowTrackingTable)
+        #        {
+        #          transDate = Global::utcDateTime2SystemDateTime(workflowTrackingCommentTable.createdDateTime);
+        #        }
+        #
+        #
+        #        return transDate;
+        #}
+      ENDSOURCE
+      SOURCE #WorkflowDateManager
+        #public static CreationDate WorkflowDateManager(PurchReqId _refId)
+        #{
+        #    CreationDate       transDate;
+        #
+        #    WorkflowTrackingStatusTable workflowTrackingStatus;
+        #    WorkflowTrackingTable workflowTrackingTable;
+        #    WorkflowTrackingCommentTable workflowTrackingCommentTable;
+        #    UserInfo userInfo;
+        #
+        #        select firstFast RecId, User from workflowTrackingTable
+        #        order by RecId desc
+        #        join workflowTrackingCommentTable
+        #        where workflowTrackingCommentTable.WorkflowTrackingTable == workflowTrackingTable.RecId
+        #        join UserInfo
+        #        where UserInfo.id == WorkflowTrackingTable.User
+        #        exists join workflowTrackingStatus
+        #        where workflowTrackingTable.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId
+        #        && workflowTrackingStatus.ContextRecId == PurchReqTable::findPurchReqId(_refId).RecId //PurchRecID
+        #        && workflowTrackingTable.Name like "*Revision GTE*"
+        #        && workflowTrackingTable.TrackingType == WorkflowTrackingType::Completion
+        #        && workflowTrackingTable.TrackingContext == WorkflowTrackingContext::Task;
+        #
+        #
+        #        if (workflowTrackingTable)
+        #        {
+        #          transDate = Global::utcDateTime2SystemDateTime(workflowTrackingCommentTable.createdDateTime);
+        #        }
+        #
+        #
+        #        return transDate;
+        #}
+      ENDSOURCE
+      SOURCE #WorkflowStatus
+        #public static PurchReqMostRecentComment WorkflowStatus(RefRecId _purchReqTableRecId)
+        #{
+        #    container                       con;
+        #    PurchReqTableHistory            purchReqTableHistory;
+        #    WorkflowTrackingStatusTable     workflowTrackingStatus;
+        #    WorkflowTrackingTable           workflowTracking;
+        #    utcdatetime                     validDate               = DateTimeUtil::utcNow();
+        #    WorkflowStepName                stepName;
+        #    PurchReqTable                   purchReqTable;
+        #    TransDate                       stepSinceDate;
+        #    PurchReqRequisitionStatus       status;
+        #    TransDate                       statusSinceDate;
+        #    RefRecId                        workflowTrackingStatusRecId;
+        #    RefRecId                        workflowStepRecId;
+        #    UserInfo                        userInfo;
+        #    PurchReqMostRecentComment       comment;
+        #    /* Get the current status */
+        #    select firstonly validTimeState(validDate)
+        #        CreatedDateTime, RequisitionStatus from purchReqTable
+        #            where purchReqTable.RecId == _purchReqTableRecId
+        #
+        #        outer join CreatedDateTime from purchReqTableHistory
+        #            where purchReqTableHistory.PurchReqTable == purchReqTable.RecId
+        #
+        #        outer join RecId from workflowTrackingStatus
+        #            order by workflowTrackingStatus.CreatedDateTime desc
+        #            where workflowTrackingStatus.ContextTableId == purchReqTable.TableId &&
+        #                  workflowTrackingStatus.ContextRecId   == purchReqTable.RecId;
+        #
+        #    /* line-item subworkflow */
+        #    select firstonly RecId, Name, CreatedDateTime, TrackingContext, TrackingType from workflowTracking
+        #        order by workflowTracking.CreatedDateTime desc
+        #        where workflowTracking.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId;
+        #    if (workflowTracking.TrackingContext != WorkflowTrackingContext::LineItemElement ||
+        #        workflowTracking.TrackingType    != WorkflowTrackingType::Creation)
+        #    {
+        #        /* Current step */
+        #        select firstonly RecId, Name, CreatedDateTime, WorkflowStepTable
+        #            from workflowTracking
+        #            order by workflowTracking.CreatedDateTime desc
+        #                where workflowTracking.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId &&
+        #                      workflowTracking.TrackingContext             == WorkflowTrackingContext::Step &&
+        #                      workflowTracking.TrackingType                == WorkflowTrackingType::Creation;
+        #    }
+        #
+        #    if (purchReqTable != null)
+        #    {
+        #        status = purchReqTable.RequisitionStatus;
+        #        userInfo = xUserInfo::find(false, curUserId());
+        #
+        #        if (purchReqTableHistory != null)
+        #        {
+        #            statusSinceDate = DateTimeUtil::date(DateTimeUtil::applyTimeZoneOffset(purchReqTableHistory.CreatedDateTime, userInfo.PreferredTimeZone));
+        #        }
+        #        else
+        #        {
+        #            statusSinceDate = DateTimeUtil::date(DateTimeUtil::applyTimeZoneOffset(purchReqTable.CreatedDateTime, userInfo.PreferredTimeZone));
+        #        }
+        #
+        #        if (workflowTracking != null)
+        #        {
+        #            stepName                    = workflowTracking.Name;
+        #            stepSinceDate               = DateTimeUtil::date(workflowTracking.CreatedDateTime);
+        #            workflowTrackingStatusRecId = workflowTrackingStatus.RecId;
+        #            workflowStepRecId           = workflowTracking.WorkflowStepTable;
+        #        }
+        #
+        #        comment = strFmt("%1 : %2 : %3",stepName, status, statusSinceDate);
+        #    }
+        #
+        #    return comment;
+        #}
+      ENDSOURCE
+    ENDMETHODS
+  ENDCLASS
+
+***Element: END
