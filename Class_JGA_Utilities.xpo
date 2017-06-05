@@ -550,6 +550,79 @@ Formatversion: 1
         #    return hcmPositionWorkerAssignment.Position;
         #}
       ENDSOURCE
+      SOURCE #getCostCenterByEmployment
+        #/// <summary>
+        #/// Gets the worker Cost Center.
+        #/// </summary>
+        #/// By Juan Gabriel Abreu 01/10/2016
+        #/// <returns>
+        #/// The <c>setItem.DisplayValue</c> value that is associated with the worker.
+        #/// </returns>
+        #public static DimensionValue getCostCenterByEmployment(HcmWorkerRecId _recId)
+        #{
+        #        HcmEmployment                         hcmEmployment;
+        #        DimensionAttributeValueSetItem      setItem;
+        #        DimensionAttributeValue              dimAttrValue;
+        #        DimensionAttribute                      dimAttribute;
+        #
+        #
+        #    dimAttribute    = DimensionAttribute::findByName('CostCenter');
+        #
+        #        select firstOnly hcmEmployment
+        #                join RecId, DisplayValue from setItem
+        #                where setItem.DimensionAttributeValueSet == hcmEmployment.DefaultDimension
+        #                && hcmEmployment.Worker == _recId
+        #
+        #            join dimAttrValue
+        #                where dimAttrValue.RecId == setItem.DimensionAttributeValue &&
+        #                dimAttrValue.DimensionAttribute == dimAttribute.RecId       &&
+        #                dimAttrValue.IsDeleted == false;
+        #
+        #
+        #    return setItem.DisplayValue;
+        #}
+      ENDSOURCE
+      SOURCE #getCostCenterByPosition
+        #/// <summary>
+        #/// Gets the worker Cost Center.
+        #/// </summary>
+        #/// By Juan Gabriel Abreu 01/10/2016
+        #/// <returns>
+        #/// The <c>setItem.DisplayValue</c> value that is associated with the worker.
+        #/// </returns>
+        #public static DimensionValue getCostCenterByPosition(HcmPositionRecId _recId)
+        #{
+        #        HcmPositionDefaultDimension           hcmPositionDefaultDimension;
+        #        HcmPosition                           hcmPosition;
+        #        HcmEmployment                         hcmEmployment;
+        #        DimensionAttributeValueSetItem      setItem;
+        #        DimensionAttributeValue              dimAttrValue;
+        #        DimensionAttribute                      dimAttribute;
+        #        HcmPositionId                          positionId;
+        #
+        #
+        #
+        #    dimAttribute    = DimensionAttribute::findByName('CostCenter');
+        #
+        #
+        #        select firstOnly hcmPosition
+        #                where hcmPosition.RecId == _recId
+        #                join DefaultDimension from hcmPositionDefaultDimension
+        #                where hcmPositionDefaultDimension.Position == hcmPosition.RecId
+        #
+        #               join RecId, DisplayValue from setItem
+        #                where setItem.DimensionAttributeValueSet == hcmPositionDefaultDimension.DefaultDimension
+        #
+        #
+        #            join dimAttrValue
+        #                where dimAttrValue.RecId == setItem.DimensionAttributeValue &&
+        #                dimAttrValue.DimensionAttribute == dimAttribute.RecId       &&
+        #                dimAttrValue.IsDeleted == false;
+        #
+        #
+        #    return setItem.DisplayValue;
+        #}
+      ENDSOURCE
       SOURCE #getPrimaryDepartmentRecId
         #/// <summary>
         #/// Gets the <c>OMDepartmentRecId</c> value that represents the primary department for an
@@ -1033,34 +1106,6 @@ Formatversion: 1
         #    return returntxt;
         #}
       ENDSOURCE
-      SOURCE #PurchReqLineUpdate
-        #static void PurchReqLineUpdate(Args _args)
-        #{
-        #
-        #    HcmWorker           hcmworker;
-        #    HRMCompFixedEmpl    hRMCompFixedEmpl;
-        #
-        #    ttsBegin;
-        #
-        #    while select * from hcmworker
-        #    where hcmworker.PersonnelNumber >= '90000'
-        #    {
-        #         while select forupdate  hRMCompFixedEmpl
-        #         order by RecId desc
-        #         where hRMCompFixedEmpl.Worker == hcmworker.RecId
-        #         && hRMCompFixedEmpl.Status == HRMCompFixedEmplStatus::Expired
-        #          {
-        #
-        #            hRMCompFixedEmpl.ValidTo = str2Date("30.4.2017", 123);
-        #             hRMCompFixedEmpl.update();
-        #        }
-        #    }
-        #
-        #    ttsCommit;
-        #
-        #
-        #}
-      ENDSOURCE
       SOURCE #WorkflowDateForTask
         #public static CreationDate WorkflowDateForTask(PurchReqId _refId)
         #{
@@ -1204,6 +1249,80 @@ Formatversion: 1
         #    }
         #
         #    return comment;
+        #}
+      ENDSOURCE
+      SOURCE #WorkflowStepName
+        #public static WorkflowStepName WorkflowStepName(RefRecId _purchReqTableRecId)
+        #{
+        #    container                       con;
+        #    PurchReqTableHistory            purchReqTableHistory;
+        #    WorkflowTrackingStatusTable     workflowTrackingStatus;
+        #    WorkflowTrackingTable           workflowTracking;
+        #    utcdatetime                     validDate               = DateTimeUtil::utcNow();
+        #    WorkflowStepName                stepName;
+        #    PurchReqTable                   purchReqTable;
+        #    TransDate                       stepSinceDate;
+        #    PurchReqRequisitionStatus       status;
+        #    TransDate                       statusSinceDate;
+        #    RefRecId                        workflowTrackingStatusRecId;
+        #    RefRecId                        workflowStepRecId;
+        #    UserInfo                        userInfo;
+        #    PurchReqMostRecentComment       comment;
+        #    /* Get the current status */
+        #    select firstonly validTimeState(validDate)
+        #        CreatedDateTime, RequisitionStatus from purchReqTable
+        #            where purchReqTable.RecId == _purchReqTableRecId
+        #
+        #        outer join CreatedDateTime from purchReqTableHistory
+        #            where purchReqTableHistory.PurchReqTable == purchReqTable.RecId
+        #
+        #        outer join RecId from workflowTrackingStatus
+        #            order by workflowTrackingStatus.CreatedDateTime desc
+        #            where workflowTrackingStatus.ContextTableId == purchReqTable.TableId &&
+        #                  workflowTrackingStatus.ContextRecId   == purchReqTable.RecId;
+        #
+        #    /* line-item subworkflow */
+        #    select firstonly RecId, Name, CreatedDateTime, TrackingContext, TrackingType from workflowTracking
+        #        order by workflowTracking.CreatedDateTime desc
+        #        where workflowTracking.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId;
+        #    if (workflowTracking.TrackingContext != WorkflowTrackingContext::LineItemElement ||
+        #        workflowTracking.TrackingType    != WorkflowTrackingType::Creation)
+        #    {
+        #        /* Current step */
+        #        select firstonly RecId, Name, CreatedDateTime, WorkflowStepTable
+        #            from workflowTracking
+        #            order by workflowTracking.CreatedDateTime desc
+        #                where workflowTracking.WorkflowTrackingStatusTable == workflowTrackingStatus.RecId &&
+        #                      workflowTracking.TrackingContext             == WorkflowTrackingContext::Step &&
+        #                      workflowTracking.TrackingType                == WorkflowTrackingType::Creation;
+        #    }
+        #
+        #    if (purchReqTable != null)
+        #    {
+        #        status = purchReqTable.RequisitionStatus;
+        #        userInfo = xUserInfo::find(false, curUserId());
+        #
+        #        if (purchReqTableHistory != null)
+        #        {
+        #            statusSinceDate = DateTimeUtil::date(DateTimeUtil::applyTimeZoneOffset(purchReqTableHistory.CreatedDateTime, userInfo.PreferredTimeZone));
+        #        }
+        #        else
+        #        {
+        #            statusSinceDate = DateTimeUtil::date(DateTimeUtil::applyTimeZoneOffset(purchReqTable.CreatedDateTime, userInfo.PreferredTimeZone));
+        #        }
+        #
+        #        if (workflowTracking != null)
+        #        {
+        #            stepName                    = workflowTracking.Name;
+        #            stepSinceDate               = DateTimeUtil::date(workflowTracking.CreatedDateTime);
+        #            workflowTrackingStatusRecId = workflowTrackingStatus.RecId;
+        #            workflowStepRecId           = workflowTracking.WorkflowStepTable;
+        #        }
+        #
+        #        comment = strFmt("%1 : %2 : %3",stepName, status, statusSinceDate);
+        #    }
+        #
+        #    return stepName;
         #}
       ENDSOURCE
     ENDMETHODS
